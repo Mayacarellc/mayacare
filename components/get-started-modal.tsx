@@ -89,7 +89,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     senior_care: [
       { title: "In-home care", href: "/care/in-home-care", formType: "in_home_care" as FormType },
       { title: "Companion care", href: "/care/companion-care", formType: "companion_care" as FormType },
-      { title: "Alzheimer's and Chronic Illnesses Support", href: "/care/alzheimers-support" },
+      { title: "Alzheimer's Support", href: "/care/alzheimers-support" },
     ],
     adult_care: [
       { title: "Special needs care", href: "/care/special-needs-care", formType: "special_needs_care" as FormType },
@@ -337,12 +337,12 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         </DialogTitle>
         <motion.div 
           className="w-full min-h-full"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentStep}
               variants={variants}
