@@ -83,9 +83,16 @@ export function HeaderClient() {
             Currently serving Pennsylvania residents only
           </div>
         )}
-      <div className="container flex h-24 items-center">
+      <div className="container flex header-container items-center">
         <Link href="/" className="mr-10 flex items-center">
-          <Image src="/logo.png" alt="Maya Care Logo" width={280} height={140} />
+          <Image 
+            src="/logo.png" 
+            alt="Maya Care Logo" 
+            width={240} 
+            height={120} 
+            className="logo-image"
+            priority
+          />
         </Link>
         
         {/* Desktop Navigation - Hidden on mobile */}

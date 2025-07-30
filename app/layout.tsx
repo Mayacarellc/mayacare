@@ -6,7 +6,11 @@ import { Header } from "@/components/header"
 import { ExtensionErrorSuppressor } from "@/components/extension-error-suppressor"
 import { MobileGetStartedFab } from "@/components/mobile-get-started-fab"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter"
+})
 
 export const metadata: Metadata = {
   title: "Maya Care",
