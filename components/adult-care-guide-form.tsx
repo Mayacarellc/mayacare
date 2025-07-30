@@ -32,6 +32,11 @@ export function AdultCareGuideForm({ onClose }: AdultCareGuideFormProps) {
     smsConsent: false,
   })
 
+  // Create stable handlers to prevent re-rendering issues
+  const handleFieldChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }))
+  }
+
   const handleNext = () => {
     setDirection(1)
     setCurrentStep((prev) => prev + 1)
@@ -251,7 +256,7 @@ export function AdultCareGuideForm({ onClose }: AdultCareGuideFormProps) {
             <Input
               placeholder="First Name"
               value={formData.firstName}
-              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+              onChange={handleFieldChange("firstName")}
               className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
               required
             />
@@ -261,7 +266,7 @@ export function AdultCareGuideForm({ onClose }: AdultCareGuideFormProps) {
             <Input
               placeholder="Last Name"
               value={formData.lastName}
-              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+              onChange={handleFieldChange("lastName")}
               className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
               required
             />
@@ -272,7 +277,7 @@ export function AdultCareGuideForm({ onClose }: AdultCareGuideFormProps) {
               type="tel"
               placeholder="Phone Number"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={handleFieldChange("phone")}
               className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
               required
             />
@@ -283,7 +288,7 @@ export function AdultCareGuideForm({ onClose }: AdultCareGuideFormProps) {
               type="email"
               placeholder="Email Address"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={handleFieldChange("email")}
               className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
             />
           </div>
@@ -295,7 +300,7 @@ export function AdultCareGuideForm({ onClose }: AdultCareGuideFormProps) {
             <Input
               placeholder="Postal Code"
               value={formData.postalCode}
-              onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
+              onChange={handleFieldChange("postalCode")}
               className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
               required
             />
