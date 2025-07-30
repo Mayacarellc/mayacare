@@ -100,7 +100,7 @@ export function HeaderClient() {
           <NavigationMenu className="hidden md:flex relative">
             <NavigationMenuList>
               <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-lg font-medium">Find care</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-base font-medium">Find care</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="grid grid-cols-[160px_1fr] w-[600px] p-4">
                     <div className="flex flex-col space-y-1 pr-4 border-r">
@@ -109,7 +109,7 @@ export function HeaderClient() {
                           key={category.name}
                           onMouseEnter={() => setActiveCareCategory(category.name)}
                           className={cn(
-                            "w-full text-left p-3 rounded-md text-base font-medium flex justify-between items-center",
+                            "w-full text-left p-3 rounded-md text-sm font-medium flex justify-between items-center",
                             activeCareCategory === category.name ? "bg-muted text-foreground" : "hover:bg-muted/50",
                           )}
                         >
@@ -127,7 +127,7 @@ export function HeaderClient() {
                               <h3
                                 key={index}
                                 className={cn(
-                                  "font-bold text-base text-muted-foreground mt-2 first:mt-0",
+                                  "font-bold text-sm text-muted-foreground mt-2 first:mt-0",
                                   item.colSpan === 2 && "col-span-2",
                                 )}
                               >
@@ -138,7 +138,7 @@ export function HeaderClient() {
                                 <Link
                                   href={item.href || "#"}
                                   className={cn(
-                                    "text-base hover:text-primary",
+                                    "text-sm hover:text-primary",
                                     item.isHighlighted && "font-semibold text-primary bg-primary/10 px-2 py-1 rounded",
                                   )}
                                 >
@@ -156,7 +156,7 @@ export function HeaderClient() {
                               <h3
                                 key={index}
                                 className={cn(
-                                  "font-bold text-base text-muted-foreground mt-2 first:mt-0",
+                                  "font-bold text-sm text-muted-foreground mt-2 first:mt-0",
                                   item.colSpan === 2 && "col-span-2",
                                 )}
                               >
@@ -164,7 +164,7 @@ export function HeaderClient() {
                               </h3>
                             ) : (
                               <NavigationMenuLink asChild key={index}>
-                                <Link href={item.href} className="text-base hover:text-primary">
+                                <Link href={item.href} className="text-sm hover:text-primary">
                                   {item.title}
                                 </Link>
                               </NavigationMenuLink>
@@ -176,27 +176,27 @@ export function HeaderClient() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-lg font-medium">Find jobs</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-base font-medium">Find jobs</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="w-[280px] p-4">
                     <div className="flex flex-col space-y-3">
                       {findJobsData.col1.map((item, index) => (
                         <NavigationMenuLink asChild key={index}>
-                          <Link href={item.href || "#"} className="text-base hover:text-primary block py-2">
+                          <Link href={item.href || "#"} className="text-sm hover:text-primary block py-2">
                             {item.title}
                           </Link>
                         </NavigationMenuLink>
                       ))}
                       {findJobsData.col2.map((item, index) => (
                         <NavigationMenuLink asChild key={`col2-${index}`}>
-                          <Link href={item.href || "#"} className="text-base hover:text-primary block py-2">
+                          <Link href={item.href || "#"} className="text-sm hover:text-primary block py-2">
                             {item.title}
                           </Link>
                         </NavigationMenuLink>
                       ))}
                       {findJobsData.col3.map((item, index) => (
                         <NavigationMenuLink asChild key={`col3-${index}`}>
-                          <Link href={item.href || "#"} className="text-base hover:text-primary block py-2">
+                          <Link href={item.href || "#"} className="text-sm hover:text-primary block py-2">
                             {item.title}
                           </Link>
                         </NavigationMenuLink>
@@ -209,14 +209,14 @@ export function HeaderClient() {
                 <NavigationMenuLink asChild>
                   <Link 
                     href="/family-caregivers"
-                    className="text-lg font-medium inline-flex h-12 w-max items-center justify-center rounded-md bg-background px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+                    className="text-base font-medium inline-flex h-12 w-max items-center justify-center rounded-md bg-background px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
                   >
                     Family Caregivers
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-lg font-medium">Resources</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-base font-medium">Resources</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[280px] gap-3 p-4">
                     {resourcesData.map((item) => (
@@ -417,7 +417,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
             )}
             {...props}
           >
-            <div className="text-base font-medium leading-none">{title}</div>
+            <div className="text-sm font-medium leading-none">{title}</div>
           </a>
         </NavigationMenuLink>
       </li>

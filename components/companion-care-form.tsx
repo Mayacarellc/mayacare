@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -34,19 +34,19 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
   })
 
   // Create stable handlers to prevent re-rendering issues
-  const handleFieldChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFieldChange = useCallback((field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }))
-  }
+  }, [])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setDirection(1)
     setCurrentStep((prev) => prev + 1)
-  }
+  }, [])
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setDirection(-1)
     setCurrentStep((prev) => prev - 1)
-  }
+  }, [])
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
@@ -103,7 +103,7 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
   }
 
   // Step 1: Who needs care?
-  const WhoNeedsCareStep = () => (
+  const WhoNeedsCareStep = useMemo(() => (
     <div className="min-h-[600px] p-6 space-y-8">
       <div className="flex items-center justify-between">
         <button onClick={inModal && currentStep === 1 ? onBack : handleBack} disabled={!inModal && currentStep === 1} className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-50">
@@ -160,10 +160,10 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
         </div>
       </div>
     </div>
-  )
+  ), [formData.whoNeedsCare, handleNext, handleBack, inModal, onBack, currentStep])
 
   // Step 2: What kinds of companionship are needed?
-  const CompanionshipTypesStep = () => (
+  const CompanionshipTypesStep = useMemo(() => (
     <div className="min-h-[600px] p-6 space-y-8">
       <div className="flex items-center justify-between">
         <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
@@ -231,11 +231,11 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
         </div>
       </div>
     </div>
-  )
+  ), [formData.companionshipTypes, handleNext, handleBack, onClose, inModal])
 
   // Step 3: Contact Information Form
-  const ContactFormStep = () => (
-    <div className="min-h-[600px] p-6 space-y-8">
+  const ContactFormStep = useMemo(() => (
+    <div className="min-h-[700px] p-6 space-y-6">
       <div className="flex items-center justify-between">
         <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
           <ArrowLeft className="w-6 h-6" />
@@ -247,7 +247,7 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
         )}
       </div>
 
-      <div className="max-w-md mx-auto space-y-6">
+      <div className="max-w-md mx-auto space-y-4">
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 text-center">
           {formData.whoNeedsCare === "parent_loved_one" ? "Find Care for a Loved One" : "Find Care for Me"}
         </h1>
@@ -294,8 +294,8 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
             />
           </div>
 
-          <div className="space-y-2">
-            <Label className="text-base font-medium text-gray-700">
+          <div>
+            <Label className="text-sm font-medium text-gray-700 mb-2 block">
               Postal code where care is needed
             </Label>
             <Input
@@ -314,11 +314,9 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
               onCheckedChange={(checked) => setFormData({ ...formData, smsConsent: !!checked })}
               className="mt-1"
             />
-            <Label htmlFor="sms-consent" className="text-sm text-gray-600 leading-relaxed">
-              By checking this box, I consent to receive automated SMS text messages from Home Instead at the number provided, 
-              including promotional and service-related messages. Message frequency may vary. Message & data rates may apply. 
-              Consent is not required for services. Reply STOP to opt out. For assistance, text "HELP." For more details, 
-              including our SMS terms, see our{" "}
+            <Label htmlFor="sms-consent" className="text-xs text-gray-500 leading-relaxed">
+              By checking this box, I consent to receive SMS messages from Maya Care. Message & data rates may apply. 
+              Reply STOP to opt out. See our{" "}
               <a href="#" className="text-blue-600 underline">Privacy Policy</a>.
             </Label>
           </div>
@@ -327,19 +325,19 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
             <Button
               onClick={handleSubmit}
               disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.phone || !formData.postalCode}
-              className="w-full bg-deepgreen hover:bg-deepgreen/90 text-white p-4 rounded-full text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-deepgreen hover:bg-deepgreen/90 text-white py-4 px-6 rounded-full text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-200"
             >
-              {isSubmitting ? "Submitting..." : "Request a Care Consultation"}
+              {isSubmitting ? "Submitting..." : "Request A Free Consultation"}
             </Button>
           </div>
 
-          <p className="text-xs text-gray-500 text-center">
-            By clicking "Request a Care Consultation", you agree to our Terms of Service and Privacy Policy.
+          <p className="text-xs text-gray-500 text-center mt-4">
+            By clicking "Request A Free Consultation", you agree to our Terms of Service and Privacy Policy.
           </p>
         </div>
       </div>
     </div>
-  )
+  ), [formData, handleSubmit, isSubmitting, handleFieldChange])
 
   if (submitResult) {
     return (
@@ -375,19 +373,17 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={currentStep}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
+          initial={{ opacity: 0, x: direction * 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: direction * -50 }}
           transition={{
-            x: { type: "spring", stiffness: 600, damping: 50 },
-            opacity: { duration: 0.05 },
+            duration: 0.3,
+            ease: "easeInOut"
           }}
         >
-          {currentStep === 1 && <WhoNeedsCareStep />}
-          {currentStep === 2 && <CompanionshipTypesStep />}
-          {currentStep === 3 && <ContactFormStep />}
+          {currentStep === 1 && WhoNeedsCareStep}
+          {currentStep === 2 && CompanionshipTypesStep}
+          {currentStep === 3 && ContactFormStep}
         </motion.div>
       </AnimatePresence>
     </div>

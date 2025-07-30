@@ -106,18 +106,18 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
   }
 
   const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? "100%" : "-100%",
+    enter: {
       opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
+      scale: 0.95,
     },
-    exit: (direction: number) => ({
-      x: direction < 0 ? "100%" : "-100%",
+    center: {
+      opacity: 1,
+      scale: 1,
+    },
+    exit: {
       opacity: 0,
-    }),
+      scale: 0.95,
+    },
   }
 
   // Initial Step - What are you looking for?
@@ -129,14 +129,24 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
       </div>
 
       <div className="text-center space-y-8">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What are you looking for?</h1>
+        <motion.h1 
+          className="text-2xl md:text-3xl font-semibold text-gray-800"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        >
+          What are you looking for?
+        </motion.h1>
         
         <div className="max-w-md mx-auto space-y-4">
           <motion.button
             onClick={() => handleInitialChoice("jobs")}
-            className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-75 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90"
+            className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.15, delay: 0.05 }}
           >
             <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-lime" />
@@ -146,9 +156,12 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
           <motion.button
             onClick={() => handleInitialChoice("care")}
-            className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-75 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90"
+            className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.15, delay: 0.1 }}
           >
             <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
               <Heart className="w-6 h-6 text-lime" />
@@ -318,11 +331,17 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg">
+      <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto">
         <DialogTitle className="sr-only">
           Get Started - Find Care or Jobs
         </DialogTitle>
-        <div className="w-full h-full">
+        <motion.div 
+          className="w-full min-h-full"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -331,14 +350,14 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               animate="center"
               exit="exit"
               transition={{
-                x: { type: "spring", stiffness: 600, damping: 50 },
-                opacity: { duration: 0.05 },
+                duration: 0.2,
+                ease: "easeInOut",
               }}
             >
               {getCurrentStep()}
             </motion.div>
           </AnimatePresence>
-        </div>
+        </motion.div>
       </DialogContent>
     </Dialog>
   )

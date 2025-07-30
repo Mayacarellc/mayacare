@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -34,19 +34,19 @@ export function SpecialNeedsCareForm({ onClose, inModal = false, onBack }: Speci
   })
 
   // Create stable handlers to prevent re-rendering issues
-  const handleFieldChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFieldChange = useCallback((field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }))
-  }
+  }, [])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setDirection(1)
     setCurrentStep((prev) => prev + 1)
-  }
+  }, [])
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setDirection(-1)
     setCurrentStep((prev) => prev - 1)
-  }
+  }, [])
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
@@ -314,11 +314,9 @@ export function SpecialNeedsCareForm({ onClose, inModal = false, onBack }: Speci
               onCheckedChange={(checked) => setFormData({ ...formData, smsConsent: !!checked })}
               className="mt-1"
             />
-            <Label htmlFor="sms-consent" className="text-sm text-gray-600 leading-relaxed">
-              By checking this box, I consent to receive automated SMS text messages from Home Instead at the number provided, 
-              including promotional and service-related messages. Message frequency may vary. Message & data rates may apply. 
-              Consent is not required for services. Reply STOP to opt out. For assistance, text "HELP." For more details, 
-              including our SMS terms, see our{" "}
+            <Label htmlFor="sms-consent" className="text-xs text-gray-500 leading-relaxed">
+              By checking this box, I consent to receive SMS messages from Maya Care. Message & data rates may apply. 
+              Reply STOP to opt out. See our{" "}
               <a href="#" className="text-blue-600 underline">Privacy Policy</a>.
             </Label>
           </div>
@@ -329,7 +327,7 @@ export function SpecialNeedsCareForm({ onClose, inModal = false, onBack }: Speci
               disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.phone || !formData.postalCode}
               className="w-full bg-deepgreen hover:bg-deepgreen/90 text-white p-4 rounded-full text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "Submitting..." : "Request a Care Consultation"}
+              {isSubmitting ? "Submitting..." : "Request A Free Consultation"}
             </Button>
           </div>
 

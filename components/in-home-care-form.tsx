@@ -1,19 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { CheckCircle, AlertCircle, ArrowLeft, X, Heart, User, Activity, Check, Lightbulb, MoreHorizontal } from "lucide-react"
+import { CheckCircle, AlertCircle, ArrowLeft, X, Home, Heart, Utensils, Bath, Car, ShoppingBag, Stethoscope, User, Activity, Check, Lightbulb, MoreHorizontal } from "lucide-react"
 import { submitClientApplication } from "@/app/actions/simple-forms"
 
 interface InHomeCareFormProps {
   onClose?: () => void
-  inModal?: boolean
   onBack?: () => void
+  inModal?: boolean
 }
 
 export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareFormProps) {
@@ -34,19 +34,19 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
   })
 
   // Create stable handlers to prevent re-rendering issues
-  const handleFieldChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFieldChange = useCallback((field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }))
-  }
+  }, [])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
       setDirection(1)
       setCurrentStep((prev) => prev + 1)
-  }
+  }, [])
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
       setDirection(-1)
       setCurrentStep((prev) => prev - 1)
-  }
+  }, [])
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
@@ -103,7 +103,7 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
   }
 
   // Step 1: Who needs care?
-  const WhoNeedsCareStep = () => (
+  const WhoNeedsCareStep = useMemo(() => (
     <div className="min-h-[600px] p-6 space-y-8">
       <div className="flex items-center justify-between">
         <button 
@@ -164,10 +164,10 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
         </div>
       </div>
     </div>
-  )
+  ), [formData.whoNeedsCare, handleNext, handleBack, inModal, onBack, currentStep])
 
   // Step 2: What kinds of assistance are needed?
-  const AssistanceTypesStep = () => (
+  const AssistanceTypesStep = useMemo(() => (
     <div className="min-h-[600px] p-6 space-y-8">
       <div className="flex items-center justify-between">
         <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
@@ -235,10 +235,10 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
         </div>
       </div>
     </div>
-  )
+  ), [formData.assistanceTypes, handleNext, handleBack, onClose, inModal])
 
   // Step 3: Contact Information Form
-  const ContactFormStep = () => (
+  const ContactFormStep = useMemo(() => (
     <div className="min-h-[600px] p-6 space-y-8">
       <div className="flex items-center justify-between">
         <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
@@ -318,11 +318,9 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
               onCheckedChange={(checked) => setFormData({ ...formData, smsConsent: !!checked })}
               className="mt-1"
             />
-            <Label htmlFor="sms-consent" className="text-sm text-gray-600 leading-relaxed">
-              By checking this box, I consent to receive automated SMS text messages from Home Instead at the number provided, 
-              including promotional and service-related messages. Message frequency may vary. Message & data rates may apply. 
-              Consent is not required for services. Reply STOP to opt out. For assistance, text "HELP." For more details, 
-              including our SMS terms, see our{" "}
+            <Label htmlFor="sms-consent" className="text-xs text-gray-500 leading-relaxed">
+              By checking this box, I consent to receive SMS messages from Maya Care. Message & data rates may apply. 
+              Reply STOP to opt out. See our{" "}
               <a href="#" className="text-blue-600 underline">Privacy Policy</a>.
             </Label>
           </div>
@@ -333,17 +331,17 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
               disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.phone || !formData.postalCode}
               className="w-full bg-deepgreen hover:bg-deepgreen/90 text-white p-4 rounded-full text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "Submitting..." : "Request a Care Consultation"}
+              {isSubmitting ? "Submitting..." : "Request A Free Consultation"}
             </Button>
           </div>
 
           <p className="text-xs text-gray-500 text-center">
-            By clicking "Request a Care Consultation", you agree to our Terms of Service and Privacy Policy.
+            By clicking "Request A Free Consultation", you agree to our Terms of Service and Privacy Policy.
           </p>
         </div>
       </div>
     </div>
-  )
+  ), [formData, handleSubmit, isSubmitting, handleFieldChange])
 
   if (submitResult) {
     return (
@@ -379,20 +377,18 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
       <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={currentStep}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-                      transition={{
-            x: { type: "spring", stiffness: 600, damping: 50 },
-            opacity: { duration: 0.05 },
-          }}
-        >
-          {currentStep === 1 && <WhoNeedsCareStep />}
-          {currentStep === 2 && <AssistanceTypesStep />}
-          {currentStep === 3 && <ContactFormStep />}
-        </motion.div>
+            initial={{ opacity: 0, x: direction * 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: direction * -50 }}
+            transition={{
+              duration: 0.3,
+              ease: "easeInOut"
+            }}
+          >
+            {currentStep === 1 && WhoNeedsCareStep}
+            {currentStep === 2 && AssistanceTypesStep}
+            {currentStep === 3 && ContactFormStep}
+          </motion.div>
       </AnimatePresence>
       </div>
   )
