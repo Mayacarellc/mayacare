@@ -79,18 +79,18 @@ export function HeaderClient() {
     <>
       <header className="sticky top-0 z-40 w-full border-b bg-background">
         {!isAdminPage && pathname === "/" && (
-          <div className="text-center p-3 text-base font-medium text-white" style={{ backgroundColor: "#2C4F26" }}>
+          <div className="text-center py-2 px-4 text-sm font-medium text-white" style={{ backgroundColor: "#2C4F26" }}>
             Currently serving Pennsylvania residents only
           </div>
         )}
-      <div className="container flex header-container items-center">
-        <Link href="/" className="mr-10 flex items-center">
+      <div className="container mx-auto flex items-center justify-between px-4" style={{ height: '4rem', minHeight: '4rem', maxHeight: '4rem' }}>
+        <Link href="/" className="flex items-center" style={{ marginRight: '2rem' }}>
           <Image 
             src="/logo.png" 
             alt="Maya Care Logo" 
-            width={240} 
-            height={120} 
-            className="logo-image"
+            width={200} 
+            height={100} 
+            style={{ height: '2.5rem', width: 'auto' }}
             priority
           />
         </Link>
@@ -232,15 +232,16 @@ export function HeaderClient() {
         <div className="flex flex-1 items-center justify-end space-x-4">
           {/* Header Buttons - Hidden on mobile, shown on desktop */}
           {!isAdminPage && (
-            <div className="hidden md:flex items-center space-x-3">
+            <div className="hidden md:flex items-center" style={{ gap: '0.75rem' }}>
               {/* Phone Button */}
               <Button
                 variant="outline"
-                className="rounded-full bg-white border-2 border-deepgreen/20 text-deepgreen font-semibold px-8 py-4 h-auto text-lg hover:bg-greentea transition-colors"
+                className="rounded-full bg-white border-2 border-deepgreen/20 text-deepgreen font-semibold hover:bg-greentea transition-colors"
+                style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', lineHeight: '1.25' }}
                 asChild
               >
                 <a href="tel:4129530622" className="flex items-center space-x-2">
-                  <Phone className="w-5 h-5" />
+                  <Phone className="w-4 h-4" />
                   <span>4129530622</span>
                 </a>
               </Button>
@@ -248,7 +249,8 @@ export function HeaderClient() {
               {/* Get Started Button */}
               <Button
                 onClick={() => setGetStartedModalOpen(true)}
-                className="rounded-full bg-gradient-to-r from-greentea to-lime text-deepgreen font-semibold px-8 py-4 h-auto text-lg hover:from-greentea/80 hover:to-lime/90 transition-all shadow-sm"
+                className="rounded-full bg-gradient-to-r from-greentea to-lime text-deepgreen font-semibold hover:from-greentea/80 hover:to-lime/90 transition-all shadow-sm"
+                style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', lineHeight: '1.25' }}
               >
                 Get Started
               </Button>
