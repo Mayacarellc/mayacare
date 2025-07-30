@@ -11,6 +11,7 @@ export function MobileGetStartedFab() {
   const [lastScrollY, setLastScrollY] = useState(0)
   const pathname = usePathname()
   const isAdminPage = pathname.startsWith("/admin")
+  const isHomePage = pathname === "/"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +34,8 @@ export function MobileGetStartedFab() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  if (isAdminPage) return null
+  // Only show on homepage and not on admin pages
+  if (isAdminPage || !isHomePage) return null
 
   return (
     <>
