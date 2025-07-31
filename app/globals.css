@@ -29,8 +29,8 @@
     padding: 0;
   }
 
-  /* Mobile-specific optimizations - only target mobile devices */
-  @media (max-width: 768px) and (hover: none) and (pointer: coarse) {
+  /* Mobile-specific optimizations - multiple detection methods */
+  @media (max-width: 768px) {
     /* Prevent iOS zoom on input focus */
     input, select, textarea {
       font-size: 16px !important;
@@ -62,10 +62,16 @@
       border-radius: 0 !important;
     }
     
-    /* Optimize form animations for mobile only */
-    [data-mobile-form] * {
-      animation-duration: 0.15s !important;
-      transition-duration: 0.15s !important;
+    /* Aggressive mobile animation optimization */
+    * {
+      animation-duration: 0.1s !important;
+      transition-duration: 0.1s !important;
+    }
+    
+    /* Optimize framer motion animations */
+    [data-framer-motion], [data-mobile-form] {
+      animation-duration: 0.1s !important;
+      transition-duration: 0.1s !important;
     }
     
     /* Improve button touch targets */
@@ -76,10 +82,28 @@
     
     /* Prevent text selection on touch for interactive elements */
     button, [role="button"], .touch-action-manipulation {
-      touch-action: manipulation;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
+      touch-action: manipulation !important;
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
+  }
+
+  /* Additional mobile-only rules for touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    /* Force hardware acceleration on mobile */
+    * {
+      -webkit-transform: translateZ(0) !important;
+      transform: translateZ(0) !important;
+      -webkit-backface-visibility: hidden !important;
+      backface-visibility: hidden !important;
+      will-change: transform !important;
+    }
+    
+    /* Reduce motion for better performance */
+    * {
+      animation-duration: 0.1s !important;
+      transition-duration: 0.1s !important;
     }
   }
 

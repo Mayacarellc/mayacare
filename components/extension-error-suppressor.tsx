@@ -4,62 +4,64 @@ import { useEffect } from "react"
 
 export function ExtensionErrorSuppressor() {
   useEffect(() => {
-    // Suppress console errors from browser extensions
+    // Suppress extension-related console errors
     const originalError = console.error
     console.error = (...args) => {
-      // Don't log extension-related errors
-      const message = args.join(" ")
       if (
-        message.includes("message channel closed") ||
-        message.includes("Extension context invalidated") ||
-        message.includes("cz-shortcut-listen") ||
-        message.includes("listener indicated an asynchronous response") ||
-        message.includes("chrome-extension") ||
-        message.includes("moz-extension")
+        args.some(arg => 
+          typeof arg === 'string' && (
+            arg.includes('Extension') ||
+            arg.includes('chrome-extension') ||
+            arg.includes('moz-extension') ||
+            arg.includes('safari-extension')
+          )
+        )
       ) {
-        return // Silently ignore extension errors
+        return
       }
-      originalError(...args)
+      originalError.apply(console, args)
     }
 
-    // Suppress unhandled promise rejections from extensions
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
-      const message = event.reason?.message || event.reason?.toString() || ""
-      if (
-        message.includes("message channel closed") ||
-        message.includes("Extension context invalidated") ||
-        message.includes("chrome-extension") ||
-        message.includes("moz-extension")
-      ) {
-        event.preventDefault()
-        return false
-      }
+    // Mobile-specific optimizations
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                    (window.innerWidth <= 768 && 'ontouchstart' in window)
+
+    if (isMobile) {
+      // Add mobile optimization class to body
+      document.body.classList.add('mobile-optimized')
+      
+      // Force hardware acceleration on mobile
+      const style = document.createElement('style')
+      style.textContent = `
+        .mobile-optimized * {
+          -webkit-transform: translateZ(0) !important;
+          transform: translateZ(0) !important;
+          -webkit-backface-visibility: hidden !important;
+          backface-visibility: hidden !important;
+          will-change: transform !important;
+          animation-duration: 0.1s !important;
+          transition-duration: 0.1s !important;
+        }
+        
+        .mobile-optimized [data-framer-motion] {
+          animation-duration: 0.05s !important;
+          transition-duration: 0.05s !important;
+        }
+        
+        .mobile-optimized button, .mobile-optimized [role="button"] {
+          touch-action: manipulation !important;
+          -webkit-touch-callout: none !important;
+          -webkit-user-select: none !important;
+          user-select: none !important;
+        }
+      `
+      document.head.appendChild(style)
     }
 
-    // Suppress general errors from extensions
-    const handleError = (event: ErrorEvent) => {
-      const message = event.message || ""
-      if (
-        message.includes("message channel closed") ||
-        message.includes("Extension context invalidated") ||
-        message.includes("chrome-extension") ||
-        message.includes("moz-extension")
-      ) {
-        event.preventDefault()
-        return false
-      }
-    }
-
-    window.addEventListener("unhandledrejection", handleUnhandledRejection)
-    window.addEventListener("error", handleError)
-
-    // Cleanup
     return () => {
       console.error = originalError
-      window.removeEventListener("unhandledrejection", handleUnhandledRejection)
-      window.removeEventListener("error", handleError)
     }
   }, [])
 
-  return null // This component renders nothing
+  return null
 } 
