@@ -12,12 +12,7 @@ export function MobileGetStartedFab() {
   const pathname = usePathname()
   const isAdminPage = pathname.startsWith("/admin")
 
-  // Debug logging
-  useEffect(() => {
-    console.log('MobileGetStartedFab mounted on path:', pathname)
-    console.log('Is admin page?', isAdminPage)
-    console.log('Component will render?', !isAdminPage)
-  }, [pathname, isAdminPage])
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,12 +36,7 @@ export function MobileGetStartedFab() {
   }, [lastScrollY])
 
   // Don't show on admin pages
-  if (isAdminPage) {
-    console.log('Not rendering FAB because isAdminPage is true')
-    return null
-  }
-
-  console.log('Rendering MobileGetStartedFab, isVisible:', isVisible)
+  if (isAdminPage) return null
 
   return (
     <>
