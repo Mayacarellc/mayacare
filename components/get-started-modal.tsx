@@ -105,11 +105,11 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     ],
   }
 
-  // Optimized variants for mobile performance - ultra fast
+  // Ultra-fast variants for mobile - eliminate blinking
   const variants = {
     enter: {
       opacity: 0,
-      scale: 0.99,
+      scale: 1,
     },
     center: {
       opacity: 1,
@@ -117,8 +117,18 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     },
     exit: {
       opacity: 0,
-      scale: 0.99,
+      scale: 1,
     },
+  }
+
+  // Mobile-specific animation config
+  const isMobile = typeof window !== 'undefined' && 
+    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+     window.innerWidth <= 768)
+
+  const animationConfig = {
+    duration: isMobile ? 0.01 : 0.15,
+    ease: "linear" as const
   }
 
   // Initial Step - What are you looking for?
@@ -147,7 +157,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1, delay: 0.02 }}
+            transition={{ duration: isMobile ? 0.01 : 0.1, delay: isMobile ? 0 : 0.02 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-deepgreen" />
@@ -162,7 +172,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1, delay: 0.05 }}
+            transition={{ duration: isMobile ? 0.01 : 0.1, delay: isMobile ? 0 : 0.05 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
@@ -359,7 +369,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
+            transition={animationConfig}
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
@@ -368,10 +378,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{
-                  duration: 0.15,
-                  ease: "easeInOut",
-                }}
+                transition={animationConfig}
               >
                 {getCurrentStep()}
               </motion.div>

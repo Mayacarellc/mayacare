@@ -29,22 +29,51 @@
     padding: 0;
   }
 
-  /* Very targeted mobile optimizations - only for specific modal elements */
+  /* Mobile-specific optimizations for actual mobile devices */
+  @media (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    /* Prevent iOS zoom on form inputs */
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
+      font-size: 16px !important;
+    }
+    
+    /* Aggressive animation optimization for mobile browsers */
+    * {
+      animation-duration: 0.01s !important;
+      transition-duration: 0.01s !important;
+    }
+    
+    /* Force hardware acceleration on mobile */
+    * {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      will-change: transform;
+    }
+    
+    /* Disable problematic animations */
+    [data-framer-motion] {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* Fallback for all small screens */
   @media (max-width: 768px) {
     /* Only prevent iOS zoom on form inputs */
     input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
       font-size: 16px !important;
     }
     
-    /* Only optimize animations within modals */
+    /* Optimize modal animations */
     [data-modal-mobile] [data-mobile-form] {
-      animation-duration: 0.1s !important;
-      transition-duration: 0.1s !important;
+      animation-duration: 0.01s !important;
+      transition-duration: 0.01s !important;
     }
     
     [data-modal-mobile] [data-mobile-form] * {
-      animation-duration: 0.1s !important;
-      transition-duration: 0.1s !important;
+      animation-duration: 0.01s !important;
+      transition-duration: 0.01s !important;
     }
   }
 
