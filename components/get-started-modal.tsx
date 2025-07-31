@@ -173,12 +173,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
           {jobCategories.map((category, index) => {
             const Icon = category.icon
             return (
-              <motion.div 
-                key={category.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
-              >
+              <div key={category.id}>
                 <Button
                   asChild
                   className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
@@ -190,7 +185,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                     <span className="text-base font-medium text-gray-800">{category.title}</span>
                   </Link>
                 </Button>
-              </motion.div>
+              </div>
             )
           })}
         </div>
@@ -215,21 +210,16 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
           {careCategories.map((category, index) => {
             const Icon = category.icon
             return (
-              <motion.button
+              <button
                 key={category.id}
                 onClick={() => handleCategoryChoice(category.id)}
-                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
+                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
               >
                 <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
                   <Icon className="w-5 h-5 text-deepgreen" />
                 </div>
                 <span className="text-base font-medium text-gray-800">{category.title}</span>
-              </motion.button>
+              </button>
             )
           })}
         </div>
@@ -260,19 +250,14 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
           
           <div className="max-w-md mx-auto space-y-4">
             {categoryServices.map((service, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
-              >
+              <div key={index}>
                 <Button
                   onClick={() => handleServiceChoice(service)}
-                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
                 >
                   <span className="text-base font-medium text-gray-800">{service.title}</span>
                 </Button>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

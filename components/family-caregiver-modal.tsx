@@ -190,7 +190,7 @@ export function FamilyCaregiverModal({ isOpen, onClose }: FamilyCaregiverModalPr
                 whileTap={{ scale: 0.99 }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
+                transition={{ duration: 0.15 }}
               >
                 <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
                   <Icon className="w-5 h-5 text-deepgreen" />

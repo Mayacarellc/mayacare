@@ -188,7 +188,7 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
             const isSelected = formData.companionshipTypes.includes(companionship.id)
             
             return (
-              <motion.button
+              <button
                 key={companionship.id}
                 onClick={() => {
                   const updated = isSelected
@@ -196,16 +196,11 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
                     : [...formData.companionshipTypes, companionship.id]
                   setFormData({ ...formData, companionshipTypes: updated })
                 }}
-                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-all duration-150 hover:shadow-lg border-2 ${
+                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-colors duration-150 hover:shadow-lg border-2 ${
                   isSelected 
                     ? "bg-deepgreen/10 border-deepgreen text-deepgreen" 
                     : "bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-deepgreen"
                 }`}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
@@ -216,7 +211,7 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
                 <div className={`w-5 h-5 border-2 border-deepgreen rounded-full flex items-center justify-center ${isSelected ? "bg-deepgreen" : ""}`}>
                   {isSelected && <CheckCircle className="w-4 h-4 text-white" />}
                 </div>
-              </motion.button>
+              </button>
             )
           })}
         </div>

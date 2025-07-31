@@ -205,7 +205,7 @@ export function AdultCompanionCareForm({ onClose, inModal = false, onBack }: Adu
                 whileTap={{ scale: 0.99 }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
+                transition={{ duration: 0.15 }}
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
