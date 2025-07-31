@@ -7,92 +7,142 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import { Search, MapPin, Clock, DollarSign, Calendar, Star, Heart, Share2, ArrowRight, Users, Award, Shield, Filter } from "lucide-react"
 import { motion } from "framer-motion"
-import { JobApplicationModal } from "@/components/job-application-modal"
+
 
 // Mock job data
 const mockJobs = [
   {
     id: 1,
-    title: "In-Home Care Needed For My Loved One In Philadelphia",
-    location: "Philadelphia, PA",
-    type: "Full-time",
-    postedDate: "Jul 22",
-    description: "Looking for a compassionate caregiver to help with daily activities, medication reminders, and companionship for my elderly mother. Experience with dementia care preferred.",
-    hourlyRate: "$18-22",
-    schedule: "Monday-Friday, 8am-4pm",
-    requirements: ["Background check", "First aid certified", "2+ years experience"],
-    familyImage: "/placeholder-user.jpg",
-    isUrgent: true,
-    rating: 4.8
+    title: "CareGiver",
+    location: "Melrose, MA and the Surrounding Areas",
+    zipCode: "02176",
+    type: "Apply for this career",
+    description: "Home Instead is looking for caring and compassionate caregivers to become a part of our team and join our mission of enhancing the lives of aging adults throughout our community.",
+    fullDescription: `Home Instead is looking for caring and compassionate caregivers to become a part of our team and join our mission of enhancing the lives of aging adults throughout our community. Home Instead provides a variety of service to remain in their home and meet the challenges of aging with dignity, care and compassion.
+
+Primary responsibilities and requirements include, but are not limited to:
+
+• Companionship and conversation
+• Light housekeeping tasks and meal preparation
+• Medication and appointment reminders
+• Providing personal care (incontinence care, bathing, transfers, etc.)
+• Ability to treat and care for seniors and their property with dignity and respect
+• Ability to communicate with clients in a friendly and congenial manner
+
+Qualifications/Requirements:
+• Home Health Aide or CNA certification
+• Excellent communication skills
+• Smart phone
+
+We value our CAREGivers and offer the following benefits:
+• Schedule that works for you
+• 24/7 Office support
+• Education/promotion
+• Mileage reimbursement
+• 401K with an employer match
+• $$ Referral Bonus $$
+• Additional pay for weekend and holiday shifts
+• Ava Reward program - earn gift cards
+• Tap Check to get paid before payday!`,
+    postedDate: "2 days ago",
+    icon: "briefcase.svg"
   },
   {
     id: 2,
-    title: "Companion Care For Senior In Pittsburgh",
-    location: "Pittsburgh, PA",
-    type: "Part-time",
-    postedDate: "Jul 20",
-    description: "Seeking a friendly companion for my father who enjoys reading, walking, and conversation. Light housekeeping and meal preparation included.",
-    hourlyRate: "$16-20",
-    schedule: "Tuesday, Thursday, Saturday, 10am-2pm",
-    requirements: ["Reliable transportation", "Patience and empathy", "Clean background"],
-    familyImage: "/placeholder-user.jpg",
-    isUrgent: false,
-    rating: 4.5
+    title: "Senior Care Assistant",
+    location: "Boston, MA and the Surrounding Areas",
+    zipCode: "02101",
+    type: "Apply for this career",
+    description: "Seeking compassionate caregivers to provide in-home care services for elderly clients in the Boston area.",
+    fullDescription: `We are seeking compassionate and dedicated caregivers to join our team in providing exceptional in-home care services for elderly clients in the Boston area.
+
+Primary responsibilities include:
+• Personal care assistance (bathing, dressing, grooming)
+• Medication reminders and management
+• Light housekeeping and meal preparation
+• Transportation to appointments
+• Companionship and emotional support
+• Safety monitoring and fall prevention
+
+Requirements:
+• Previous caregiving experience preferred
+• CPR and First Aid certification
+• Reliable transportation
+• Background check required
+• Excellent communication skills
+• Compassionate and patient nature
+
+Benefits:
+• Competitive hourly rates
+• Flexible scheduling
+• Health insurance options
+• Paid time off
+• Training and development opportunities
+• Employee recognition programs`,
+    postedDate: "3 days ago",
+    icon: "briefcase.svg"
   },
   {
     id: 3,
-    title: "Personal Care Assistant Needed In Harrisburg",
-    location: "Harrisburg, PA",
-    type: "Full-time",
-    postedDate: "Jul 18",
-    description: "Need assistance with personal care, mobility support, and daily living activities. Must be comfortable with lifting and transfers.",
-    hourlyRate: "$20-25",
-    schedule: "Monday-Sunday, rotating shifts",
-    requirements: ["CNA certification preferred", "Physical strength", "Compassionate nature"],
-    familyImage: "/placeholder-user.jpg",
-    isUrgent: true,
-    rating: 4.9
-  },
-  {
-    id: 4,
-    title: "Respite Care For Family Caregiver In Allentown",
-    location: "Allentown, PA",
-    type: "Part-time",
-    postedDate: "Jul 15",
-    description: "Looking for respite care to give our family caregiver a break. Help with medication, meals, and light activities.",
-    hourlyRate: "$17-21",
-    schedule: "Weekends, flexible hours",
-    requirements: ["Experience with elderly care", "Reliable", "Good communication"],
-    familyImage: "/placeholder-user.jpg",
-    isUrgent: false,
-    rating: 4.3
-  },
-  {
-    id: 5,
-    title: "Live-In Caregiver For Elderly Couple In Erie",
-    location: "Erie, PA",
-    type: "Live-in",
-    postedDate: "Jul 12",
-    description: "Seeking a live-in caregiver for my elderly parents. Private room provided. Help with daily activities and overnight care.",
-    hourlyRate: "$15-18",
-    schedule: "Live-in position, 5 days on, 2 days off",
-    requirements: ["Live-in experience", "Clean background check", "References required"],
-    familyImage: "/placeholder-user.jpg",
-    isUrgent: true,
-    rating: 4.7
+    title: "Home Health Aide",
+    location: "Cambridge, MA and the Surrounding Areas",
+    zipCode: "02138",
+    type: "Apply for this career",
+    description: "Join our team of dedicated home health aides providing quality care to seniors in their homes.",
+    fullDescription: `Join our growing team of dedicated home health aides committed to providing quality, compassionate care to seniors in their homes throughout Cambridge and surrounding areas.
+
+Key Responsibilities:
+• Assist with activities of daily living
+• Monitor vital signs and health status
+• Provide mobility assistance and transfers
+• Administer medications as directed
+• Maintain accurate care records
+• Communicate with healthcare team and family members
+
+Qualifications:
+• Home Health Aide certification required
+• Minimum 1 year experience in senior care
+• Knowledge of medical terminology
+• Strong interpersonal skills
+• Physical ability to assist with transfers
+• Valid driver's license and reliable vehicle
+
+What We Offer:
+• Starting wage $18-22/hour
+• Comprehensive benefits package
+• Professional development opportunities
+• Supportive work environment
+• Recognition and advancement programs
+• Referral bonuses`,
+    postedDate: "5 days ago",
+    icon: "briefcase.svg"
   }
 ]
 
 export default function InHomeCareJobsPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [locationQuery, setLocationQuery] = useState("")
+  const [zipCodeQuery, setZipCodeQuery] = useState("")
   const [favorites, setFavorites] = useState<number[]>([])
   const [selectedJobType, setSelectedJobType] = useState<string>("all")
   const [selectedLocation, setSelectedLocation] = useState<string>("all")
-  const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false)
-  const [selectedJob, setSelectedJob] = useState<typeof mockJobs[0] | null>(null)
+  const [showJobDetails, setShowJobDetails] = useState(false)
+  const [selectedJobForDetails, setSelectedJobForDetails] = useState<typeof mockJobs[0] | null>(null)
+  const [showApplicationForm, setShowApplicationForm] = useState(false)
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    jobTitle: "",
+    jobId: "",
+    workEligibility: false,
+    englishProficiency: false,
+    smsConsent: false
+  })
 
   const toggleFavorite = (jobId: number) => {
     setFavorites(prev => 
@@ -103,13 +153,57 @@ export default function InHomeCareJobsPage() {
   }
 
   const handleApplyClick = (job: typeof mockJobs[0]) => {
-    setSelectedJob(job)
-    setIsApplicationModalOpen(true)
+    setSelectedJobForDetails(job)
+    setFormData(prev => ({
+      ...prev,
+      jobTitle: job.title,
+      jobId: job.id.toString()
+    }))
+    setShowJobDetails(true)
+    setShowApplicationForm(true) // Go directly to form
   }
 
-  const handleCloseModal = () => {
-    setIsApplicationModalOpen(false)
-    setSelectedJob(null)
+  const handleDetailsClick = (job: typeof mockJobs[0]) => {
+    setSelectedJobForDetails(job)
+    setFormData(prev => ({
+      ...prev,
+      jobTitle: job.title,
+      jobId: job.id.toString()
+    }))
+    setShowJobDetails(true)
+    setShowApplicationForm(false)
+  }
+
+  const handleApplyFromDetails = () => {
+    setShowApplicationForm(true)
+  }
+
+
+
+  const handleCloseDetails = () => {
+    setShowJobDetails(false)
+    setSelectedJobForDetails(null)
+    setShowApplicationForm(false)
+    setFormData({
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
+      jobTitle: "",
+      jobId: "",
+      workEligibility: false,
+      englishProficiency: false,
+      smsConsent: false
+    })
+  }
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle form submission here
+    console.log("Form submitted:", formData)
+    // You can add your form submission logic here
+    alert("Application submitted successfully!")
+    handleCloseDetails()
   }
 
   const jobTypes = ["all", "full-time", "part-time", "live-in"]
@@ -150,40 +244,26 @@ export default function InHomeCareJobsPage() {
               </p>
             </motion.div>
             
-            {/* Hero Visual */}
+            {/* Hero Image */}
             <motion.div 
               initial={{ opacity: 0, x: 30 }} 
               animate={{ opacity: 1, x: 0 }} 
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="bg-gradient-to-br from-accent/30 to-muted/50 rounded-2xl p-8 h-96 flex items-center justify-center">
-                <div className="text-center space-y-6">
-                  <div className="w-32 h-32 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
-                    <Heart className="w-16 h-16 text-primary" />
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-foreground">
-                      Senior Care Opportunities
-                    </h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                      Provide compassionate care for seniors in their homes
-                    </p>
-                    <div className="flex items-center justify-center space-x-4 text-sm text-muted-foreground">
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                        Personal Care
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                        Companionship
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
-                        Medication Support
-                      </div>
-                    </div>
-                  </div>
+              <div className="rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/images/senior-care.jpg"
+                  alt="Senior Care Professional"
+                  width={600}
+                  height={400}
+                  className="object-cover w-full h-96"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div className="absolute bottom-6 left-6 text-white">
+                  <h3 className="text-2xl font-bold mb-2">Join Our Care Team</h3>
+                  <p className="text-white/90">Making a difference in seniors' lives</p>
                 </div>
               </div>
             </motion.div>
@@ -212,305 +292,297 @@ export default function InHomeCareJobsPage() {
                   <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5 group-focus-within:text-primary transition-colors" />
                   <Input
                     type="text"
-                    placeholder="Location"
-                    value={locationQuery}
-                    onChange={(e) => setLocationQuery(e.target.value)}
+                    placeholder="Zip Code"
+                    value={zipCodeQuery}
+                    onChange={(e) => setZipCodeQuery(e.target.value)}
                     className="pl-12 h-12 border-input bg-background focus:bg-background focus:ring-2 focus:ring-ring transition-all duration-200"
                   />
                 </div>
                 <Button className="h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                  Search Jobs
+                  Search
                 </Button>
               </div>
             </div>
 
-            {/* Filters */}
-            <div className="bg-card rounded-2xl shadow-lg p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <Filter className="w-5 h-5 text-primary" />
-                <h3 className="font-semibold text-foreground">Filters</h3>
-              </div>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Job Type</label>
-                  <div className="flex flex-wrap gap-2">
-                    {jobTypes.map((type) => (
-                      <Button
-                        key={type}
-                        variant={selectedJobType === type ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setSelectedJobType(type)}
-                        className={`capitalize ${
-                          selectedJobType === type 
-                            ? "bg-primary text-primary-foreground" 
-                            : "border-input hover:bg-accent"
-                        }`}
-                      >
-                        {type === "all" ? "All Types" : type.replace("-", " ")}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">Location</label>
-                  <div className="flex flex-wrap gap-2">
-                    {locations.map((location) => (
-                      <Button
-                        key={location}
-                        variant={selectedLocation === location ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setSelectedLocation(location)}
-                        className={`capitalize ${
-                          selectedLocation === location 
-                            ? "bg-primary text-primary-foreground" 
-                            : "border-input hover:bg-accent"
-                        }`}
-                      >
-                        {location === "all" ? "All Locations" : location}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </section>
+
+      {/* Job Details Modal */}
+      {showJobDetails && selectedJobForDetails && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center md:p-4 z-50">
+          <div className="bg-white md:rounded-lg max-w-4xl w-full h-full md:h-auto md:max-h-[90vh] overflow-y-auto">
+            <div className="p-4 md:p-6">
+              {/* Mobile Header */}
+              <div className="flex items-center justify-between mb-6 md:hidden">
+                {showApplicationForm ? (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setShowApplicationForm(false)}
+                    className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                  </Button>
+                ) : (
+                  <div></div>
+                )}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleCloseDetails}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </Button>
+              </div>
+
+              {/* Desktop Header */}
+              <div className="hidden md:flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedJobForDetails.title}</h2>
+                  <p className="text-lg text-gray-600">{selectedJobForDetails.location}</p>
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleCloseDetails}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </Button>
+              </div>
+
+              {/* Mobile Title (shown when not in form) */}
+              {!showApplicationForm && (
+                <div className="md:hidden mb-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-2">{selectedJobForDetails.title}</h2>
+                  <p className="text-base text-gray-600">{selectedJobForDetails.location}</p>
+                </div>
+              )}
+              
+              {!showApplicationForm ? (
+                <>
+                  <div className="prose max-w-none">
+                    <div className="whitespace-pre-line text-gray-700 leading-relaxed text-sm">
+                      {selectedJobForDetails.fullDescription}
+                    </div>
+                  </div>
+                  
+                  <div className="mt-8 pt-6 border-t">
+                    <Button 
+                      onClick={handleApplyFromDetails}
+                      className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold w-full"
+                    >
+                      Apply for this career
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Apply to be a caregiver</h3>
+                  
+                  <form onSubmit={handleFormSubmit} className="space-y-6">
+                    {/* First Name */}
+                    <div>
+                      <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
+                        First Name <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="firstName"
+                        type="text"
+                        required
+                        value={formData.firstName}
+                        onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
+                        placeholder="Please Enter your First Name."
+                        className="mt-1"
+                      />
+                    </div>
+
+                    {/* Last Name */}
+                    <div>
+                      <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
+                        Last Name <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="lastName"
+                        type="text"
+                        required
+                        value={formData.lastName}
+                        onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
+                        placeholder="Please Enter your Last Name."
+                        className="mt-1"
+                      />
+                    </div>
+
+                    {/* Phone Number */}
+                    <div>
+                      <Label htmlFor="phoneNumber" className="text-sm font-medium text-gray-700">
+                        Phone Number <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="phoneNumber"
+                        type="tel"
+                        required
+                        value={formData.phoneNumber}
+                        onChange={(e) => setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))}
+                        placeholder="Please enter a valid phone number."
+                        className="mt-1"
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                        Email <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="Please enter a valid email address."
+                        className="mt-1"
+                      />
+                    </div>
+
+                    {/* Job ID and Title Combined */}
+                    <div>
+                      <Label htmlFor="jobInfo" className="text-sm font-medium text-gray-700">
+                        Job ID : Title
+                      </Label>
+                      <Input
+                        id="jobInfo"
+                        type="text"
+                        value={`${formData.jobId} - ${formData.jobTitle}`}
+                        readOnly
+                        className="mt-1 bg-gray-50"
+                      />
+                    </div>
+
+                    {/* Work Eligibility */}
+                    <div className="flex items-start space-x-3">
+                      <Checkbox
+                        id="workEligibility"
+                        checked={formData.workEligibility}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, workEligibility: checked as boolean }))}
+                        required
+                      />
+                      <Label htmlFor="workEligibility" className="text-sm text-gray-700 leading-5">
+                        I have documents that establish my identity and eligibility to work in the United States. <span className="text-red-500">*</span>
+                      </Label>
+                    </div>
+
+                    {/* English Proficiency */}
+                    <div className="flex items-start space-x-3">
+                      <Checkbox
+                        id="englishProficiency"
+                        checked={formData.englishProficiency}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, englishProficiency: checked as boolean }))}
+                        required
+                      />
+                      <Label htmlFor="englishProficiency" className="text-sm text-gray-700 leading-5">
+                        I can conduct business in written and spoken English. <span className="text-red-500">*</span>
+                      </Label>
+                    </div>
+
+                    {/* SMS Consent */}
+                    <div className="flex items-start space-x-3">
+                      <Checkbox
+                        id="smsConsent"
+                        checked={formData.smsConsent}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, smsConsent: checked as boolean }))}
+                        required
+                      />
+                      <Label htmlFor="smsConsent" className="text-sm text-gray-700 leading-5">
+                        By checking this box, I consent to receive automated SMS text messages from Home Instead at the number provided, including job opportunities and employment-related messages. Message frequency may vary. Message & data rates may apply. Reply STOP to opt out. For assistance, text "HELP." For more details, including our SMS terms, see our Privacy Policy. <span className="text-red-500">*</span>
+                      </Label>
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="pt-4">
+                      {/* Desktop Back Button */}
+                      <div className="hidden md:flex gap-4 mb-4">
+                        <Button 
+                          type="button"
+                          variant="outline"
+                          onClick={() => setShowApplicationForm(false)}
+                          className="px-8 py-3 rounded-lg font-semibold"
+                        >
+                          Back to Details
+                        </Button>
+                      </div>
+                      
+                      <Button 
+                        type="submit"
+                        className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold w-full"
+                      >
+                        Submit Application
+                      </Button>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="max-w-4xl mx-auto">
             {/* Job Listings */}
-            <div className="lg:col-span-3">
-              <div className="space-y-6">
-                {mockJobs.map((job) => (
-                  <Card key={job.id} className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-border bg-card">
-                    <CardContent className="p-8">
-                      <div className="flex items-start space-x-6">
-                        <div className="flex-shrink-0">
-                          <div className="relative">
-                            <div className="w-16 h-16 rounded-2xl overflow-hidden ring-4 ring-accent/30 group-hover:ring-accent/50 transition-all duration-300">
-                              <Image
-                                src={job.familyImage}
-                                alt="Family"
-                                width={64}
-                                height={64}
-                                className="object-cover w-full h-full"
-                              />
-                            </div>
-                            {job.isUrgent && (
-                              <div className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full font-semibold animate-pulse">
-                                URGENT
-                              </div>
-                            )}
+            <div className="space-y-4">
+              {mockJobs.map((job) => (
+                <Card key={job.id} className="border border-gray-200 hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
+                            <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                            </svg>
                           </div>
+                          <h3 className="text-xl font-semibold text-gray-900">{job.title}</h3>
                         </div>
                         
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <div className="flex items-center space-x-3 mb-3">
-                                <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                                  {job.title}
-                                </h3>
-                                <div className="flex items-center space-x-1">
-                                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                  <span className="text-sm font-medium text-muted-foreground">{job.rating}</span>
-                                </div>
-                              </div>
-                              
-                              <div className="flex items-center space-x-6 text-sm text-muted-foreground mb-4">
-                                <span className="flex items-center">
-                                  <MapPin className="w-4 h-4 mr-2 text-primary" />
-                                  {job.location}
-                                </span>
-                                <span className="flex items-center">
-                                  <Clock className="w-4 h-4 mr-2 text-primary" />
-                                  {job.type}
-                                </span>
-                                <span className="flex items-center">
-                                  <Calendar className="w-4 h-4 mr-2 text-primary" />
-                                  {job.postedDate}
-                                </span>
-                              </div>
-                              
-                              <p className="text-muted-foreground mb-4 leading-relaxed">{job.description}</p>
-                              
-                              <div className="flex items-center space-x-6 mb-4">
-                                <span className="text-2xl font-bold text-primary">{job.hourlyRate}/hr</span>
-                                <span className="text-muted-foreground text-sm bg-muted px-3 py-1 rounded-full">{job.schedule}</span>
-                              </div>
-                              
-                              <div className="flex flex-wrap gap-2 mb-6">
-                                {job.requirements.map((req, index) => (
-                                  <Badge key={index} variant="secondary" className="text-xs bg-accent/20 text-primary border-accent/30 hover:bg-accent/30 transition-colors">
-                                    {req}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                            
-                            <div className="flex flex-col items-end space-y-4">
-                              <Button 
-                                onClick={() => handleApplyClick(job)}
-                                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 group-hover:bg-primary/90"
-                              >
-                                Apply Now
-                                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                              </Button>
-                              <div className="flex space-x-2">
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm"
-                                  onClick={() => toggleFavorite(job.id)}
-                                  className={`hover:bg-destructive/10 transition-colors ${
-                                    favorites.includes(job.id) ? 'text-destructive' : 'text-muted-foreground'
-                                  }`}
-                                >
-                                  <Heart className={`w-4 h-4 ${favorites.includes(job.id) ? 'fill-current' : ''}`} />
-                                </Button>
-                                <Button variant="ghost" size="sm" className="hover:bg-accent/10 text-muted-foreground hover:text-primary transition-colors">
-                                  <Share2 className="w-4 h-4" />
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <p className="text-gray-600 mb-3">{job.location}</p>
+                        <p className="text-gray-700 text-sm leading-relaxed mb-4">{job.description}</p>
+                        <p className="text-sm text-gray-500">Posted {job.postedDate}</p>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              
-              {/* Enhanced Pagination */}
-              <div className="flex justify-center mt-12">
-                <div className="flex items-center space-x-2 bg-card rounded-2xl shadow-lg p-2">
-                  {[1, 2, 3, 4, 5].map((page) => (
-                    <Button
-                      key={page}
-                      variant={page === 1 ? "default" : "ghost"}
-                      size="sm"
-                      className={`rounded-xl transition-all duration-200 ${
-                        page === 1 
-                          ? "bg-primary text-primary-foreground shadow-lg" 
-                          : "hover:bg-accent"
-                      }`}
-                    >
-                      {page}
-                    </Button>
-                  ))}
-                  <span className="px-3 text-muted-foreground">...</span>
-                  <Button variant="ghost" size="sm" className="rounded-xl hover:bg-accent">
-                    15
-                  </Button>
-                </div>
-              </div>
-            </div>
-            
-            {/* Enhanced Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="space-y-6">
-                {/* How it works */}
-                <Card className="border-border shadow-xl bg-card">
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-6 text-foreground">How it works</h3>
-                    <div className="space-y-6">
-                      <div className="flex items-center space-x-4 group">
-                        <div className="w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold shadow-lg group-hover:scale-110 transition-transform">
-                          1
-                        </div>
-                        <div>
-                          <span className="text-sm font-semibold text-foreground">Apply to jobs</span>
-                          <p className="text-xs text-muted-foreground mt-1">Browse and apply to positions that match your skills</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4 group">
-                        <div className="w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold shadow-lg group-hover:scale-110 transition-transform">
-                          2
-                        </div>
-                        <div>
-                          <span className="text-sm font-semibold text-foreground">Interview with families</span>
-                          <p className="text-xs text-muted-foreground mt-1">Connect directly with families to discuss needs</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4 group">
-                        <div className="w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold shadow-lg group-hover:scale-110 transition-transform">
-                          3
-                        </div>
-                        <div>
-                          <span className="text-sm font-semibold text-foreground">Get hired and start working</span>
-                          <p className="text-xs text-muted-foreground mt-1">Begin your rewarding caregiving journey</p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                {/* When do you want a job */}
-                <Card className="bg-accent/10 border-border shadow-xl">
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-6 text-foreground">When do you want a job?</h3>
-                    <div className="space-y-3">
-                      {["Right now", "In 1-3 months", "In 3-6 months"].map((option, index) => (
+                      
+                      <div className="flex flex-col gap-2 ml-6">
                         <Button 
-                          key={index}
-                          variant="outline" 
-                          className="w-full justify-start h-12 rounded-xl border-border hover:border-primary hover:bg-accent/20 transition-all duration-200 group"
+                          onClick={() => handleDetailsClick(job)}
+                          variant="outline"
+                          className="border-green-600 text-green-600 hover:bg-green-50 px-6 py-2 rounded-full font-medium"
                         >
-                          <div className="w-3 h-3 bg-primary rounded-full mr-3 group-hover:scale-125 transition-transform"></div>
-                          {option}
+                          Details
                         </Button>
-                      ))}
+                        <Button 
+                          onClick={() => handleApplyClick(job)}
+                          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-medium"
+                        >
+                          Apply
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
-                
-                {/* Enhanced FAQs */}
-                <Card className="border-border shadow-xl bg-card">
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-6 text-foreground">FAQs for finding caregiver jobs</h3>
-                    <div className="space-y-4">
-                      <details className="group">
-                        <summary className="cursor-pointer text-sm font-semibold hover:text-primary transition-colors flex items-center justify-between">
-                          How many caregiver jobs are there?
-                          <div className="w-5 h-5 bg-muted rounded-full flex items-center justify-center group-open:rotate-180 transition-transform">
-                            <ArrowRight className="w-3 h-3" />
-                          </div>
-                        </summary>
-                        <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
-                          There are thousands of caregiver jobs available across Pennsylvania, with new opportunities posted daily.
-                        </p>
-                      </details>
-                      <details className="group">
-                        <summary className="cursor-pointer text-sm font-semibold hover:text-primary transition-colors flex items-center justify-between">
-                          What qualifications do I need?
-                          <div className="w-5 h-5 bg-muted rounded-full flex items-center justify-center group-open:rotate-180 transition-transform">
-                            <ArrowRight className="w-3 h-3" />
-                          </div>
-                        </summary>
-                        <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
-                          Requirements vary by position, but most families look for reliability, compassion, and relevant experience.
-                        </p>
-                      </details>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Job Application Modal */}
-      {selectedJob && (
-        <JobApplicationModal
-          isOpen={isApplicationModalOpen}
-          onClose={handleCloseModal}
-          job={selectedJob}
-          jobType="senior-care"
-        />
-      )}
+
     </div>
   )
 } 
