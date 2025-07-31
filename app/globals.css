@@ -29,8 +29,8 @@
     padding: 0;
   }
 
-  /* Mobile-specific optimizations */
-  @media (max-width: 768px) {
+  /* Mobile-specific optimizations - only target mobile devices */
+  @media (max-width: 768px) and (hover: none) and (pointer: coarse) {
     /* Prevent iOS zoom on input focus */
     input, select, textarea {
       font-size: 16px !important;
@@ -49,7 +49,7 @@
     }
     
     /* Fix modal positioning on mobile */
-    .modal-content {
+    [data-modal-mobile] {
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
@@ -62,10 +62,10 @@
       border-radius: 0 !important;
     }
     
-    /* Optimize animations for mobile */
-    * {
-      animation-duration: 0.1s !important;
-      transition-duration: 0.1s !important;
+    /* Optimize form animations for mobile only */
+    [data-mobile-form] * {
+      animation-duration: 0.15s !important;
+      transition-duration: 0.15s !important;
     }
     
     /* Improve button touch targets */
@@ -74,23 +74,16 @@
       min-width: 44px;
     }
     
-    /* Prevent text selection on touch */
-    .touch-action-manipulation {
+    /* Prevent text selection on touch for interactive elements */
+    button, [role="button"], .touch-action-manipulation {
       touch-action: manipulation;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
     }
-    
-    /* Hardware acceleration for smooth animations */
-    .will-change-transform {
-      will-change: transform;
-      transform: translateZ(0);
-      backface-visibility: hidden;
-    }
   }
 
-  /* Hardware acceleration for all animated elements */
+  /* Hardware acceleration for animated elements */
   [data-framer-motion] {
     will-change: transform;
     transform: translateZ(0);

@@ -346,12 +346,16 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
   return (
     <MotionConfig reducedMotion="user">
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto modal-content">
+        <DialogContent 
+          className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto"
+          data-modal-mobile
+        >
           <DialogTitle className="sr-only">
             Get Started - Find Care or Jobs
           </DialogTitle>
           <motion.div 
             className="w-full min-h-full"
+            data-mobile-form
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
