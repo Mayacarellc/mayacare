@@ -17,3 +17,20 @@ export function useIsMobile() {
 
   return !!isMobile
 }
+
+// Mobile-optimized animation configurations
+export function useMobileAnimationConfig() {
+  const isMobile = useIsMobile()
+  
+  return React.useMemo(() => ({
+    // Reduced duration for mobile
+    duration: isMobile ? 0.1 : 0.15,
+    ease: "easeOut",
+    // Disable complex transforms on mobile
+    variants: {
+      enter: { opacity: 0 },
+      center: { opacity: 1 },
+      exit: { opacity: 0 }
+    }
+  }), [isMobile])
+}

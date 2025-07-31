@@ -120,41 +120,31 @@ export function SpecialNeedsCareForm({ onClose, inModal = false, onBack }: Speci
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">Who needs care?</h1>
         
         <div className="max-w-md mx-auto space-y-4">
-          <motion.button
+          <button
             onClick={() => {
               setFormData({ ...formData, whoNeedsCare: "parent_loved_one" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15, delay: 0.05 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
             </div>
             <span className="text-base font-medium text-gray-800">A parent or loved one</span>
-          </motion.button>
+          </button>
 
-          <motion.button
+          <button
             onClick={() => {
               setFormData({ ...formData, whoNeedsCare: "me" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15, delay: 0.1 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <User className="w-5 h-5 text-deepgreen" />
             </div>
             <span className="text-base font-medium text-gray-800">Me</span>
-          </motion.button>
+          </button>
         </div>
       </div>
     </div>
@@ -188,7 +178,7 @@ export function SpecialNeedsCareForm({ onClose, inModal = false, onBack }: Speci
             const isSelected = formData.specialNeedsTypes.includes(support.id)
             
             return (
-              <motion.button
+              <button
                 key={support.id}
                 onClick={() => {
                   const updated = isSelected
@@ -196,16 +186,11 @@ export function SpecialNeedsCareForm({ onClose, inModal = false, onBack }: Speci
                     : [...formData.specialNeedsTypes, support.id]
                   setFormData({ ...formData, specialNeedsTypes: updated })
                 }}
-                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-all duration-150 hover:shadow-lg border-2 ${
+                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-colors duration-150 hover:shadow-lg border-2 ${
                   isSelected 
                     ? "bg-deepgreen/10 border-deepgreen text-deepgreen" 
                     : "bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-deepgreen"
                 }`}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
@@ -216,7 +201,7 @@ export function SpecialNeedsCareForm({ onClose, inModal = false, onBack }: Speci
                 <div className={`w-5 h-5 border-2 border-deepgreen rounded-full flex items-center justify-center ${isSelected ? "bg-deepgreen" : ""}`}>
                   {isSelected && <CheckCircle className="w-4 h-4 text-white" />}
                 </div>
-              </motion.button>
+              </button>
             )
           })}
         </div>

@@ -87,19 +87,17 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
     }
   }
 
+  // Simplified variants for better mobile performance
   const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? "100%" : "-100%",
+    enter: {
       opacity: 0,
-    }),
+    },
     center: {
-      x: 0,
       opacity: 1,
     },
-    exit: (direction: number) => ({
-      x: direction < 0 ? "100%" : "-100%",
+    exit: {
       opacity: 0,
-    }),
+    },
   }
 
   // Step 1: Who needs care?
@@ -124,41 +122,31 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">Who needs care?</h1>
         
         <div className="max-w-md mx-auto space-y-4">
-          <motion.button
+          <button
             onClick={() => {
               setFormData({ ...formData, whoNeedsCare: "parent_loved_one" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15, delay: 0.05 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
             </div>
             <span className="text-base font-medium text-gray-800">A parent or loved one</span>
-          </motion.button>
+          </button>
 
-          <motion.button
+          <button
             onClick={() => {
               setFormData({ ...formData, whoNeedsCare: "me" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15, delay: 0.1 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <User className="w-5 h-5 text-deepgreen" />
             </div>
             <span className="text-base font-medium text-gray-800">Me</span>
-          </motion.button>
+          </button>
         </div>
       </div>
     </div>
@@ -192,7 +180,7 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
             const isSelected = formData.assistanceTypes.includes(assistance.id)
             
             return (
-              <motion.button
+              <button
                 key={assistance.id}
                 onClick={() => {
                   const updated = isSelected
@@ -200,16 +188,11 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
                     : [...formData.assistanceTypes, assistance.id]
                   setFormData({ ...formData, assistanceTypes: updated })
                 }}
-                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-all duration-150 hover:shadow-lg border-2 ${
+                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-colors duration-150 hover:shadow-lg border-2 ${
                   isSelected 
                     ? "bg-deepgreen/10 border-deepgreen text-deepgreen" 
                     : "bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-deepgreen"
                 }`}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
@@ -220,7 +203,7 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
                 <div className={`w-5 h-5 border-2 border-deepgreen rounded-full flex items-center justify-center ${isSelected ? "bg-deepgreen" : ""}`}>
                   {isSelected && <CheckCircle className="w-4 h-4 text-white" />}
                 </div>
-              </motion.button>
+              </button>
             )
           })}
         </div>
@@ -378,12 +361,13 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
       <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={currentStep}
-            initial={{ opacity: 0, x: direction * 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction * -50 }}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
             transition={{
-              duration: 0.3,
-              ease: "easeInOut"
+              duration: 0.15,
+              ease: "easeOut"
             }}
           >
             {currentStep === 1 && WhoNeedsCareStep}

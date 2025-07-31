@@ -105,18 +105,16 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     ],
   }
 
+  // Simplified variants for better mobile performance
   const variants = {
     enter: {
       opacity: 0,
-      scale: 0.95,
     },
     center: {
       opacity: 1,
-      scale: 1,
     },
     exit: {
       opacity: 0,
-      scale: 0.95,
     },
   }
 
@@ -129,45 +127,30 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
       </div>
 
       <div className="text-center space-y-8">
-        <motion.h1 
-          className="text-2xl md:text-3xl font-semibold text-gray-800"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-        >
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
           What are you looking for?
-        </motion.h1>
+        </h1>
         
         <div className="max-w-md mx-auto space-y-4">
-          <motion.button
+          <button
             onClick={() => handleInitialChoice("jobs")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15, delay: 0.05 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-deepgreen" />
             </div>
             <span className="text-base font-medium text-gray-800">A job</span>
-          </motion.button>
+          </button>
 
-          <motion.button
+          <button
             onClick={() => handleInitialChoice("care")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15, delay: 0.1 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
             </div>
             <span className="text-base font-medium text-gray-800">Care for an adult</span>
-          </motion.button>
+          </button>
         </div>
       </div>
     </div>
@@ -363,8 +346,8 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               animate="center"
               exit="exit"
               transition={{
-                duration: 0.2,
-                ease: "easeInOut",
+                duration: 0.15,
+                ease: "easeOut",
               }}
             >
               {getCurrentStep()}
