@@ -108,7 +108,7 @@ export function CareFinderFlow({ onClose }: CareFinderFlowProps) {
 
   const variants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? "100%" : "-100%",
+      x: direction > 0 ? "30%" : "-30%",
       opacity: 0,
     }),
     center: {
@@ -116,7 +116,7 @@ export function CareFinderFlow({ onClose }: CareFinderFlowProps) {
       opacity: 1,
     },
     exit: (direction: number) => ({
-      x: direction < 0 ? "100%" : "-100%",
+      x: direction < 0 ? "30%" : "-30%",
       opacity: 0,
     }),
   }
@@ -130,7 +130,10 @@ export function CareFinderFlow({ onClose }: CareFinderFlowProps) {
       initial="enter"
       animate="center"
       exit="exit"
-      transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+      transition={{ 
+        x: { type: "spring", stiffness: 400, damping: 35 }, 
+        opacity: { duration: 0.1 } 
+      }}
       className="space-y-8"
     >
       <div className="text-center space-y-4">
@@ -174,7 +177,10 @@ export function CareFinderFlow({ onClose }: CareFinderFlowProps) {
       initial="enter"
       animate="center"
       exit="exit"
-      transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+      transition={{ 
+        x: { type: "spring", stiffness: 400, damping: 35 }, 
+        opacity: { duration: 0.1 } 
+      }}
       className="space-y-8"
     >
       <div className="text-center space-y-4">
@@ -229,7 +235,10 @@ export function CareFinderFlow({ onClose }: CareFinderFlowProps) {
         initial="enter"
         animate="center"
         exit="exit"
-        transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+        transition={{ 
+          x: { type: "spring", stiffness: 400, damping: 35 }, 
+          opacity: { duration: 0.1 } 
+        }}
         className="text-center space-y-8"
       >
         <div className="space-y-4">
