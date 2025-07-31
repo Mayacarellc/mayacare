@@ -36,52 +36,36 @@
       font-size: 16px !important;
     }
     
-    /* Aggressive animation optimization for mobile browsers */
-    * {
-      animation-duration: 0.01s !important;
-      transition-duration: 0.01s !important;
+    /* Smooth scrolling for mobile */
+    html {
+      -webkit-overflow-scrolling: touch;
     }
     
-    /* Force hardware acceleration on mobile */
-    * {
+    /* Optimize only specific heavy animations */
+    [data-modal-mobile] {
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      will-change: transform;
-    }
-    
-    /* Disable problematic animations */
-    [data-framer-motion] {
-      animation: none !important;
-      transition: none !important;
     }
   }
 
   /* Fallback for all small screens */
   @media (max-width: 768px) {
-    /* Only prevent iOS zoom on form inputs */
-    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
-      font-size: 16px !important;
-    }
-    
-    /* Optimize modal animations */
-    [data-modal-mobile] [data-mobile-form] {
-      animation-duration: 0.01s !important;
-      transition-duration: 0.01s !important;
-    }
-    
-    [data-modal-mobile] [data-mobile-form] * {
-      animation-duration: 0.01s !important;
-      transition-duration: 0.01s !important;
+    /* Smooth modal transitions */
+    [data-modal-mobile] {
+      transition: opacity 0.2s ease-in-out;
     }
   }
 
-  /* Hardware acceleration only for framer motion elements */
-  [data-framer-motion] {
+  /* Selective hardware acceleration for complex animations */
+  [data-framer-motion][data-animate="true"] {
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+  
+  /* Remove will-change after animation completes to free up resources */
+  [data-framer-motion]:not([data-animate="true"]) {
+    will-change: auto;
   }
 
   :root {

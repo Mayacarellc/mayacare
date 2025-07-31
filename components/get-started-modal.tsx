@@ -127,8 +127,8 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
      window.innerWidth <= 768)
 
   const animationConfig = {
-    duration: isMobile ? 0.01 : 0.15,
-    ease: "linear" as const
+    duration: isMobile ? 0.15 : 0.25,
+    ease: "easeOut" as const
   }
 
   // Initial Step - What are you looking for?
