@@ -141,32 +141,32 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         <div className="max-w-md mx-auto space-y-4">
           <motion.button
             onClick={() => handleInitialChoice("jobs")}
-            className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15, delay: 0.05 }}
           >
-            <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-lime" />
+            <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+              <Briefcase className="w-5 h-5 text-deepgreen" />
             </div>
-            <span className="text-lg font-medium">A job</span>
+            <span className="text-base font-medium text-gray-800">A job</span>
           </motion.button>
 
           <motion.button
             onClick={() => handleInitialChoice("care")}
-            className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15, delay: 0.1 }}
           >
-            <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-              <Heart className="w-6 h-6 text-lime" />
+            <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+              <Heart className="w-5 h-5 text-deepgreen" />
             </div>
-            <span className="text-lg font-medium">Care for an adult</span>
+            <span className="text-base font-medium text-gray-800">Care for an adult</span>
           </motion.button>
         </div>
       </div>
@@ -187,19 +187,24 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What type of job are you looking for?</h1>
         
         <div className="max-w-md mx-auto space-y-4">
-          {jobCategories.map((category) => {
+          {jobCategories.map((category, index) => {
             const Icon = category.icon
             return (
-              <motion.div key={category.id}>
-                                 <Button
-                   asChild
-                   className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-75 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90 h-auto"
-                 >
+              <motion.div 
+                key={category.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
+              >
+                <Button
+                  asChild
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
+                >
                   <Link href={category.href} onClick={handleClose}>
-                    <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-lime" />
+                    <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                      <Icon className="w-5 h-5 text-deepgreen" />
                     </div>
-                    <span className="text-lg font-medium">{category.title}</span>
+                    <span className="text-base font-medium text-gray-800">{category.title}</span>
                   </Link>
                 </Button>
               </motion.div>
@@ -224,20 +229,23 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What type of care are you looking for?</h1>
         
         <div className="max-w-md mx-auto space-y-4">
-          {careCategories.map((category) => {
+          {careCategories.map((category, index) => {
             const Icon = category.icon
             return (
               <motion.button
                 key={category.id}
                 onClick={() => handleCategoryChoice(category.id)}
-                className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-75 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90"
+                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
-                <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-lime" />
+                <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                  <Icon className="w-5 h-5 text-deepgreen" />
                 </div>
-                <span className="text-lg font-medium">{category.title}</span>
+                <span className="text-base font-medium text-gray-800">{category.title}</span>
               </motion.button>
             )
           })}
@@ -269,12 +277,17 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
           
           <div className="max-w-md mx-auto space-y-4">
             {categoryServices.map((service, index) => (
-              <motion.div key={index}>
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
+              >
                 <Button
                   onClick={() => handleServiceChoice(service)}
-                  className="w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-75 hover:shadow-lg bg-deepgreen text-white hover:bg-deepgreen/90 h-auto"
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
                 >
-                  <span className="text-lg font-medium">{service.title}</span>
+                  <span className="text-base font-medium text-gray-800">{service.title}</span>
                 </Button>
               </motion.div>
             ))}

@@ -16,6 +16,7 @@ import {
   CheckCircle, Star, FileText, MessageCircle, Calendar, Home,
   CreditCard, UserCheck, Stethoscope, HelpCircle
 } from "lucide-react"
+import { FamilyCaregiverModal } from "@/components/family-caregiver-modal"
 
 const FamilyCaregiverForm = () => {
   const [formData, setFormData] = useState({
@@ -145,6 +146,7 @@ const FamilyCaregiverForm = () => {
 
 export default function FamilyCaregiversPage() {
   const [showForm, setShowForm] = useState(false)
+  const [showEligibilityModal, setShowEligibilityModal] = useState(false)
 
   const benefits = [
     {
@@ -265,7 +267,7 @@ export default function FamilyCaregiversPage() {
                 <Button 
                   size="lg" 
                     className="py-6 px-12 text-lg bg-primary hover:bg-primary/90 rounded-full" 
-                  onClick={() => setShowForm(true)}
+                  onClick={() => setShowEligibilityModal(true)}
                 >
                     Check Your Eligibility
                 </Button>
@@ -572,6 +574,12 @@ export default function FamilyCaregiversPage() {
           </section>
         </motion.div>
       )}
+      
+      {/* Family Caregiver Eligibility Modal */}
+      <FamilyCaregiverModal 
+        isOpen={showEligibilityModal} 
+        onClose={() => setShowEligibilityModal(false)} 
+      />
     </div>
   )
 } 

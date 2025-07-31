@@ -125,18 +125,17 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
               setFormData({ ...formData, whoNeedsCare: "parent_loved_one" })
               handleNext()
             }}
-            className={`w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-200 hover:shadow-lg ${
-              formData.whoNeedsCare === "parent_loved_one" 
-                ? "bg-deepgreen text-white" 
-                : "bg-deepgreen text-white hover:bg-deepgreen/90"
-            }`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.15, delay: 0.05 }}
           >
-            <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-              <Heart className="w-6 h-6 text-lime" />
+            <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+              <Heart className="w-5 h-5 text-deepgreen" />
             </div>
-            <span className="text-lg font-medium">A parent or loved one</span>
+            <span className="text-base font-medium text-gray-800">A parent or loved one</span>
           </motion.button>
 
           <motion.button
@@ -144,18 +143,17 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
               setFormData({ ...formData, whoNeedsCare: "me" })
               handleNext()
             }}
-            className={`w-full p-6 rounded-full text-left flex items-center space-x-4 transition-all duration-200 hover:shadow-lg ${
-              formData.whoNeedsCare === "me" 
-                ? "bg-deepgreen text-white" 
-                : "bg-deepgreen text-white hover:bg-deepgreen/90"
-            }`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.15, delay: 0.1 }}
           >
-            <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-              <User className="w-6 h-6 text-lime" />
+            <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+              <User className="w-5 h-5 text-deepgreen" />
             </div>
-            <span className="text-lg font-medium">Me</span>
+            <span className="text-base font-medium text-gray-800">Me</span>
           </motion.button>
         </div>
       </div>
@@ -179,13 +177,13 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
       <div className="text-center space-y-8">
         <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What kinds of companionship are needed?</h1>
         
-        <div className="max-w-md mx-auto space-y-4">
+        <div className="max-w-md mx-auto space-y-3">
           {[
             { id: "meaningful_companionship", label: "Meaningful companionship", icon: HeartHandshake },
             { id: "errands_outings", label: "Errands & outings", icon: Car },
             { id: "light_household", label: "Light household tasks", icon: Sparkles },
             { id: "other", label: "Other", icon: MoreHorizontal },
-          ].map((companionship) => {
+          ].map((companionship, index) => {
             const Icon = companionship.icon
             const isSelected = formData.companionshipTypes.includes(companionship.id)
             
@@ -198,22 +196,25 @@ export function CompanionCareForm({ onClose, inModal = false, onBack }: Companio
                     : [...formData.companionshipTypes, companionship.id]
                   setFormData({ ...formData, companionshipTypes: updated })
                 }}
-                className={`w-full p-6 rounded-full text-left flex items-center justify-between transition-all duration-200 hover:shadow-lg ${
+                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-all duration-150 hover:shadow-lg border-2 ${
                   isSelected 
-                    ? "bg-deepgreen text-white" 
-                    : "bg-deepgreen text-white hover:bg-deepgreen/90"
+                    ? "bg-deepgreen/10 border-deepgreen text-deepgreen" 
+                    : "bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-deepgreen"
                 }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-                    <Icon className="w-6 h-6 text-lime" />
+                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-deepgreen" />
                   </div>
-                  <span className="text-lg font-medium">{companionship.label}</span>
+                  <span className="text-base font-medium text-gray-800">{companionship.label}</span>
                 </div>
-                <div className={`w-6 h-6 border-2 border-white rounded ${isSelected ? "bg-white" : ""}`}>
-                  {isSelected && <CheckCircle className="w-6 h-6 text-deepgreen" />}
+                <div className={`w-5 h-5 border-2 border-deepgreen rounded-full flex items-center justify-center ${isSelected ? "bg-deepgreen" : ""}`}>
+                  {isSelected && <CheckCircle className="w-4 h-4 text-white" />}
                 </div>
               </motion.button>
             )

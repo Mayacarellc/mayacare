@@ -47,18 +47,6 @@ const findCareData = {
   },
 }
 
-const findJobsData = {
-  col1: [
-    { title: "Senior Care Jobs", href: "/jobs/senior-care" },
-  ],
-  col2: [
-    { title: "Adult Care Jobs", href: "/jobs/adult-care" },
-  ],
-  col3: [
-    { title: "Pet Care Jobs", href: "/jobs/pet-care" },
-  ],
-}
-
 const resourcesData = [
   { title: "About us", href: "/about-us" },
   { title: "Articles and guides", href: "#" },
@@ -83,7 +71,7 @@ export function HeaderClient() {
             Currently serving Pennsylvania residents only
           </div>
         )}
-      <div className="container mx-auto flex items-center justify-between px-4" style={{ height: '4rem', minHeight: '4rem', maxHeight: '4rem' }}>
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-8" style={{ height: '4rem', minHeight: '4rem', maxHeight: '4rem' }}>
         <Link href="/" className="flex items-center" style={{ marginRight: '2rem' }}>
           <Image 
             src="/logo.png" 
@@ -97,10 +85,10 @@ export function HeaderClient() {
         
         {/* Desktop Navigation - Hidden on mobile */}
         {!isAdminPage && (
-          <NavigationMenu className="hidden md:flex relative">
-            <NavigationMenuList>
+          <NavigationMenu className="hidden lg:flex relative">
+            <NavigationMenuList className="flex items-center space-x-2">
               <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-base font-medium">Find care</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-sm font-medium">Find care</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="grid grid-cols-[160px_1fr] w-[600px] p-4">
                     <div className="flex flex-col space-y-1 pr-4 border-r">
@@ -128,100 +116,139 @@ export function HeaderClient() {
                                 key={index}
                                 className={cn(
                                   "font-bold text-sm text-muted-foreground mt-2 first:mt-0",
-                                  item.colSpan === 2 && "col-span-2",
+                                  item.colSpan && "col-span-2"
                                 )}
                               >
                                 {item.title}
                               </h3>
                             ) : (
-                              <NavigationMenuLink asChild key={index}>
+                              <NavigationMenuLink key={index} asChild>
                                 <Link
-                                  href={item.href || "#"}
-                                  className={cn(
-                                    "text-sm hover:text-primary",
-                                    item.isHighlighted && "font-semibold text-primary bg-primary/10 px-2 py-1 rounded",
-                                  )}
+                                  href={item.href}
+                                  className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm"
                                 >
                                   {item.title}
                                 </Link>
                               </NavigationMenuLink>
-                            ),
+                            )
                           )}
                       </div>
                       <div className="flex flex-col space-y-2">
                         {(findCareData.links[activeCareCategory as keyof typeof findCareData.links] || [])
-                          .filter((_: any, i: number) => i % 2 !== 0)
+                          .filter((_: any, i: number) => i % 2 === 1)
                           .map((item: any, index: number) =>
                             item.isHeader ? (
                               <h3
                                 key={index}
                                 className={cn(
                                   "font-bold text-sm text-muted-foreground mt-2 first:mt-0",
-                                  item.colSpan === 2 && "col-span-2",
+                                  item.colSpan && "col-span-2"
                                 )}
                               >
                                 {item.title}
                               </h3>
                             ) : (
-                              <NavigationMenuLink asChild key={index}>
-                                <Link href={item.href} className="text-sm hover:text-primary">
+                              <NavigationMenuLink key={index} asChild>
+                                <Link
+                                  href={item.href}
+                                  className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm"
+                                >
                                   {item.title}
                                 </Link>
                               </NavigationMenuLink>
-                            ),
+                            )
                           )}
                       </div>
                     </div>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
+
               <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-base font-medium">Find jobs</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-sm font-medium">Find jobs</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[280px] p-4">
-                    <div className="flex flex-col space-y-3">
-                      {findJobsData.col1.map((item, index) => (
-                        <NavigationMenuLink asChild key={index}>
-                          <Link href={item.href || "#"} className="text-sm hover:text-primary block py-2">
-                            {item.title}
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
-                      {findJobsData.col2.map((item, index) => (
-                        <NavigationMenuLink asChild key={`col2-${index}`}>
-                          <Link href={item.href || "#"} className="text-sm hover:text-primary block py-2">
-                            {item.title}
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
-                      {findJobsData.col3.map((item, index) => (
-                        <NavigationMenuLink asChild key={`col3-${index}`}>
-                          <Link href={item.href || "#"} className="text-sm hover:text-primary block py-2">
-                            {item.title}
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
+                  <div className="w-[200px] p-4">
+                    <div className="flex flex-col space-y-2">
+                      <NavigationMenuLink asChild>
+                        <Link
+                          href="/jobs/senior-care"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
+                        >
+                          Senior care
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          href="/jobs/adult-care"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
+                        >
+                          Adult care
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          href="/jobs/pet-care"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
+                        >
+                          Pet care
+                        </Link>
+                      </NavigationMenuLink>
                     </div>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
+
               <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link 
-                    href="/family-caregivers"
-                    className="text-base font-medium inline-flex h-12 w-max items-center justify-center rounded-md bg-background px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
-                  >
+                <Link href="/family-caregivers" legacyBehavior passHref>
+                  <NavigationMenuLink className="text-sm font-medium inline-flex h-12 w-max items-center justify-center rounded-md bg-background px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
                     Family Caregivers
-                  </Link>
-                </NavigationMenuLink>
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
+
               <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-base font-medium">Resources</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-sm font-medium">Resources</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[280px] gap-3 p-4">
-                    {resourcesData.map((item) => (
-                      <ListItem key={item.title} title={item.title} href={item.href} />
-                    ))}
+                  <ul className="grid gap-3 p-6 w-[500px] grid-cols-2">
+                    <li className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <Link
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                          href="/help-center"
+                        >
+                          <div className="mb-2 mt-4 text-lg font-medium">
+                            Help Center
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Find answers to common questions and get support.
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/safety-center" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                        <div className="text-sm font-medium leading-none">Safety Center</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          Learn about our safety measures and protocols.
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link href="/cost-of-care" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                        <div className="text-sm font-medium leading-none">Cost of Care</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          Understand pricing and payment options.
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link href="/about-us" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                        <div className="text-sm font-medium leading-none">About Us</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          Learn more about Maya Care and our mission.
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -229,10 +256,11 @@ export function HeaderClient() {
           </NavigationMenu>
         )}
         
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        {/* Header Buttons Container */}
+        <div className="flex items-center justify-end">
           {/* Header Buttons - Hidden on mobile, shown on desktop */}
           {!isAdminPage && (
-            <div className="hidden md:flex items-center" style={{ gap: '0.75rem' }}>
+            <div className="hidden lg:flex items-center" style={{ gap: '0.75rem' }}>
               {/* Phone Button */}
               <Button
                 variant="outline"
@@ -257,10 +285,8 @@ export function HeaderClient() {
             </div>
           )}
           
-
-          
           {/* Mobile Hamburger Menu - Hidden on desktop */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -329,7 +355,11 @@ export function HeaderClient() {
                         </Button>
                         {mobileSubmenu === "jobs" && (
                           <div className="pl-4 space-y-1">
-                            {[...findJobsData.col1, ...findJobsData.col2, ...findJobsData.col3]
+                            {[
+                              { title: "Senior Care Jobs", href: "/jobs/senior-care" },
+                              { title: "Adult Care Jobs", href: "/jobs/adult-care" },
+                              { title: "Pet Care Jobs", href: "/jobs/pet-care" },
+                            ]
                               .map((item: any, index: number) => (
                                 <Link
                                   key={index}
