@@ -29,62 +29,22 @@
     padding: 0;
   }
 
-  /* Mobile-specific optimizations - only for small screens */
+  /* Very targeted mobile optimizations - only for specific modal elements */
   @media (max-width: 768px) {
-    /* Prevent iOS zoom on input focus */
-    input, select, textarea {
+    /* Only prevent iOS zoom on form inputs */
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
       font-size: 16px !important;
     }
     
-    /* Improve touch scrolling on iOS */
-    body {
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: none;
-    }
-    
-    /* Prevent bounce scrolling */
-    html, body {
-      overflow-x: hidden;
-      position: relative;
-    }
-    
-    /* Fix modal positioning on mobile */
-    [data-modal-mobile] {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      transform: none !important;
-      max-width: none !important;
-      max-height: none !important;
-      margin: 0 !important;
-      border-radius: 0 !important;
-    }
-    
-    /* Optimize animations for mobile forms only */
-    [data-mobile-form] {
+    /* Only optimize animations within modals */
+    [data-modal-mobile] [data-mobile-form] {
       animation-duration: 0.1s !important;
       transition-duration: 0.1s !important;
     }
     
-    [data-mobile-form] * {
+    [data-modal-mobile] [data-mobile-form] * {
       animation-duration: 0.1s !important;
       transition-duration: 0.1s !important;
-    }
-    
-    /* Improve button touch targets */
-    button, [role="button"] {
-      min-height: 44px;
-      min-width: 44px;
-    }
-    
-    /* Prevent text selection on touch for interactive elements */
-    button, [role="button"], .touch-action-manipulation {
-      touch-action: manipulation !important;
-      -webkit-touch-callout: none !important;
-      -webkit-user-select: none !important;
-      user-select: none !important;
     }
   }
 
