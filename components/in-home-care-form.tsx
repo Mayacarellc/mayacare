@@ -89,7 +89,7 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
 
   const variants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? "30%" : "-30%",
+      x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
     }),
     center: {
@@ -97,7 +97,7 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
       opacity: 1,
     },
     exit: (direction: number) => ({
-      x: direction < 0 ? "30%" : "-30%",
+      x: direction < 0 ? "100%" : "-100%",
       opacity: 0,
     }),
   }
@@ -129,12 +129,12 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
               setFormData({ ...formData, whoNeedsCare: "parent_loved_one" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen active:scale-95"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
             whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.99 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1, delay: 0.02 }}
+            transition={{ duration: 0.15, delay: 0.05 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
@@ -147,12 +147,12 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
               setFormData({ ...formData, whoNeedsCare: "me" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen active:scale-95"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
             whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.99 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1, delay: 0.05 }}
+            transition={{ duration: 0.15, delay: 0.1 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <User className="w-5 h-5 text-deepgreen" />
@@ -200,16 +200,16 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
                     : [...formData.assistanceTypes, assistance.id]
                   setFormData({ ...formData, assistanceTypes: updated })
                 }}
-                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-colors duration-100 hover:shadow-lg border-2 ${
+                className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-all duration-150 hover:shadow-lg border-2 ${
                   isSelected 
                     ? "bg-deepgreen/10 border-deepgreen text-deepgreen" 
                     : "bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-deepgreen"
-                } active:scale-95`}
+                }`}
                 whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.99 }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1, delay: index * 0.02 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
@@ -382,7 +382,7 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: direction * -50 }}
             transition={{
-              duration: 0.2,
+              duration: 0.3,
               ease: "easeInOut"
             }}
           >

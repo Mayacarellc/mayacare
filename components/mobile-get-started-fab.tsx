@@ -11,8 +11,7 @@ export function MobileGetStartedFab() {
   const [lastScrollY, setLastScrollY] = useState(0)
   const pathname = usePathname()
   const isAdminPage = pathname.startsWith("/admin")
-
-
+  const isHomePage = pathname === "/"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,36 +34,22 @@ export function MobileGetStartedFab() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
-  // Don't show on admin pages
-  if (isAdminPage) return null
+  // Only show on homepage and not on admin pages
+  if (isAdminPage || !isHomePage) return null
 
   return (
     <>
       {/* Floating Get Started Button - Mobile Only */}
       <div 
-        className={`md:hidden fixed bottom-4 left-4 right-4 transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed bottom-4 left-4 right-4 z-50 transition-transform duration-300 ease-in-out ${
           isVisible ? 'translate-y-0' : 'translate-y-[150%]'
         }`}
-        style={{ 
-          zIndex: 9999,
-          position: 'fixed',
-          bottom: '16px',
-          left: '16px',
-          right: '16px'
-        }}
-        data-fab-mobile
       >
         <Button
           onClick={() => setGetStartedModalOpen(true)}
-          className="w-full rounded-full font-semibold py-6 text-xl shadow-2xl transition-all duration-200 hover:scale-105"
-          style={{
-            background: 'linear-gradient(45deg, #F2F6EB 0%, #CFFE3E 100%)',
-            color: '#365F00',
-            border: '2px solid #CFFE3E',
-            boxShadow: '0 8px 32px rgba(54, 95, 0, 0.3)'
-          }}
+          className="w-full rounded-full bg-gradient-to-r from-greentea to-lime text-deepgreen border-2 border-lime font-semibold py-6 text-xl hover:from-greentea/80 hover:to-lime/90 transition-colors shadow-lg"
         >
-          🚀 Get Started
+          Get Started
         </Button>
       </div>
 

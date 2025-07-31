@@ -17,30 +17,3 @@ export function useIsMobile() {
 
   return !!isMobile
 }
-
-export function useMobileOptimizations() {
-  const isMobile = useIsMobile()
-  
-  const mobileAnimationConfig = React.useMemo(() => ({
-    transition: {
-      duration: isMobile ? 0.15 : 0.3,
-      ease: "easeInOut"
-    },
-    spring: {
-      stiffness: isMobile ? 400 : 300,
-      damping: isMobile ? 35 : 30
-    }
-  }), [isMobile])
-
-  const mobileButtonProps = React.useMemo(() => ({
-    whileHover: isMobile ? {} : { scale: 1.01 },
-    whileTap: { scale: 0.98 },
-    transition: { duration: 0.1 }
-  }), [isMobile])
-
-  return {
-    isMobile,
-    animationConfig: mobileAnimationConfig,
-    buttonProps: mobileButtonProps
-  }
-}

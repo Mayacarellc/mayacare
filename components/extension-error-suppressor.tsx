@@ -4,77 +4,62 @@ import { useEffect } from "react"
 
 export function ExtensionErrorSuppressor() {
   useEffect(() => {
-    // Suppress extension-related console errors
+    // Suppress console errors from browser extensions
     const originalError = console.error
     console.error = (...args) => {
+      // Don't log extension-related errors
+      const message = args.join(" ")
       if (
-        args.some(arg => 
-          typeof arg === 'string' && (
-            arg.includes('Extension') ||
-            arg.includes('chrome-extension') ||
-            arg.includes('moz-extension') ||
-            arg.includes('safari-extension')
-          )
-        )
+        message.includes("message channel closed") ||
+        message.includes("Extension context invalidated") ||
+        message.includes("cz-shortcut-listen") ||
+        message.includes("listener indicated an asynchronous response") ||
+        message.includes("chrome-extension") ||
+        message.includes("moz-extension")
       ) {
-        return
+        return // Silently ignore extension errors
       }
-      originalError.apply(console, args)
+      originalError(...args)
     }
 
-    // Aggressive mobile optimization for actual mobile devices
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    const isTouchDevice = 'ontouchstart' in window
-    const isSmallScreen = window.innerWidth <= 768
-
-    if (isMobile && isTouchDevice && isSmallScreen) {
-      // Add mobile optimization class
-      document.body.classList.add('mobile-device', 'mobile-optimized')
-      
-      // Inject aggressive mobile optimizations
-      const style = document.createElement('style')
-      style.textContent = `
-        .mobile-optimized * {
-          animation-duration: 0.01s !important;
-          transition-duration: 0.01s !important;
-          -webkit-transform: translateZ(0) !important;
-          transform: translateZ(0) !important;
-          -webkit-backface-visibility: hidden !important;
-          backface-visibility: hidden !important;
-          will-change: transform !important;
-        }
-        
-        .mobile-optimized [data-framer-motion] {
-          animation: none !important;
-          transition: none !important;
-        }
-        
-        .mobile-optimized .motion-div {
-          animation: none !important;
-          transition: none !important;
-        }
-        
-        .mobile-optimized button {
-          transition: none !important;
-          animation: none !important;
-        }
-        
-        .mobile-optimized [class*="motion"] {
-          animation: none !important;
-          transition: none !important;
-        }
-      `
-      document.head.appendChild(style)
-      
-      // Force immediate style application
-      document.body.style.transform = 'translateZ(0)'
-      document.body.style.backfaceVisibility = 'hidden'
+    // Suppress unhandled promise rejections from extensions
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      const message = event.reason?.message || event.reason?.toString() || ""
+      if (
+        message.includes("message channel closed") ||
+        message.includes("Extension context invalidated") ||
+        message.includes("chrome-extension") ||
+        message.includes("moz-extension")
+      ) {
+        event.preventDefault()
+        return false
+      }
     }
 
+    // Suppress general errors from extensions
+    const handleError = (event: ErrorEvent) => {
+      const message = event.message || ""
+      if (
+        message.includes("message channel closed") ||
+        message.includes("Extension context invalidated") ||
+        message.includes("chrome-extension") ||
+        message.includes("moz-extension")
+      ) {
+        event.preventDefault()
+        return false
+      }
+    }
+
+    window.addEventListener("unhandledrejection", handleUnhandledRejection)
+    window.addEventListener("error", handleError)
+
+    // Cleanup
     return () => {
       console.error = originalError
+      window.removeEventListener("unhandledrejection", handleUnhandledRejection)
+      window.removeEventListener("error", handleError)
     }
   }, [])
 
-  return null
+  return null // This component renders nothing
 } 

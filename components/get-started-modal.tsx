@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion, AnimatePresence, MotionConfig } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { X, ArrowLeft, Briefcase, Heart, Users, User, PawPrint } from "lucide-react"
@@ -105,11 +105,10 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     ],
   }
 
-  // Ultra-fast variants for mobile - eliminate blinking
   const variants = {
     enter: {
       opacity: 0,
-      scale: 1,
+      scale: 0.95,
     },
     center: {
       opacity: 1,
@@ -117,18 +116,8 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     },
     exit: {
       opacity: 0,
-      scale: 1,
+      scale: 0.95,
     },
-  }
-
-  // Mobile-specific animation config
-  const isMobile = typeof window !== 'undefined' && 
-    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-     window.innerWidth <= 768)
-
-  const animationConfig = {
-    duration: isMobile ? 0.2 : 0.3,
-    ease: "easeInOut" as const
   }
 
   // Initial Step - What are you looking for?
@@ -144,7 +133,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
           className="text-2xl md:text-3xl font-semibold text-gray-800"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
         >
           What are you looking for?
         </motion.h1>
@@ -152,10 +141,10 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         <div className="max-w-md mx-auto space-y-4">
           <motion.button
             onClick={() => handleInitialChoice("jobs")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen active:scale-95"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
             whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 5 }}
+            whileTap={{ scale: 0.99 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15, delay: 0.05 }}
           >
@@ -167,10 +156,10 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
           <motion.button
             onClick={() => handleInitialChoice("care")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen active:scale-95"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
             whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 5 }}
+            whileTap={{ scale: 0.99 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15, delay: 0.1 }}
           >
@@ -188,7 +177,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
   const JobsStep = () => (
     <div className="p-6 space-y-8 min-h-screen md:min-h-[500px]">
       <div className="flex items-center justify-between">
-        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900 active:scale-95">
+        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
           <ArrowLeft className="w-6 h-6" />
         </button>
         <div />
@@ -205,11 +194,11 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 key={category.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1, delay: index * 0.02 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <Button
                   asChild
-                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto active:scale-95"
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
                 >
                   <Link href={category.href} onClick={handleClose}>
                     <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
@@ -230,7 +219,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
   const CareStep = () => (
     <div className="p-6 space-y-8 min-h-screen md:min-h-[500px]">
       <div className="flex items-center justify-between">
-        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900 active:scale-95">
+        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
           <ArrowLeft className="w-6 h-6" />
         </button>
         <div />
@@ -246,12 +235,12 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               <motion.button
                 key={category.id}
                 onClick={() => handleCategoryChoice(category.id)}
-                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen active:scale-95"
+                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
                 whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.99 }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1, delay: index * 0.02 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
                   <Icon className="w-5 h-5 text-deepgreen" />
@@ -275,7 +264,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     return (
       <div className="p-6 space-y-8 min-h-screen md:min-h-[500px]">
         <div className="flex items-center justify-between">
-          <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900 active:scale-95">
+          <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
             <ArrowLeft className="w-6 h-6" />
           </button>
           <div />
@@ -292,11 +281,11 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 key={index}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1, delay: index * 0.02 }}
+                transition={{ duration: 0.15, delay: index * 0.05 }}
               >
                 <Button
                   onClick={() => handleServiceChoice(service)}
-                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto active:scale-95"
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
                 >
                   <span className="text-base font-medium text-gray-800">{service.title}</span>
                 </Button>
@@ -354,38 +343,35 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
   }
 
   return (
-    <MotionConfig reducedMotion="user">
-      <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent 
-          className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto"
-          data-modal-mobile
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto">
+        <DialogTitle className="sr-only">
+          Get Started - Find Care or Jobs
+        </DialogTitle>
+        <motion.div 
+          className="w-full min-h-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
         >
-          <DialogTitle className="sr-only">
-            Get Started - Find Care or Jobs
-          </DialogTitle>
-          <motion.div 
-            className="w-full min-h-full"
-            data-mobile-form
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={animationConfig}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={currentStep}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={animationConfig}
-              >
-                {getCurrentStep()}
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
-        </DialogContent>
-      </Dialog>
-    </MotionConfig>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={currentStep}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                duration: 0.2,
+                ease: "easeInOut",
+              }}
+            >
+              {getCurrentStep()}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+      </DialogContent>
+    </Dialog>
   )
 } 
