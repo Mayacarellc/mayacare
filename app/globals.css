@@ -29,7 +29,7 @@
     padding: 0;
   }
 
-  /* Mobile-specific optimizations - multiple detection methods */
+  /* Mobile-specific optimizations - only for small screens */
   @media (max-width: 768px) {
     /* Prevent iOS zoom on input focus */
     input, select, textarea {
@@ -62,14 +62,13 @@
       border-radius: 0 !important;
     }
     
-    /* Aggressive mobile animation optimization */
-    * {
+    /* Optimize animations for mobile forms only */
+    [data-mobile-form] {
       animation-duration: 0.1s !important;
       transition-duration: 0.1s !important;
     }
     
-    /* Optimize framer motion animations */
-    [data-framer-motion], [data-mobile-form] {
+    [data-mobile-form] * {
       animation-duration: 0.1s !important;
       transition-duration: 0.1s !important;
     }
@@ -89,25 +88,7 @@
     }
   }
 
-  /* Additional mobile-only rules for touch devices */
-  @media (hover: none) and (pointer: coarse) {
-    /* Force hardware acceleration on mobile */
-    * {
-      -webkit-transform: translateZ(0) !important;
-      transform: translateZ(0) !important;
-      -webkit-backface-visibility: hidden !important;
-      backface-visibility: hidden !important;
-      will-change: transform !important;
-    }
-    
-    /* Reduce motion for better performance */
-    * {
-      animation-duration: 0.1s !important;
-      transition-duration: 0.1s !important;
-    }
-  }
-
-  /* Hardware acceleration for animated elements */
+  /* Hardware acceleration only for framer motion elements */
   [data-framer-motion] {
     will-change: transform;
     transform: translateZ(0);

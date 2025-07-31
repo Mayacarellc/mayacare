@@ -147,7 +147,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.05, delay: 0.01 }}
+            transition={{ duration: 0.1, delay: 0.02 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-deepgreen" />
@@ -162,7 +162,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.05, delay: 0.02 }}
+            transition={{ duration: 0.1, delay: 0.05 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
@@ -349,11 +349,6 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         <DialogContent 
           className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto"
           data-modal-mobile
-          style={{ 
-            transform: 'translateZ(0)',
-            backfaceVisibility: 'hidden',
-            willChange: 'transform'
-          }}
         >
           <DialogTitle className="sr-only">
             Get Started - Find Care or Jobs
@@ -364,12 +359,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.05, ease: "easeOut" }}
-            style={{ 
-              transform: 'translateZ(0)',
-              backfaceVisibility: 'hidden',
-              willChange: 'transform'
-            }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
@@ -379,13 +369,8 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 animate="center"
                 exit="exit"
                 transition={{
-                  duration: 0.05,
+                  duration: 0.15,
                   ease: "easeInOut",
-                }}
-                style={{ 
-                  transform: 'translateZ(0)',
-                  backfaceVisibility: 'hidden',
-                  willChange: 'transform'
                 }}
               >
                 {getCurrentStep()}

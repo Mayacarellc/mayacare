@@ -22,30 +22,33 @@ export function ExtensionErrorSuppressor() {
       originalError.apply(console, args)
     }
 
-    // Mobile-specific optimizations
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                    (window.innerWidth <= 768 && 'ontouchstart' in window)
+    // Mobile-specific optimizations - only for actual mobile devices
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+                    window.innerWidth <= 768 && 'ontouchstart' in window
 
     if (isMobile) {
       // Add mobile optimization class to body
       document.body.classList.add('mobile-optimized')
       
-      // Force hardware acceleration on mobile
+      // Target only form elements and modals for optimization
       const style = document.createElement('style')
       style.textContent = `
-        .mobile-optimized * {
-          -webkit-transform: translateZ(0) !important;
-          transform: translateZ(0) !important;
-          -webkit-backface-visibility: hidden !important;
-          backface-visibility: hidden !important;
-          will-change: transform !important;
-          animation-duration: 0.1s !important;
-          transition-duration: 0.1s !important;
+        .mobile-optimized [data-mobile-form] {
+          animation-duration: 0.05s !important;
+          transition-duration: 0.05s !important;
+        }
+        
+        .mobile-optimized [data-mobile-form] * {
+          animation-duration: 0.05s !important;
+          transition-duration: 0.05s !important;
         }
         
         .mobile-optimized [data-framer-motion] {
-          animation-duration: 0.05s !important;
-          transition-duration: 0.05s !important;
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          will-change: transform;
         }
         
         .mobile-optimized button, .mobile-optimized [role="button"] {
