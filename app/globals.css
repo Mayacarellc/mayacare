@@ -36,15 +36,38 @@
       font-size: 16px !important;
     }
     
-    /* Smooth scrolling for mobile */
-    html {
-      -webkit-overflow-scrolling: touch;
+    /* Critical mobile performance fixes */
+    * {
+      /* Prevent layout thrashing */
+      -webkit-tap-highlight-color: transparent;
+      /* Reduce paint complexity */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     
-    /* Optimize only specific heavy animations */
-    [data-modal-mobile] {
+    /* Optimize scrolling */
+    html, body {
+      -webkit-overflow-scrolling: touch;
+      /* Prevent bounce scrolling issues */
+      overscroll-behavior: none;
+    }
+    
+    /* Reduce animation frequency for mobile browsers */
+    * {
+      animation-fill-mode: both;
+    }
+    
+    /* Only use hardware acceleration selectively */
+    [data-modal-mobile],
+    [data-fab-mobile] {
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
+      will-change: transform;
+    }
+    
+    /* Disable problematic hover effects on touch devices */
+    .hover-effects {
+      pointer-events: none;
     }
   }
 

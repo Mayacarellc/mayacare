@@ -127,8 +127,8 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
      window.innerWidth <= 768)
 
   const animationConfig = {
-    duration: isMobile ? 0.15 : 0.25,
-    ease: "easeOut" as const
+    duration: isMobile ? 0.2 : 0.3,
+    ease: "easeInOut" as const
   }
 
   // Initial Step - What are you looking for?
@@ -155,9 +155,9 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen active:scale-95"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: isMobile ? 0.01 : 0.1, delay: isMobile ? 0 : 0.02 }}
+            transition={{ duration: 0.15, delay: 0.05 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-deepgreen" />
@@ -170,9 +170,9 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-100 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen active:scale-95"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: isMobile ? 0.01 : 0.1, delay: isMobile ? 0 : 0.05 }}
+            transition={{ duration: 0.15, delay: 0.1 }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
