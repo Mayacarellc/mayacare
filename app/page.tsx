@@ -4,8 +4,10 @@ import type React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Check, Accessibility, Heart, PawPrint, Home } from "lucide-react"
-import { useRef } from "react"
+
+import { Bath, Brain, Home, ShoppingBasket, Heart, Users, MessageCircle, Car, Utensils, Clock, Accessibility, Phone, UserCheck, AlertCircle, Stethoscope, FileText, Calendar, UserPlus, Target, Activity, Flower, Dumbbell, Apple, Smile } from "lucide-react"
+import { useRef, useState } from "react"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const AppStoreIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 29 29" fill="currentColor" {...props}>
@@ -21,6 +23,63 @@ const GooglePlayIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function Component() {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const animationRef = useScrollAnimation();
+  
+  // State to track which service details are shown
+  const [showDetails, setShowDetails] = useState<Record<string, boolean>>({});
+  
+  // Service details data with icons
+  const serviceDetails = {
+    'in-home': [
+      { text: 'Bathing', icon: Bath },
+      { text: 'Personal Hygiene', icon: Heart },
+      { text: 'Feeding', icon: Utensils },
+      { text: 'Mobility Assistance', icon: Accessibility },
+      { text: 'Safety supervision', icon: UserCheck }
+    ],
+    'companion': [
+      { text: 'Friendly conversation and social engagement', icon: MessageCircle },
+      { text: 'Assistance with hobbies and activities', icon: Activity },
+      { text: 'Escorting to appointments and errands', icon: Car },
+      { text: 'Meal preparation and companionship during meals', icon: Utensils },
+      { text: 'Medication reminders and light supervision', icon: Clock }
+    ],
+    'special-needs': [
+      { text: 'Assistance with daily living activities (dressing, bathing)', icon: Users },
+      { text: 'Mobility and transfer support', icon: Accessibility },
+      { text: 'Communication assistance and advocacy', icon: Phone },
+      { text: 'Behavioral support and crisis intervention', icon: AlertCircle },
+      { text: 'Coordination with healthcare providers and therapists', icon: Stethoscope }
+    ],
+    'live-in': [
+      { text: 'Around-the-clock personal care and supervision', icon: Clock },
+      { text: 'Medication management and reminders', icon: Heart },
+      { text: 'Assistance with toileting and hygiene', icon: Bath },
+      { text: 'Overnight monitoring and safety checks', icon: UserCheck },
+      { text: 'Meal preparation and feeding assistance', icon: Utensils }
+    ],
+    'care-plans': [
+      { text: 'Comprehensive initial assessment', icon: FileText },
+      { text: 'Tailored care schedule and goals', icon: Target },
+      { text: 'Regular progress evaluations and adjustments', icon: Calendar },
+      { text: 'Coordination with family and medical professionals', icon: UserPlus },
+      { text: 'Flexible services adapting to changing needs', icon: Activity }
+    ],
+    'wellness': [
+      { text: 'Guided yoga sessions for flexibility and balance', icon: Flower },
+      { text: 'Meditation and mindfulness coaching', icon: Brain },
+      { text: 'Light exercise and stretching routines', icon: Dumbbell },
+      { text: 'Nutrition and wellness education', icon: Apple },
+      { text: 'Stress management and relaxation techniques', icon: Smile }
+    ]
+  };
+  
+  const toggleDetails = (serviceKey: string) => {
+    setShowDetails(prev => ({
+      ...prev,
+      [serviceKey]: !prev[serviceKey]
+    }));
+  };
 
 
   const scrollLeft = () => {
@@ -38,120 +97,315 @@ export default function Component() {
 
 
   return (
-    <div className="bg-background text-foreground">
+    <div ref={animationRef} className="bg-background text-foreground">
       <div className="fixed bottom-4 right-4 z-50">
         <Button size="icon" className="rounded-full bg-primary hover:bg-primary/90 w-12 h-12">
-          <Accessibility className="w-6 h-6 text-primary-foreground" />
+          <svg className="w-6 h-6 text-primary-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="4" r="2"/><path d="M10 22v-7m4 7v-7"/><path d="M2 9a10 10 0 0 0 20 0"/></svg>
           <span className="sr-only">Accessibility Options</span>
         </Button>
       </div>
 
       <main>
-        <section className="relative min-h-[60vh] flex items-center" style={{ background: 'linear-gradient(135deg, #E8F4F8 0%, #D1E7DD 100%)' }}>
-          <div className="absolute inset-0 overflow-hidden">
-            <Image
-              src="/hero-image.png"
-              alt="Caregiver sharing a warm drink with an elderly woman in a cozy living room."
-              fill
-              priority
-              className="object-cover opacity-30"
-              style={{ objectPosition: '75% center' }}
-            />
-          </div>
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              {/* Left Content Area */}
-              <div className="text-left">
-                <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-[#2C4F26] mb-4">
-                  The care they <em className="italic">need</em>.
-                  <br />
-                  The home they <em className="italic">love</em>.
-                </h1>
-                <p className="text-base md:text-lg text-[#5A6B4F] mb-8 max-w-xl">
-                  Home Instead provides safe and consistent care for your loved one as they age, delivered at home with both comfort and transparency.
-                </p>
-                
-
+        {/* Hero Section */}
+        <section className="relative w-full h-screen bg-[#eff5f4]">
+          <div className="container mx-auto px-4 h-full">
+            <div className="grid grid-cols-1 md:grid-cols-[60%_40%] gap-8 h-full items-stretch">
+              {/* Left: Content with background image and CTA */}
+              <div className="flex flex-col justify-center py-12 md:py-0">
+                {/* Speech-bubble style background using border-radius technique */}
+                <div className="relative">
+                  {/* Bubble body with accurate cut corner + tail using pseudo elements */}
+                  <div className="relative max-w-3xl bg-[#E4F2D8] rounded-[3rem] p-8 md:p-12 lg:p-16 
+                                  md:before:content-[''] md:before:absolute md:before:-top-12 md:before:-right-12 md:before:w-32 md:before:h-32 md:before:bg-[#eff5f4] md:before:rotate-45 md:before:rounded-[1.25rem]
+                                  md:after:content-[''] md:after:absolute md:after:-bottom-16 md:after:right-28 md:after:w-52 md:after:h-36 md:after:bg-[#E4F2D8] md:after:rounded-[2.5rem] md:after:rotate-45">
+                    <div className="relative z-[1]">
+                      <h1 className="text-4xl md:text-6xl font-bold text-[#1A5463] mb-6">
+                      Compassionate Home Care for Your Loved Ones
+                      </h1>
+                      <p className="text-base md:text-xl text-[#1A5463] max-w-2xl mb-8">
+                        Providing personalized non-medical support to help individuals live comfortably and independently at home in Somerville, MA.
+                      </p>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <Link href="/find-care">
+                          <button className="group bg-[#2C4F26] hover:bg-[#234018] text-white font-bold text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full flex items-center gap-3 transition-all duration-300">
+                            JOIN US
+                            <span className="bg-[#D9FB74] text-[#2C4F26] rounded-full p-2 group-hover:scale-110 transition-transform duration-200">
+                              <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                              </svg>
+                            </span>
+                          </button>
+                        </Link>
+                        <Link href="/find-care" className="text-base md:text-lg underline underline-offset-4 text-[#1A5463]">
+                          Learn More
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  {/* extra tail fallback for very small md widths (kept for safety) */}
+                  <div className="hidden md:block absolute -bottom-14 right-24 w-40 h-24 bg-[#E4F2D8] rounded-[2rem] rotate-45"></div>
+                </div>
               </div>
-              
-              {/* Right side for image - handled by background */}
-              <div className="hidden md:block"></div>
+
+              {/* Right: Image (40%) */}
+              <div className="relative hidden md:block h-full">
+                <Image
+                  src="/images/group.png"
+                  alt="Caregiver assisting a senior at home"
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
-            <div className="relative h-96">
-              <Image
-                src="/placeholder.svg?width=400&height=400"
-                alt="Abstract shapes"
-                width={400}
-                height={400}
-                className="rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20"
-              />
-              <div className="relative z-10">
-                <h2 className="text-4xl font-bold tracking-tight mb-6">Safety is at the heart of our community</h2>
-                <ul className="space-y-4 text-lg text-muted-foreground">
-                  <li className="flex items-start">
-                    <Check className="w-6 h-6 mr-3 text-primary mt-1 flex-shrink-0" /> All caregivers on Maya Care
-                    complete a mandatory background check.
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="w-6 h-6 mr-3 text-primary mt-1 flex-shrink-0" /> We monitor job posts and messages
-                    to ensure a safe environment.
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="w-6 h-6 mr-3 text-primary mt-1 flex-shrink-0" /> Access tips and resources to help
-                    you make safer hiring choices.
-                  </li>
-                </ul>
-                <Button size="lg" className="mt-8 rounded-full">
-                  Learn more
+
+      </main>
+
+      {/* Care We Provide Section */}
+      <section className="py-16 md:py-24" style={{ backgroundColor: '#EFF5F4' }}>
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-5xl font-serif py-10 font-bold tracking-tight text-center text-[#1A5463] mb-16">Care We Provide</h2>
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
+            {/* Left copy */}
+            <div className="slide-in-left">
+              
+              <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">In‑Home Care Services</h2>
+              <p className="text-muted-foreground mb-8 max-w-2xl">
+                Our home care services can help aging adults stay engaged in everyday life with tailor‑made support by professional
+                caregivers to stay safe and well at home. It's our mission to provide an elder care plan personalized to your family's
+                needs to bring comfort, connection, and quality of life in the place that they love the most, their home.
+              </p>
+              <Button 
+                onClick={() => toggleDetails('in-home')}
+                className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
+              >
+                {showDetails['in-home'] ? 'Show Less' : 'See All Home Care Services'}
+              </Button>
+            </div>
+
+            {/* Right image - constrained to content width with unique frame */}
+            <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md ml-auto md:ml-0 slide-in-right">
+              {showDetails['in-home'] ? (
+                <div className="bg-[white] rounded-[2.5rem]  p-8 h-full overflow-y-auto">
+                  <h3 className="text-xl font-bold text-[#1A5463] mb-4">In‑Home Care Services</h3>
+                  <ul className="space-y-3">
+                    {serviceDetails['in-home'].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <li key={index} className="flex items-start space-x-3">
+                          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
+                            <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
+                          </div>
+                          <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : (
+                <>
+                  <Image
+                    src="/images/adult-care.jpg"
+                    alt="Care we provide"
+                    fill
+                    priority
+                    className="object-cover rounded-[2.5rem] shadow-lg"
+                  />
+                  {/* Unique shape: clipped corner + accent tab */}
+                  <div className="hidden md:block absolute -top-6 -left-6 w-20 h-20 rotate-45 rounded-xl" style={{ backgroundColor: '#F8F8F2' }}></div>
+                  <div className="hidden md:block absolute -bottom-4 -right-4 w-24 h-10 rounded-full bg-[#D9FB74]"></div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Zig-zag list of services (aligned with In‑Home Care Services) */}
+          <div className="mt-14 space-y-10 md:space-y-16">
+            {/* Item 1 swapped */}
+            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
+              <div className="md:order-2">
+                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Companion & Household Support</h2>
+                <p className="text-muted-foreground mb-8 max-w-2xl">Friendly conversation, shared activities, light cleaning, meal prep, laundry, and errands — keeping life comfortable and uplifting.</p>
+                <Button 
+                  onClick={() => toggleDetails('companion')}
+                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
+                >
+                  {showDetails.companion ? 'Show Less' : 'Learn More'}
                 </Button>
               </div>
+              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md md:order-1">
+                {showDetails.companion ? (
+                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
+                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Companion Care Services</h3>
+                    <ul className="space-y-3">
+                      {serviceDetails.companion.map((item, index) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <li key={index} className="flex items-start space-x-3">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
+                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
+                            </div>
+                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : (
+                  <Image src="/images/group.png" alt="Companion & Household Support" fill className="object-cover rounded-[2.5rem] shadow-lg" />
+                )}
+              </div>
             </div>
-            <div className="relative h-96 w-full">
-              <Image
-                src="/placeholder.svg?width=300&height=200"
-                alt="Caregiver"
-                width={300}
-                height={200}
-                className="rounded-xl absolute top-0 right-0 shadow-lg transform rotate-3"
-              />
-              <Image
-                src="/placeholder.svg?width=250&height=180"
-                alt="Family"
-                width={250}
-                height={180}
-                className="rounded-xl absolute bottom-0 left-0 shadow-lg transform -rotate-2"
-              />
-            </div>
-          </div>
-        </section>
 
-        <section className="py-20 bg-muted/40">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-4xl font-bold tracking-tight mb-10">Explore popular services</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: Heart, title: "Nannies & Sitters", description: "Trusted care for your little ones." },
-                { icon: PawPrint, title: "Pet Sitters", description: "Loving care for your furry friends." },
-                { icon: Home, title: "Housekeepers", description: "Keep your home sparkling clean." },
-              ].map((service) => (
-                <div
-                  key={service.title}
-                  className="bg-card p-6 rounded-xl border text-left hover:shadow-lg transition-shadow"
+            {/* Item 2 */}
+            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
+              <div>
+                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Special Needs & Disability Support</h2>
+                <p className="text-muted-foreground mb-8 max-w-2xl">Personalized care for individuals with unique needs, plus respite support to give family caregivers peace of mind.</p>
+                <Button 
+                  onClick={() => toggleDetails('special-needs')}
+                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
                 >
-                  <service.icon className="w-8 h-8 mb-4 text-primary" />
-                  <h3 className="font-bold text-lg mb-1">{service.title}</h3>
-                  <p className="text-muted-foreground text-sm">{service.description}</p>
-                </div>
-              ))}
+                  {showDetails['special-needs'] ? 'Show Less' : 'Learn More'}
+                </Button>
+              </div>
+              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md ml-auto md:ml-0">
+                {showDetails['special-needs'] ? (
+                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
+                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Special Needs & Disability Support</h3>
+                    <ul className="space-y-3">
+                      {serviceDetails['special-needs'].map((item, index) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <li key={index} className="flex items-start space-x-3">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
+                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
+                            </div>
+                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : (
+                  <Image src="/images/adult-care.jpg" alt="Special Needs & Disability Support" fill className="object-cover rounded-[2.5rem] shadow-lg" />
+                )}
+              </div>
+            </div>
+
+            {/* Item 3 */}
+            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
+              <div className="md:order-2">
+                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">24/7 Live‑In Care</h2>
+                <p className="text-muted-foreground mb-8 max-w-2xl">Round-the-clock assistance from a dedicated caregiver who stays in the home, offering safety, support, and companionship at any hour.</p>
+                <Button 
+                  onClick={() => toggleDetails('live-in')}
+                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
+                >
+                  {showDetails['live-in'] ? 'Show Less' : 'Learn More'}
+                </Button>
+              </div>
+              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md md:order-1">
+                {showDetails['live-in'] ? (
+                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
+                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">24/7 Live‑In Care</h3>
+                    <ul className="space-y-3">
+                      {serviceDetails['live-in'].map((item, index) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <li key={index} className="flex items-start space-x-3">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
+                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
+                            </div>
+                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : (
+                  <Image src="/images/pet-care.jpg" alt="24/7 Live‑In Care" fill className="object-cover rounded-[2.5rem] shadow-lg" />
+                )}
+              </div>
+            </div>
+
+            {/* Item 4 */}
+            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
+              <div>
+                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Personalized Care Plans</h2>
+                <p className="text-muted-foreground mb-8 max-w-2xl">Tailored care strategies designed around your needs, routines, and preferences — because every person's care journey is unique.</p>
+                <Button 
+                  onClick={() => toggleDetails('care-plans')}
+                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
+                >
+                  {showDetails['care-plans'] ? 'Show Less' : 'Learn More'}
+                </Button>
+              </div>
+              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md ml-auto md:ml-0">
+                {showDetails['care-plans'] ? (
+                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
+                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Personalized Care Plans</h3>
+                    <ul className="space-y-3">
+                      {serviceDetails['care-plans'].map((item, index) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <li key={index} className="flex items-start space-x-3">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
+                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
+                            </div>
+                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : (
+                  <Image src="/images/group.png" alt="Personalized Care Plans" fill className="object-cover rounded-[2.5rem] shadow-lg" />
+                )}
+              </div>
+            </div>
+
+            {/* Item 5 */}
+            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
+              <div className="md:order-2">
+                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Wellness & Yoga</h2>
+                <p className="text-muted-foreground mb-8 max-w-2xl">Meal planning, grocery selection, and balanced diet preparation to promote health, strength, and overall well‑being.</p>
+                <Button 
+                  onClick={() => toggleDetails('wellness')}
+                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
+                >
+                  {showDetails.wellness ? 'Show Less' : 'Learn More'}
+                </Button>
+              </div>
+              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md md:order-1">
+                {showDetails.wellness ? (
+                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
+                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Wellness & Yoga</h3>
+                    <ul className="space-y-3">
+                      {serviceDetails.wellness.map((item, index) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <li key={index} className="flex items-start space-x-3">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
+                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
+                            </div>
+                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : (
+                  <Image src="/images/senior-care.jpg" alt="Wellness & Yoga" fill className="object-cover rounded-[2.5rem] shadow-lg" />
+                )}
+              </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
 
       <footer className="bg-foreground text-background">
         <div className="container mx-auto px-4 pt-16 pb-8">

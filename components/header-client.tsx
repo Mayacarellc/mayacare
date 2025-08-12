@@ -4,74 +4,23 @@ import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
-import { ChevronRight, Menu, ChevronDown, Phone } from "lucide-react"
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu"
+import { Menu, Phone, ChevronDown } from "lucide-react"
 import { GetStartedModal } from "./get-started-modal"
 import { MobileHeaderExtension } from "./mobile-header-extension"
 
-const findCareData = {
-  categories: [{ name: "Senior care" }, { name: "Adult care" }, { name: "Pet care" }],
-  links: {
-    "Senior care": [
-      { title: "In-home care", href: "/care/in-home-care" },
-      { title: "Companion care", href: "/care/companion-care" },
-      { title: "More info", isHeader: true, colSpan: 2 },
-      { title: "Senior care guide", href: "#" },
-      { title: "Safety center", href: "/safety-center" },
-    ],
-    "Adult care": [
-      { title: "Special needs care", href: "/care/special-needs-care" },
-      { title: "Disability support", href: "/care/disability-support" },
-      { title: "Adult companion care", href: "/care/adult-companion-care" },
-      { title: "More info", isHeader: true, colSpan: 2 },
-      { title: "Adult care guide", href: "/care/adult-care-guide" },
-      { title: "Resources", href: "#" },
-    ],
-    "Pet care": [
-      { title: "Dog walkers", href: "/care/dog-walkers" },
-      { title: "Pet sitters", href: "/care/pet-sitters" },
-      { title: "Dog boarding", href: "/care/dog-boarding" },
-      { title: "Cat care", href: "/care/cat-care" },
-      { title: "Pet grooming", href: "/care/pet-grooming" },
-    ],
-  },
-}
-
-const findJobsData = [
-  { title: "Senior care", href: "/jobs/senior-care" },
-  { title: "Adult care", href: "/jobs/adult-care" },
-  { title: "Pet care", href: "/jobs/pet-care" },
-]
-
-const resourcesData = [
-  { title: "About us", href: "/about-us" },
-  { title: "Articles and guides", href: "#" },
-  { title: "Cost of care calculator", href: "/cost-of-care" },
-  { title: "Help center", href: "/help-center" },
-]
-
 export function HeaderClient() {
-  const [activeCareCategory, setActiveCareCategory] = useState(findCareData.categories[0].name)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null)
-  const [mobileCareCategory, setMobileCareCategory] = useState<string | null>(null)
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
   const [getStartedModalOpen, setGetStartedModalOpen] = useState(false)
   const pathname = usePathname()
   const isAdminPage = pathname.startsWith("/admin")
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b bg-background">
+      <header className="sticky top-0 z-40 w-full border-b" style={{ backgroundColor: '#F8F8F2' }}>
         {!isAdminPage && pathname === "/" && (
           <div className="text-center py-2 px-4 text-sm font-medium text-white" style={{ backgroundColor: "#2C4F26" }}>
             Currently serving Pennsylvania residents only
@@ -80,136 +29,56 @@ export function HeaderClient() {
       <div className="container mx-auto flex items-center justify-between px-4" style={{ height: '4rem', minHeight: '4rem', maxHeight: '4rem' }}>
         <Link href="/" className="flex items-center" style={{ marginRight: '2rem' }}>
           <Image 
-            src="/logo.png" 
-            alt="Maya Care Logo" 
+            src="/NestAid.png" 
+            alt="NestAid Logo" 
             width={200} 
             height={100} 
-            style={{ height: '2.5rem', width: 'auto' }}
+            style={{ height: '3rem', width: 'auto' }}
             priority
           />
         </Link>
         
         {/* Desktop Navigation - Hidden on mobile */}
         {!isAdminPage && (
-          <NavigationMenu className="hidden md:flex relative">
-            <NavigationMenuList>
-              <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-base font-medium">Find care</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="grid grid-cols-[160px_1fr] w-[600px] p-4">
-                    <div className="flex flex-col space-y-1 pr-4 border-r">
-                      {findCareData.categories.map((category) => (
-                        <button
-                          key={category.name}
-                          onMouseEnter={() => setActiveCareCategory(category.name)}
-                          className={cn(
-                            "w-full text-left p-3 rounded-md text-sm font-medium flex justify-between items-center",
-                            activeCareCategory === category.name ? "bg-muted text-foreground" : "hover:bg-muted/50",
-                          )}
-                        >
-                          {category.name}
-                          <ChevronRight className="h-4 w-4" />
-                        </button>
-                      ))}
-                    </div>
-                    <div className="pl-6 grid grid-cols-2 gap-x-8">
-                      <div className="flex flex-col space-y-2">
-                        {(findCareData.links[activeCareCategory as keyof typeof findCareData.links] || [])
-                          .filter((_: any, i: number) => i % 2 === 0)
-                          .map((item: any, index: number) =>
-                            item.isHeader ? (
-                              <h3
-                                key={index}
-                                className={cn(
-                                  "font-bold text-sm text-muted-foreground mt-2 first:mt-0",
-                                  item.colSpan === 2 && "col-span-2",
-                                )}
-                              >
-                                {item.title}
-                              </h3>
-                            ) : (
-                              <NavigationMenuLink asChild key={index}>
-                                <Link
-                                  href={item.href || "#"}
-                                  className={cn(
-                                    "text-sm hover:text-primary",
-                                    item.isHighlighted && "font-semibold text-primary bg-primary/10 px-2 py-1 rounded",
-                                  )}
-                                >
-                                  {item.title}
-                                </Link>
-                              </NavigationMenuLink>
-                            ),
-                          )}
-                      </div>
-                      <div className="flex flex-col space-y-2">
-                        {(findCareData.links[activeCareCategory as keyof typeof findCareData.links] || [])
-                          .filter((_: any, i: number) => i % 2 !== 0)
-                          .map((item: any, index: number) =>
-                            item.isHeader ? (
-                              <h3
-                                key={index}
-                                className={cn(
-                                  "font-bold text-sm text-muted-foreground mt-2 first:mt-0",
-                                  item.colSpan === 2 && "col-span-2",
-                                )}
-                              >
-                                {item.title}
-                              </h3>
-                            ) : (
-                              <NavigationMenuLink asChild key={index}>
-                                <Link href={item.href} className="text-sm hover:text-primary">
-                                  {item.title}
-                                </Link>
-                              </NavigationMenuLink>
-                            ),
-                          )}
-                      </div>
-                    </div>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-                              <NavigationMenuItem className="relative">
-                  <NavigationMenuTrigger className="text-base font-medium">Find jobs</NavigationMenuTrigger>
+          <nav className="hidden md:flex items-center gap-2">
+            <Link href="/find-care" className="relative text-base font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-[#D9FB74] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 after:content-[''] after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-[2px] after:bg-primary after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200">
+              Find care
+            </Link>
+            <Link href="/jobs/senior-care" className="relative text-base font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-[#D9FB74] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 after:content-[''] after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-[2px] after:bg-primary after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200">
+              Find jobs
+            </Link>
+            <Link href="/family-caregivers" className="relative text-base font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-[#D9FB74] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 after:content-[''] after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-[2px] after:bg-primary after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200">
+              Family Caregivers
+            </Link>
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-base font-medium !bg-transparent hover:!bg-[#E4F2D8] focus:!bg-[#D9FB74] data-[state=open]:!bg-[#D9FB74]">
+                    Resources
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="w-[200px] p-4">
-                      <div className="flex flex-col space-y-2">
-                        {findJobsData.map((item, index) => (
-                          <NavigationMenuLink asChild key={index}>
-                            <Link 
-                              href={item.href} 
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-sm font-medium"
-                            >
-                              {item.title}
-                            </Link>
-                          </NavigationMenuLink>
-                        ))}
-                      </div>
-                    </div>
+                    <ul className="grid w-[280px] gap-3 p-4">
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link href="/about-us" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#D9FB74] text-sm font-medium">About us</Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link href="/cost-of-care" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#D9FB74] text-sm font-medium">Cost of care calculator</Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link href="/help-center" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#D9FB74] text-sm font-medium">Help center</Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link 
-                    href="/family-caregivers"
-                    className="text-base font-medium inline-flex h-12 w-max items-center justify-center rounded-md bg-background px-4 py-2 transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
-                  >
-                    Family Caregivers
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="relative">
-                <NavigationMenuTrigger className="text-base font-medium">Resources</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[280px] gap-3 p-4">
-                    {resourcesData.map((item) => (
-                      <ListItem key={item.title} title={item.title} href={item.href} />
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </nav>
         )}
         
         <div className="flex flex-1 items-center justify-end space-x-4">
@@ -232,10 +101,10 @@ export function HeaderClient() {
               {/* Get Started Button */}
               <Button
                 onClick={() => setGetStartedModalOpen(true)}
-                className="rounded-full bg-gradient-to-r from-greentea to-lime text-deepgreen font-semibold hover:from-greentea/80 hover:to-lime/90 transition-all shadow-sm"
-                style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', lineHeight: '1.25' }}
+                className="rounded-full text-white font-semibold hover:opacity-90 transition-all shadow-sm"
+                style={{ backgroundColor: '#2C4F26', padding: '0.75rem 1.5rem', fontSize: '1rem', lineHeight: '1.25' }}
               >
-                Get Started
+                Join Now
               </Button>
             </div>
           )}
@@ -253,115 +122,23 @@ export function HeaderClient() {
               </SheetTrigger>
               <SheetContent side="right" className="w-80">
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                <nav className="flex flex-col space-y-4 mt-6">
+                <nav className="flex flex-col space-y-2 mt-6">
                   {!isAdminPage && (
                     <>
-                      {/* Find Care Section */}
-                      <div className="space-y-2">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-between text-base font-medium"
-                          onClick={() => setMobileSubmenu(mobileSubmenu === "care" ? null : "care")}
-                        >
-                          Find care
-                          <ChevronDown className={cn("h-4 w-4 transition-transform", mobileSubmenu === "care" && "rotate-180")} />
-                        </Button>
-                        {mobileSubmenu === "care" && (
-                          <div className="pl-4 space-y-2">
-                            {findCareData.categories.map((category) => (
-                              <div key={category.name}>
-                                <Button
-                                  variant="ghost"
-                                  className="w-full justify-between text-sm"
-                                  onClick={() => setMobileCareCategory(mobileCareCategory === category.name ? null : category.name)}
-                                >
-                                  {category.name}
-                                  <ChevronRight className={cn("h-4 w-4 transition-transform", mobileCareCategory === category.name && "rotate-90")} />
-                                </Button>
-                                {mobileCareCategory === category.name && (
-                                  <div className="pl-4 space-y-1">
-                                    {(findCareData.links[category.name as keyof typeof findCareData.links] || [])
-                                      .filter((item: any) => !item.isHeader)
-                                      .map((item: any, index: number) => (
-                                        <Link
-                                          key={index}
-                                          href={item.href}
-                                          className="block px-3 py-2 text-sm hover:bg-muted rounded-md"
-                                          onClick={() => setMobileMenuOpen(false)}
-                                        >
-                                          {item.title}
-                                        </Link>
-                                      ))}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Find Jobs Section */}
-                      <div className="space-y-2">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-between text-base font-medium"
-                          onClick={() => setMobileSubmenu(mobileSubmenu === "jobs" ? null : "jobs")}
-                        >
-                          Find jobs
-                          <ChevronDown className={cn("h-4 w-4 transition-transform", mobileSubmenu === "jobs" && "rotate-180")} />
-                        </Button>
-                                                  {mobileSubmenu === "jobs" && (
-                            <div className="pl-4 space-y-1">
-                              {findJobsData.map((item: any, index: number) => (
-                                  <Link
-                                  key={index}
-                                  href={item.href}
-                                  className="block px-3 py-2 text-sm hover:bg-muted rounded-md"
-                                  onClick={() => setMobileMenuOpen(false)}
-                                >
-                                  {item.title}
-                                </Link>
-                              ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Family Caregivers Section */}
-                      <div className="space-y-2">
-                        <Link 
-                          href="/family-caregivers" 
-                          className="block px-3 py-2 text-base font-medium hover:bg-muted rounded-md"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Family Caregivers
-                        </Link>
-                      </div>
-
-                      {/* Resources Section */}
-                      <div className="space-y-2">
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-between text-base font-medium"
-                          onClick={() => setMobileSubmenu(mobileSubmenu === "resources" ? null : "resources")}
-                        >
-                          Resources
-                          <ChevronDown className={cn("h-4 w-4 transition-transform", mobileSubmenu === "resources" && "rotate-180")} />
-                        </Button>
-                        {mobileSubmenu === "resources" && (
-                          <div className="pl-4 space-y-1">
-                            {resourcesData.map((item, index) => (
-                              <Link
-                                key={index}
-                                href={item.href}
-                                className="block px-3 py-2 text-sm hover:bg-muted rounded-md"
-                                onClick={() => setMobileMenuOpen(false)}
-                              >
-                                {item.title}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                      <Link href="/find-care" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-[#D9FB74]">Find care</Link>
+                      <Link href="/jobs/senior-care" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-[#D9FB74]">Find jobs</Link>
+                      <Link href="/family-caregivers" onClick={() => setMobileMenuOpen(false)} className="px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-[#D9FB74]">Family Caregivers</Link>
+                      <button onClick={() => setMobileResourcesOpen(prev => !prev)} className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-[#D9FB74]">
+                        Resources
+                        <ChevronDown className={`h-4 w-4 transition-transform ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      {mobileResourcesOpen && (
+                        <div className="pl-3 space-y-1">
+                          <Link href="/about-us" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-sm hover:bg-[#D9FB74]">About us</Link>
+                          <Link href="/cost-of-care" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-sm hover:bg-[#D9FB74]">Cost of care calculator</Link>
+                          <Link href="/help-center" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-sm hover:bg-[#D9FB74]">Help center</Link>
+                        </div>
+                      )}
                     </>
                   )}
                 </nav>
@@ -386,24 +163,3 @@ export function HeaderClient() {
   )
 }
 
-const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
-  ({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-accent-foreground focus:bg-accent/10 focus:text-accent-foreground",
-              className,
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    )
-  },
-)
-ListItem.displayName = "ListItem"
