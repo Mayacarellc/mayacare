@@ -176,8 +176,18 @@ export default function Component() {
               {/* Card 1: In‑Home Care Services */}
               <div 
                 className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={() => setShowDetails(prev => ({ ...prev, 'in-home': true }))}
-                onMouseLeave={() => setShowDetails(prev => ({ ...prev, 'in-home': false }))}
+                onMouseEnter={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'in-home': true }));
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'in-home': false }));
+                  }
+                }}
                 onClick={() => toggleDetails('in-home')}
               >
                 {/* Image that slides up */}
@@ -220,8 +230,18 @@ export default function Component() {
               {/* Card 2: Companion & Household Support */}
               <div 
                 className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={() => setShowDetails(prev => ({ ...prev, companion: true }))}
-                onMouseLeave={() => setShowDetails(prev => ({ ...prev, companion: false }))}
+                onMouseEnter={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, companion: true }));
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, companion: false }));
+                  }
+                }}
                 onClick={() => toggleDetails('companion')}
               >
                 {/* Image that slides up */}
@@ -264,8 +284,18 @@ export default function Component() {
               {/* Card 3: Special Needs & Disability Support */}
               <div 
                 className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={() => setShowDetails(prev => ({ ...prev, 'special-needs': true }))}
-                onMouseLeave={() => setShowDetails(prev => ({ ...prev, 'special-needs': false }))}
+                onMouseEnter={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'special-needs': true }));
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'special-needs': false }));
+                  }
+                }}
                 onClick={() => toggleDetails('special-needs')}
               >
                 {/* Image that slides up */}
@@ -308,8 +338,18 @@ export default function Component() {
               {/* Card 4: 24/7 Live‑In Care */}
               <div 
                 className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={() => setShowDetails(prev => ({ ...prev, 'live-in': true }))}
-                onMouseLeave={() => setShowDetails(prev => ({ ...prev, 'live-in': false }))}
+                onMouseEnter={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'live-in': true }));
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'live-in': false }));
+                  }
+                }}
                 onClick={() => toggleDetails('live-in')}
               >
                 {/* Image that slides up */}
@@ -352,8 +392,18 @@ export default function Component() {
               {/* Card 5: Personalized Care Plans */}
               <div 
                 className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={() => setShowDetails(prev => ({ ...prev, 'care-plans': true }))}
-                onMouseLeave={() => setShowDetails(prev => ({ ...prev, 'care-plans': false }))}
+                onMouseEnter={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'care-plans': true }));
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, 'care-plans': false }));
+                  }
+                }}
                 onClick={() => toggleDetails('care-plans')}
               >
                 {/* Image that slides up */}
@@ -396,8 +446,18 @@ export default function Component() {
               {/* Card 6: Wellness & Yoga */}
               <div 
                 className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={() => setShowDetails(prev => ({ ...prev, wellness: true }))}
-                onMouseLeave={() => setShowDetails(prev => ({ ...prev, wellness: false }))}
+                onMouseEnter={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, wellness: true }));
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  // Only enable hover on non-touch devices (desktop)
+                  if (window.matchMedia('(hover: hover)').matches) {
+                    setShowDetails(prev => ({ ...prev, wellness: false }));
+                  }
+                }}
                 onClick={() => toggleDetails('wellness')}
               >
                 {/* Image that slides up */}
