@@ -85,19 +85,39 @@ export default function FindCarePage() {
   return (
     <div ref={animationRef} className="bg-background text-foreground">
       {/* Hero */}
-      <section className="relative w-full h-[80vh] md:h-screen bg-[#eff5f4]">
-        <div className="container mx-auto h-full px-4 grid grid-cols-1 md:grid-cols-[55%_45%] gap-8 items-stretch">
-          <div className="flex flex-col justify-center py-12 md:py-0">
-            <h1 className="text-4xl md:text-6xl font-bold text-[#1A5463] mb-6">Find Care</h1>
+      <section className="relative w-full h-[80vh] md:h-screen">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image 
+            src="/images/bg-image/find-care-bg.jpg" 
+            alt="Find Care Background" 
+            fill 
+            className="object-cover"
+            priority
+          />
+          
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto h-full px-4 grid grid-cols-1 md:grid-cols-[55%_45%] gap-8 items-stretch">
+          <div className="flex flex-col justify-center py-12 md:py-0 md:pl-8 lg:pl-12">
+            <h1 className="text-4xl md:text-6xl font-bold text-[#1A5463] mb-6">
+              Find the Care You Deserve, Right at Home
+            </h1>
             <p className="text-base md:text-xl text-[#1A5463] max-w-2xl mb-8">
-              Explore trusted, in-home and companion care services tailored to your needs.
+              At <span className="font-bold" style={{ color: '#2C4F26' }}>NestAid</span>, we believe care should be personal. Our trusted caregivers are here to bring comfort, dignity, and peace of mind—right to your doorstep.
             </p>
-            <div className="flex items-center gap-4">
-              <a href="#finder">
-                <Button className="rounded-full bg-accent text-accent-foreground hover:bg-accent/90 text-base md:text-lg px-6 py-3">
-                  Find Care
-                </Button>
-              </a>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <Link href="/find-care">
+                <button className="group bg-[#2C4F26] hover:bg-[#234018] text-white font-bold text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl">
+                  JOIN NOW
+                  <span className="bg-[#D9FB74] text-[#2C4F26] rounded-full p-2 group-hover:scale-110 transition-transform duration-200">
+                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
+                </button>
+              </Link>
               <Link href="/help-center" className="text-base md:text-lg underline underline-offset-4 text-[#1A5463]">
                 Learn More
               </Link>

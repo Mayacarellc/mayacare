@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-import { Bath, Brain, Home, ShoppingBasket, Heart, Users, MessageCircle, Car, Utensils, Clock, Accessibility, Phone, UserCheck, AlertCircle, Stethoscope, FileText, Calendar, UserPlus, Target, Activity, Flower, Dumbbell, Apple, Smile } from "lucide-react"
+import { Bath, Brain, Home, ShoppingBasket, Heart, Users, MessageCircle, Car, Utensils, Clock, Accessibility, Phone, UserCheck, AlertCircle, Stethoscope, FileText, Calendar, UserPlus, Target, Activity, Flower, Dumbbell, Apple, Smile, CalendarCheck, ClipboardList } from "lucide-react"
 import { useRef, useState } from "react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
@@ -149,11 +149,11 @@ export default function Component() {
 
               {/* Right: Image (40%) */}
               <div className="relative hidden md:block h-full">
-                <Image
+            <Image
                   src="/images/group.png"
                   alt="Caregiver assisting a senior at home"
-                  fill
-                  priority
+              fill
+              priority
                   className="object-cover"
                 />
               </div>
@@ -175,19 +175,7 @@ export default function Component() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {/* Card 1: In‑Home Care Services */}
               <div 
-                className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'in-home': true }));
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'in-home': false }));
-                  }
-                }}
+                className="bg-white rounded-[2rem] overflow-hidden fade-in h-[380px] relative cursor-pointer group"
                 onClick={() => toggleDetails('in-home')}
               >
                 {/* Image that slides up */}
@@ -204,7 +192,7 @@ export default function Component() {
                 </div>
 
                 {/* Detailed content that slides up from bottom */}
-                <div className={`absolute inset-0 bg-white transition-transform duration-500 ease-in-out ${showDetails['in-home'] ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${showDetails['in-home'] ? 'translate-y-0' : 'translate-y-full'}`} style={{ backgroundColor: '#E4F2D8' }}>
                   <div className="p-4 lg:p-6 h-full flex flex-col">
                     <h3 className="text-lg lg:text-xl font-serif font-bold text-[#1A5463] mb-3">In‑Home Care Services</h3>
                     <p className="text-muted-foreground text-xs lg:text-sm mb-4">Essential personal care assistance with daily activities like bathing, dressing, mobility, and companionship in the comfort of home.</p>
@@ -229,19 +217,7 @@ export default function Component() {
 
               {/* Card 2: Companion & Household Support */}
               <div 
-                className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, companion: true }));
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, companion: false }));
-                  }
-                }}
+                className="bg-white rounded-[2rem] overflow-hidden fade-in h-[380px] relative cursor-pointer group"
                 onClick={() => toggleDetails('companion')}
               >
                 {/* Image that slides up */}
@@ -258,7 +234,7 @@ export default function Component() {
                 </div>
 
                 {/* Detailed content that slides up from bottom */}
-                <div className={`absolute inset-0 bg-white transition-transform duration-500 ease-in-out ${showDetails.companion ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${showDetails.companion ? 'translate-y-0' : 'translate-y-full'}`} style={{ backgroundColor: '#E4F2D8' }}>
                   <div className="p-4 lg:p-6 h-full flex flex-col">
                     <h3 className="text-lg lg:text-xl font-serif font-bold text-[#1A5463] mb-3">Companion & Household Support</h3>
                     <p className="text-muted-foreground text-xs lg:text-sm mb-4">Friendly conversation, shared activities, light cleaning, meal prep, laundry, and errands — keeping life comfortable and uplifting.</p>
@@ -283,19 +259,7 @@ export default function Component() {
 
               {/* Card 3: Special Needs & Disability Support */}
               <div 
-                className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'special-needs': true }));
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'special-needs': false }));
-                  }
-                }}
+                className="bg-white rounded-[2rem] overflow-hidden fade-in h-[380px] relative cursor-pointer group"
                 onClick={() => toggleDetails('special-needs')}
               >
                 {/* Image that slides up */}
@@ -312,24 +276,26 @@ export default function Component() {
                 </div>
 
                 {/* Detailed content that slides up from bottom */}
-                <div className={`absolute inset-0 bg-white transition-transform duration-500 ease-in-out ${showDetails['special-needs'] ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${showDetails['special-needs'] ? 'translate-y-0' : 'translate-y-full'}`} style={{ backgroundColor: '#E4F2D8' }}>
                   <div className="p-4 lg:p-6 h-full flex flex-col">
-                    <h3 className="text-lg lg:text-xl font-serif font-bold text-[#1A5463] mb-3">Special Needs & Disability Support</h3>
-                    <p className="text-muted-foreground text-xs lg:text-sm mb-4">Personalized care for individuals with unique needs, plus respite support to give family caregivers peace of mind.</p>
-                    <div className="flex-1 overflow-y-auto">
-                      <ul className="space-y-2">
-                        {serviceDetails['special-needs'].map((item, index) => {
-                          const IconComponent = item.icon;
-                          return (
-                            <li key={index} className="flex items-start space-x-2">
-                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#2C4F26' }}>
-                                <IconComponent className="w-3 h-3" style={{ color: '#D9FB74' }} />
-                              </div>
-                              <span className="text-xs lg:text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
+                    <div>
+                      <h3 className="text-lg lg:text-xl font-serif font-bold text-[#1A5463] mb-3">Special Needs & Disability Support</h3>
+                      <p className="text-muted-foreground text-xs lg:text-sm mb-4">Personalized care for individuals with unique needs, plus respite support to give family caregivers peace of mind.</p>
+                      <div className="flex-1">
+                        <ul className="space-y-2">
+                          {serviceDetails['special-needs'].map((item, index) => {
+                            const IconComponent = item.icon;
+                            return (
+                              <li key={index} className="flex items-start space-x-2">
+                                <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#2C4F26' }}>
+                                  <IconComponent className="w-3 h-3" style={{ color: '#D9FB74' }} />
+                                </div>
+                                <span className="text-xs lg:text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
+                  </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -337,19 +303,7 @@ export default function Component() {
 
               {/* Card 4: 24/7 Live‑In Care */}
               <div 
-                className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'live-in': true }));
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'live-in': false }));
-                  }
-                }}
+                className="bg-white rounded-[2rem] overflow-hidden fade-in h-[380px] relative cursor-pointer group"
                 onClick={() => toggleDetails('live-in')}
               >
                 {/* Image that slides up */}
@@ -366,7 +320,7 @@ export default function Component() {
                 </div>
 
                 {/* Detailed content that slides up from bottom */}
-                <div className={`absolute inset-0 bg-white transition-transform duration-500 ease-in-out ${showDetails['live-in'] ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${showDetails['live-in'] ? 'translate-y-0' : 'translate-y-full'}`} style={{ backgroundColor: '#E4F2D8' }}>
                   <div className="p-4 lg:p-6 h-full flex flex-col">
                     <h3 className="text-lg lg:text-xl font-serif font-bold text-[#1A5463] mb-3">24/7 Live‑In Care</h3>
                     <p className="text-muted-foreground text-xs lg:text-sm mb-4">Round-the-clock assistance from a dedicated caregiver who stays in the home, offering safety, support, and companionship at any hour.</p>
@@ -380,10 +334,10 @@ export default function Component() {
                                 <IconComponent className="w-3 h-3" style={{ color: '#D9FB74' }} />
                               </div>
                               <span className="text-xs lg:text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                            </li>
+                  </li>
                           );
                         })}
-                      </ul>
+                </ul>
                     </div>
                   </div>
                 </div>
@@ -391,19 +345,7 @@ export default function Component() {
 
               {/* Card 5: Personalized Care Plans */}
               <div 
-                className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'care-plans': true }));
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, 'care-plans': false }));
-                  }
-                }}
+                className="bg-white rounded-[2rem] overflow-hidden fade-in h-[380px] relative cursor-pointer group"
                 onClick={() => toggleDetails('care-plans')}
               >
                 {/* Image that slides up */}
@@ -420,7 +362,7 @@ export default function Component() {
                 </div>
 
                 {/* Detailed content that slides up from bottom */}
-                <div className={`absolute inset-0 bg-white transition-transform duration-500 ease-in-out ${showDetails['care-plans'] ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${showDetails['care-plans'] ? 'translate-y-0' : 'translate-y-full'}`} style={{ backgroundColor: '#E4F2D8' }}>
                   <div className="p-4 lg:p-6 h-full flex flex-col">
                     <h3 className="text-lg lg:text-xl font-serif font-bold text-[#1A5463] mb-3">Personalized Care Plans</h3>
                     <p className="text-muted-foreground text-xs lg:text-sm mb-4">Tailored care strategies designed around your needs, routines, and preferences — because every person's care journey is unique.</p>
@@ -438,26 +380,14 @@ export default function Component() {
                           );
                         })}
                       </ul>
-                    </div>
-                  </div>
-                </div>
               </div>
+            </div>
+            </div>
+          </div>
 
               {/* Card 6: Wellness & Yoga */}
               <div 
-                className="bg-white rounded-[2rem] shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 fade-in h-[380px] relative cursor-pointer group"
-                onMouseEnter={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, wellness: true }));
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  // Only enable hover on non-touch devices (desktop)
-                  if (window.matchMedia('(hover: hover)').matches) {
-                    setShowDetails(prev => ({ ...prev, wellness: false }));
-                  }
-                }}
+                className="bg-white rounded-[2rem] overflow-hidden fade-in h-[380px] relative cursor-pointer group"
                 onClick={() => toggleDetails('wellness')}
               >
                 {/* Image that slides up */}
@@ -474,7 +404,7 @@ export default function Component() {
                 </div>
 
                 {/* Detailed content that slides up from bottom */}
-                <div className={`absolute inset-0 bg-white transition-transform duration-500 ease-in-out ${showDetails.wellness ? 'translate-y-0' : 'translate-y-full'}`}>
+                <div className={`absolute inset-0 transition-transform duration-500 ease-in-out ${showDetails.wellness ? 'translate-y-0' : 'translate-y-full'}`} style={{ backgroundColor: '#E4F2D8' }}>
                   <div className="p-4 lg:p-6 h-full flex flex-col">
                     <h3 className="text-lg lg:text-xl font-serif font-bold text-[#1A5463] mb-3">Wellness & Yoga</h3>
                     <p className="text-muted-foreground text-xs lg:text-sm mb-4">Meal planning, grocery selection, and balanced diet preparation to promote health, strength, and overall well‑being.</p>
@@ -495,6 +425,168 @@ export default function Component() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            </div>
+                  </div>
+      </section>
+
+      {/* Get Paid Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-8 md:px-12 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-12 lg:gap-16 items-center">
+            {/* Left: Circular percentage graphic (35% width) */}
+            <div className="flex justify-center lg:justify-start">
+              <div className="relative">
+                {/* Circular background with gradient */}
+                <div className="w-64 h-64 lg:w-80 lg:h-80 relative">
+                  {/* Background circles */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-200 via-green-200 to-purple-200 opacity-30"></div>
+                  <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-100 via-green-100 to-purple-100 opacity-50"></div>
+                  
+                  {/* Main content */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <div className="text-6xl lg:text-8xl font-bold text-gray-900 mb-2">25%</div>
+                    <div className="text-base lg:text-lg text-gray-600">utilization</div>
+                  </div>
+                  
+                  {/* Decorative arc */}
+                  <div className="absolute -top-4 -left-4 w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-r from-blue-400 to-green-400 opacity-40"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Content with background shape (65% width) */}
+            <div className="relative text-center lg:text-left overflow-hidden">
+              {/* Background shape with #E4F2D8 */}
+              <div className="absolute inset-0 -m-4 lg:-m-8">
+                <div className="w-full h-full bg-[#E4F2D8] rounded-l-[25%] rounded-r-[3rem]
+                              before:content-[''] before:absolute before:-top-4 before:-right-4 before:w-16 before:h-16 before:bg-white before:rotate-45 before:rounded-xl
+                              after:content-[''] after:absolute after:-bottom-4 after:-left-4 after:w-12 after:h-12 after:bg-white after:rounded-full"></div>
+              </div>
+              
+              {/* Content */}
+              <div className="relative z-10 p-6 lg:p-10">
+                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">
+                  Get paid taking care of a family member
+                </h2>
+                <div className="space-y-4 mb-8 text-muted-foreground max-w-2xl">
+                  <p>
+                    You give so much of yourself—your time, your energy, your heart—because you care.
+                  </p>
+                  <p>
+                    Even if you've never sought anything in return, there's support out there for you, too.
+                  </p>
+                  <p>
+                    When you're caring for a loved one at home, we're here to help you explore every option—with kindness, clarity, and understanding.
+                  </p>
+                </div>
+                <Link href="/family-caregivers">
+                  <button className="group bg-[#2C4F26] hover:bg-[#234018] text-white font-bold text-base lg:text-lg px-6 lg:px-8 py-3 lg:py-4 rounded-full flex items-center gap-3 transition-all duration-300">
+                    Check your eligibility
+                    <span className="bg-[#D9FB74] text-[#2C4F26] rounded-full p-2 group-hover:scale-110 transition-transform duration-200">
+                      <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* First Time Considering Professional Home Care Section */}
+      <section className="py-16 md:py-24" style={{ backgroundColor: '#EFF5F4' }}>
+        <div className="container mx-auto px-8 md:px-12 lg:px-16">
+          {/* Centered heading and description */}
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">
+              First Time Considering Professional Home Care?
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Starting home care can feel like a big step, but at NestAid, we make it easier. Our caring team works closely with you to create a personalized plan that brings comfort, safety, and peace of mind right to your home.
+            </p>
+          </div>
+
+          {/* Three step cards with arrows */}
+          <div className="relative">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 relative">
+              
+              {/* Step 1 */}
+              <div className="relative rounded-[2rem] p-8 shadow-lg fade-in" style={{ backgroundColor: '#E4F2D8' }}>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold text-[#2C4F26] mb-4 block">01</span>
+                  <div className="w-12 h-1 bg-[#2C4F26] mb-6"></div>
+                </div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#2C4F26] flex items-center justify-center flex-shrink-0">
+                    <CalendarCheck className="w-6 h-6 text-[#D9FB74]" />
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-serif font-bold text-[#1A5463]">
+                    Book Your Free Home Care Consultation
+                  </h3>
+                </div>
+                <p className="text-muted-foreground">
+                  We'll start by meeting with you and your family to understand your specific needs, preferences, and goals. In this free consultation, we'll answer your questions, explain how professional caregivers can help, and guide you through the next steps.
+                </p>
+                
+                {/* Arrow positioned on card */}
+                <div className="hidden lg:flex absolute top-16 -right-6 z-10">
+                  <div className="w-12 h-12 rounded-full bg-[#D9FB74] flex items-center justify-center">
+                    <svg className="w-6 h-6 text-[#2C4F26]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="relative rounded-[2rem] p-8 shadow-lg fade-in" style={{ backgroundColor: '#E4F2D8' }}>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold text-[#2C4F26] mb-4 block">02</span>
+                  <div className="w-12 h-1 bg-[#2C4F26] mb-6"></div>
+                </div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#2C4F26] flex items-center justify-center flex-shrink-0">
+                    <ClipboardList className="w-6 h-6 text-[#D9FB74]" />
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-serif font-bold text-[#1A5463]">
+                    Build Your Personalized Care Plan
+                  </h3>
+                </div>
+                <p className="text-muted-foreground">
+                  Once you choose NestAid, we'll visit your loved one's home to assess safety, comfort, and daily living needs. From identifying fall risks to suggesting ways to make life easier, we'll design a tailored care plan and schedule—built around your approval.
+                </p>
+                
+                {/* Arrow positioned on card */}
+                <div className="hidden lg:flex absolute top-16 -right-6 z-10">
+                  <div className="w-12 h-12 rounded-full bg-[#D9FB74] flex items-center justify-center">
+                    <svg className="w-6 h-6 text-[#2C4F26]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="relative rounded-[2rem] p-8 shadow-lg fade-in" style={{ backgroundColor: '#E4F2D8' }}>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold text-[#2C4F26] mb-4 block">03</span>
+                  <div className="w-12 h-1 bg-[#2C4F26] mb-6"></div>
+                </div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#2C4F26] flex items-center justify-center flex-shrink-0">
+                    <Heart className="w-6 h-6 text-[#D9FB74]" />
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-serif font-bold text-[#1A5463]">
+                    Meet Your Perfect Caregiver
+                  </h3>
+                </div>
+                <p className="text-muted-foreground">
+                  We carefully screen and hand-select caregivers who fit your loved one's needs, personality, and preferences. You'll have peace of mind knowing they're safe, comfortable, and cared for—by someone who feels like family.
+                </p>
               </div>
             </div>
           </div>
