@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { X, ArrowLeft, Briefcase, Heart, Users, User, PawPrint } from "lucide-react"
@@ -105,18 +105,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     ],
   }
 
-  // Simplified variants for better mobile performance
-  const variants = {
-    enter: {
-      opacity: 0,
-    },
-    center: {
-      opacity: 1,
-    },
-    exit: {
-      opacity: 0,
-    },
-  }
+
 
   // Initial Step - What are you looking for?
   const InitialStep = () => (
@@ -134,7 +123,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         <div className="max-w-md mx-auto space-y-4">
           <button
             onClick={() => handleInitialChoice("jobs")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-deepgreen" />
@@ -144,7 +133,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
           <button
             onClick={() => handleInitialChoice("care")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <Heart className="w-5 h-5 text-deepgreen" />
@@ -176,7 +165,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               <div key={category.id}>
                 <Button
                   asChild
-                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-all duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
                 >
                   <Link href={category.href} onClick={handleClose}>
                     <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
@@ -213,7 +202,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               <button
                 key={category.id}
                 onClick={() => handleCategoryChoice(category.id)}
-                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
               >
                 <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
                   <Icon className="w-5 h-5 text-deepgreen" />
@@ -316,29 +305,11 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
         <DialogTitle className="sr-only">
           Get Started - Find Care or Jobs
         </DialogTitle>
-        <motion.div 
-          className="w-full min-h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={currentStep}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                duration: 0.15,
-                ease: "easeOut",
-              }}
-            >
-              {getCurrentStep()}
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
+        <div className="w-full min-h-full">
+          <div className="transition-opacity duration-200 ease-out">
+            {getCurrentStep()}
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   )
