@@ -151,4 +151,34 @@ html {
     opacity: 1;
     transform: translateX(0);
   }
+
+  /* Mobile hero scroll-triggered animation */
+  @media (max-width: 768px) {
+    .hero-scroll-up {
+      animation: heroScrollUp 0.7s ease-out forwards;
+    }
+    
+    /* Initial state for mobile hero content */
+    .hero-content-mobile {
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+    }
+    
+    .hero-content-mobile.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes heroScrollUp {
+    0% {
+      opacity: 0;
+      transform: translateY(80px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

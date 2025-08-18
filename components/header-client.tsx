@@ -119,15 +119,15 @@ export function HeaderClient() {
           )}
 
           {/* Mobile Hamburger Menu - Hidden on desktop */}
-          <div className="md:hidden">
+          <div className="md:hidden mr-4">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-8 w-8" />
+                <Button variant="ghost" className="rounded-full px-6 py-4" style={{ backgroundColor: '#DBD9FE' }}>
+                  <Menu className="h-12 w-12" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80">
+              <SheetContent side="right" className="w-80" style={{ backgroundColor: '#E4F2D8' }}>
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 <nav className="flex flex-col space-y-2 mt-6">
                   {!isAdminPage && (

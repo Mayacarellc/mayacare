@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { MessageCircle, X } from "lucide-react"
 import { GetStartedModal } from "./get-started-modal"
 
 export function MobileGetStartedFab() {
   const [getStartedModalOpen, setGetStartedModalOpen] = useState(false)
+  const [chatBotOpen, setChatBotOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const pathname = usePathname()
@@ -34,24 +36,113 @@ export function MobileGetStartedFab() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
+  // Handle escape key to close chatbot and prevent body scroll
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && chatBotOpen) {
+        setChatBotOpen(false)
+      }
+    }
+
+    if (chatBotOpen) {
+      document.addEventListener('keydown', handleKeyDown)
+      // Prevent body scroll when chatbot is open
+      document.body.style.overflow = 'hidden'
+      
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown)
+        document.body.style.overflow = 'unset'
+      }
+    }
+  }, [chatBotOpen])
+
   // Only show on homepage and not on admin pages
   if (isAdminPage || !isHomePage) return null
 
   return (
     <>
-      {/* Floating Get Started Button - Mobile Only */}
+      {/* Floating Get Started Button - Bottom Left */}
       <div 
-        className={`md:hidden fixed bottom-4 left-4 right-4 z-50 transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed bottom-4 left-4 z-50 transition-transform duration-300 ease-in-out ${
           isVisible ? 'translate-y-0' : 'translate-y-[150%]'
         }`}
       >
         <Button
           onClick={() => setGetStartedModalOpen(true)}
-          className="w-full rounded-full bg-gradient-to-r from-greentea to-lime text-deepgreen border-2 border-lime font-semibold py-6 text-xl hover:from-greentea/80 hover:to-lime/90 transition-colors shadow-lg"
+          className="rounded-full font-semibold px-8 py-3 text-base transition-colors shadow-lg text-gray-800 hover:opacity-90"
+          style={{ backgroundColor: '#D9FB74', minWidth: '300px' }}
         >
           Get Started
         </Button>
       </div>
+
+      {/* Chat Bot Button - Bottom Right */}
+      <div 
+        className={`md:hidden fixed bottom-4 right-4 z-50 transition-transform duration-300 ease-in-out ${
+          isVisible ? 'translate-y-0' : 'translate-y-[150%]'
+        }`}
+      >
+        <Button
+          onClick={() => setChatBotOpen(true)}
+          className="rounded-full px-5 py-3 transition-colors shadow-lg text-white hover:opacity-90 text-base font-semibold flex items-center gap-2"
+          style={{ backgroundColor: '#16803C', minWidth: '140px' }}
+        >
+          <MessageCircle className="w-5 h-5" />
+          Chat
+        </Button>
+      </div>
+
+      {/* Full Screen Chat Bot Window */}
+      {chatBotOpen && (
+        <div className="fixed inset-0 z-[100] bg-white">
+          {/* Chat Header */}
+          <div className="flex items-center justify-between p-4 border-b bg-white">
+            <h2 className="text-lg font-semibold text-gray-800">Chat Support</h2>
+            <Button
+              onClick={() => setChatBotOpen(false)}
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+            >
+              <X className="w-6 h-6" />
+            </Button>
+          </div>
+          
+          {/* Chat Content */}
+          <div className="flex-1 p-4 overflow-y-auto h-[calc(100vh-80px)]">
+            <div className="space-y-4">
+              {/* Welcome Message */}
+              <div className="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                <p className="text-sm text-gray-800">
+                  Hi! I'm here to help you find the perfect care solution. How can I assist you today?
+                </p>
+              </div>
+              
+              {/* Chat messages will go here */}
+              <div className="text-center text-gray-500 text-sm mt-8">
+                Start a conversation to get personalized care recommendations
+              </div>
+            </div>
+          </div>
+          
+          {/* Chat Input */}
+          <div className="border-t p-4 bg-white">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Type your message..."
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#2C4F26] focus:border-transparent"
+              />
+              <Button
+                className="rounded-full px-6"
+                style={{ backgroundColor: '#2C4F26' }}
+              >
+                Send
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Get Started Modal */}
       <GetStartedModal 

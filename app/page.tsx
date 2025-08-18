@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 import { Bath, Brain, Home, ShoppingBasket, Heart, Users, MessageCircle, Car, Utensils, Clock, Accessibility, Phone, UserCheck, AlertCircle, Stethoscope, FileText, Calendar, UserPlus, Target, Activity, Flower, Dumbbell, Apple, Smile, CalendarCheck, ClipboardList } from "lucide-react"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const AppStoreIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -27,6 +27,43 @@ export default function Component() {
   
   // State to track which service details are shown
   const [showDetails, setShowDetails] = useState<Record<string, boolean>>({});
+  
+  // State for hero content animation on mobile
+  const [heroVisible, setHeroVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Trigger hero animation based on scroll for mobile
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      // Calculate scroll progress (0 to 1)
+      const progress = Math.min(scrollY / (windowHeight * 0.3), 1);
+      setScrollProgress(progress);
+      
+      // Show content when scroll progress reaches certain threshold
+      if (progress > 0.1) {
+        setHeroVisible(true);
+      } else {
+        setHeroVisible(false);
+      }
+    };
+
+    // Initial check for desktop (always show)
+    const isDesktop = window.innerWidth >= 768;
+    if (isDesktop) {
+      setHeroVisible(true);
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
   
   // Service details data with icons
   const serviceDetails = {
@@ -98,12 +135,7 @@ export default function Component() {
 
   return (
     <div ref={animationRef} className="bg-background text-foreground">
-      <div className="fixed bottom-4 right-4 z-50">
-        <Button size="icon" className="rounded-full bg-primary hover:bg-primary/90 w-12 h-12">
-          <svg className="w-6 h-6 text-primary-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="4" r="2"/><path d="M10 22v-7m4 7v-7"/><path d="M2 9a10 10 0 0 0 20 0"/></svg>
-          <span className="sr-only">Accessibility Options</span>
-        </Button>
-      </div>
+
 
       <main>
         {/* Hero Section */}
@@ -122,19 +154,23 @@ export default function Component() {
           </div>
 
           {/* Content */}
-          <div className="relative z-1 container mx-auto px-4 h-full flex items-center">
-            <div className="flex flex-col justify-center py-12 md:py-0 max-w-2xl">
+          <div className="relative z-1 container mx-auto px-4 h-full flex items-end md:items-center pb-16 md:pb-0">
+            <div className="flex flex-col justify-end md:justify-center py-4 md:py-0 max-w-xl w-full mb-8 md:mb-0">
               {/* Clean rounded rectangle container */}
-              <div className="bg-[#E4F2D4] rounded-[3rem] p-8 md:p-12 lg:p-16">
-                <h1 className="text-3xl md:text-6xl font-bold text-[#1A5463] mb-6">
+              <div 
+                className={`bg-[#E4F2D4] rounded-[3rem] p-6 md:p-8 lg:p-10 md:opacity-100 md:transform-none hero-content-mobile ${
+                  heroVisible ? 'visible hero-scroll-up' : ''
+                }`}
+              >
+                <h1 className="text-2xl md:text-5xl font-bold text-[#1A5463] mb-4">
                 Compassionate Home Care for Your Loved Ones
                 </h1>
-                <p className="text-base md:text-xl text-[#1A5463] max-w-2xl mb-8">
+                <p className="text-sm md:text-lg text-[#1A5463] max-w-xl mb-6">
                   Providing personalized non-medical support to help individuals live comfortably and independently at home in Somerville, MA.
                 </p>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <Link href="/find-care">
-                    <button className="group bg-[#2C4F26] hover:bg-[#234018] text-white font-bold text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full flex items-center gap-3 transition-all duration-300">
+                    <button className="group bg-[#2C4F26] hover:bg-[#234018] text-white font-bold text-sm md:text-base px-5 md:px-6 py-2 md:py-3 rounded-full flex items-center gap-2 transition-all duration-300">
                       JOIN US
                       <span className="bg-[#D9FB74] text-[#2C4F26] rounded-full p-2 group-hover:scale-110 transition-transform duration-200">
                         <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,7 +179,7 @@ export default function Component() {
                       </span>
                     </button>
                   </Link>
-                  <Link href="/find-care" className="text-base md:text-lg underline underline-offset-4 text-[#1A5463]">
+                  <Link href="/find-care" className="text-sm md:text-base underline underline-offset-4 text-[#1A5463]">
                     Learn More
                   </Link>
                 </div>
@@ -184,7 +220,7 @@ export default function Component() {
                   </button>
                   {showDetails['compassionate'] && (
                     <div className="mt-6">
-                      <ul className="space-y-3">
+                      <ul className="space-y-3">,
                         {serviceDetails['in-home'].map((item, index) => {
                           const IconComponent = item.icon;
                           return (
