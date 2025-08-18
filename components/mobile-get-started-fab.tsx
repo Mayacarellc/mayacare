@@ -9,7 +9,7 @@ import { GetStartedModal } from "./get-started-modal"
 export function MobileGetStartedFab() {
   const [getStartedModalOpen, setGetStartedModalOpen] = useState(false)
   const [chatBotOpen, setChatBotOpen] = useState(false)
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
   const pathname = usePathname()
   const isAdminPage = pathname.startsWith("/admin")
@@ -19,8 +19,8 @@ export function MobileGetStartedFab() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       
-      // Show button when scrolling up, hide when scrolling down
-      if (currentScrollY < lastScrollY || currentScrollY < 100) {
+      // Only show buttons when scrolling up (and user has scrolled at least a bit)
+      if (currentScrollY < lastScrollY && currentScrollY > 50) {
         setIsVisible(true)
       } else {
         setIsVisible(false)
@@ -72,7 +72,7 @@ export function MobileGetStartedFab() {
           {/* Get Started Button */}
           <Button
             onClick={() => setGetStartedModalOpen(true)}
-            className="rounded-full font-semibold px-10 py-6 text-lg transition-colors shadow-lg text-gray-800 hover:opacity-90"
+            className="rounded-full font-semibold px-10 py-5 text-lg transition-colors shadow-lg text-gray-800 hover:opacity-90"
             style={{ backgroundColor: '#D9FB74', minWidth: '260px' }}
           >
             Get Started
@@ -81,7 +81,7 @@ export function MobileGetStartedFab() {
           {/* Chat Button */}
           <Button
             onClick={() => setChatBotOpen(true)}
-            className="rounded-full px-8 py-6 transition-colors shadow-lg text-white hover:opacity-90 text-lg font-semibold flex items-center gap-2"
+            className="rounded-full px-8 py-5 transition-colors shadow-lg text-white hover:opacity-90 text-lg font-semibold flex items-center gap-2"
             style={{ backgroundColor: '#16803C', minWidth: '140px' }}
           >
             <MessageCircle className="w-6 h-6" />
