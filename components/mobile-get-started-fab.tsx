@@ -61,35 +61,33 @@ export function MobileGetStartedFab() {
 
   return (
     <>
-      {/* Floating Get Started Button - Bottom Left */}
+      {/* Bottom Buttons Container with Background */}
       <div 
-        className={`md:hidden fixed bottom-4 left-4 z-50 transition-transform duration-300 ease-in-out ${
-          isVisible ? 'translate-y-0' : 'translate-y-[150%]'
+        className={`md:hidden fixed bottom-0 left-0 right-0 z-50 p-4 transition-transform duration-300 ease-in-out ${
+          isVisible ? 'translate-y-0' : 'translate-y-full'
         }`}
+        style={{ backgroundColor: '#F0F0F0' }}
       >
-        <Button
-          onClick={() => setGetStartedModalOpen(true)}
-          className="rounded-full font-semibold px-8 py-3 text-base transition-colors shadow-lg text-gray-800 hover:opacity-90"
-          style={{ backgroundColor: '#D9FB74', minWidth: '300px' }}
-        >
-          Get Started
-        </Button>
-      </div>
+        <div className="flex justify-between items-center gap-4">
+          {/* Get Started Button */}
+          <Button
+            onClick={() => setGetStartedModalOpen(true)}
+            className="rounded-full font-semibold px-10 py-6 text-lg transition-colors shadow-lg text-gray-800 hover:opacity-90"
+            style={{ backgroundColor: '#D9FB74', minWidth: '260px' }}
+          >
+            Get Started
+          </Button>
 
-      {/* Chat Bot Button - Bottom Right */}
-      <div 
-        className={`md:hidden fixed bottom-4 right-4 z-50 transition-transform duration-300 ease-in-out ${
-          isVisible ? 'translate-y-0' : 'translate-y-[150%]'
-        }`}
-      >
-        <Button
-          onClick={() => setChatBotOpen(true)}
-          className="rounded-full px-5 py-3 transition-colors shadow-lg text-white hover:opacity-90 text-base font-semibold flex items-center gap-2"
-          style={{ backgroundColor: '#16803C', minWidth: '140px' }}
-        >
-          <MessageCircle className="w-5 h-5" />
-          Chat
-        </Button>
+          {/* Chat Button */}
+          <Button
+            onClick={() => setChatBotOpen(true)}
+            className="rounded-full px-8 py-6 transition-colors shadow-lg text-white hover:opacity-90 text-lg font-semibold flex items-center gap-2"
+            style={{ backgroundColor: '#16803C', minWidth: '140px' }}
+          >
+            <MessageCircle className="w-6 h-6" />
+            Chat
+          </Button>
+        </div>
       </div>
 
       {/* Full Screen Chat Bot Window */}

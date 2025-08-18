@@ -32,37 +32,14 @@ export default function Component() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Trigger hero animation based on scroll for mobile
+  // Simple hero animation trigger
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      
-      // Calculate scroll progress (0 to 1)
-      const progress = Math.min(scrollY / (windowHeight * 0.3), 1);
-      setScrollProgress(progress);
-      
-      // Show content when scroll progress reaches certain threshold
-      if (progress > 0.1) {
-        setHeroVisible(true);
-      } else {
-        setHeroVisible(false);
-      }
-    };
-
-    // Initial check for desktop (always show)
-    const isDesktop = window.innerWidth >= 768;
-    if (isDesktop) {
+    // Simple delay for mobile, immediate for desktop
+    const timer = setTimeout(() => {
       setHeroVisible(true);
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
+    }, window.innerWidth < 768 ? 500 : 0);
     
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
+    return () => clearTimeout(timer);
   }, []);
   
   // Service details data with icons
@@ -158,8 +135,8 @@ export default function Component() {
             <div className="flex flex-col justify-end md:justify-center py-4 md:py-0 max-w-xl w-full mb-8 md:mb-0">
               {/* Clean rounded rectangle container */}
               <div 
-                className={`bg-[#E4F2D4] rounded-[3rem] p-6 md:p-8 lg:p-10 md:opacity-100 md:transform-none hero-content-mobile ${
-                  heroVisible ? 'visible hero-scroll-up' : ''
+                className={`bg-[#E4F2D4] rounded-[3rem] p-6 md:p-8 lg:p-10 md:opacity-100 md:transform-none transition-all duration-500 ease-out ${
+                  heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
               >
                 <h1 className="text-2xl md:text-5xl font-bold text-[#1A5463] mb-4">
