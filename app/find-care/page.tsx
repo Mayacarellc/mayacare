@@ -95,12 +95,13 @@ export default function FindCarePage() {
             className="object-cover"
             priority
           />
-          
+          {/* Optional overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/10"></div>
         </div>
         
         {/* Content */}
-        <div className="relative z-10 container mx-auto h-full px-4 grid grid-cols-1 md:grid-cols-[55%_45%] gap-8 items-stretch">
-          <div className="flex flex-col justify-center py-12 md:py-0 md:pl-8 lg:pl-12">
+        <div className="relative z-10 container mx-auto h-full px-4 flex items-center">
+          <div className="flex flex-col justify-center py-12 md:py-0 md:pl-8 lg:pl-12 max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold text-[#1A5463] mb-6">
               Find the Care You Deserve, Right at Home
             </h1>
@@ -123,248 +124,254 @@ export default function FindCarePage() {
               </Link>
             </div>
           </div>
-          <div className="relative hidden md:block h-full">
-            <Image src="/images/group.png" alt="Care services" fill className="object-cover rounded-xl" />
-          </div>
         </div>
       </section>
 
       {/* Care We Provide Section */}
-      <section className="py-16 md:py-24" style={{ backgroundColor: '#EFF5F4' }}>
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-5xl font-serif py-10 font-bold tracking-tight text-center text-[#1A5463] mb-16 fade-in">Care We Provide</h2>
-          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
-            {/* Left copy */}
-            <div className="slide-in-left">
-              <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">In‑Home Care Services</h2>
-              <p className="text-muted-foreground mb-8 max-w-2xl">
-                Our home care services can help aging adults stay engaged in everyday life with tailor‑made support by professional
-                caregivers to stay safe and well at home. It's our mission to provide an elder care plan personalized to your family's
-                needs to bring comfort, connection, and quality of life in the place that they love the most, their home.
-              </p>
-              <Button 
-                onClick={() => toggleDetails('in-home')}
-                className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
-              >
-                {showDetails['in-home'] ? 'Show Less' : 'See All Home Care Services'}
-              </Button>
-            </div>
+      <section className="py-16 md:py-24" style={{ backgroundColor: '#275F49' }}>
+        <div className="container mx-auto px-8 md:px-12 lg:px-16">
+          <h2 className="text-3xl md:text-5xl font-serif py-10 font-bold tracking-tight text-center text-white mb-16">Care We Provide</h2>
+          
 
-            {/* Right image - constrained to content width with unique frame */}
-            <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md ml-auto md:ml-0 slide-in-right">
-              {showDetails['in-home'] ? (
-                <div className="bg-[white] rounded-[2.5rem]  p-8 h-full overflow-y-auto">
-                  <h3 className="text-xl font-bold text-[#1A5463] mb-4">In‑Home Care Services</h3>
-                  <ul className="space-y-3">
-                    {serviceDetails['in-home'].map((item, index) => {
-                      const IconComponent = item.icon;
-                      return (
-                        <li key={index} className="flex items-start space-x-3">
-                          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
-                            <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
-                          </div>
-                          <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+          {/* Service Cards - New Layout */}
+          <div className="space-y-16 md:space-y-24">
+            {/* Service 1: In‑Home Care Services - Right aligned */}
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <div className="w-full md:w-1/2 flex justify-center md:justify-start">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center slide-in-left" style={{ backgroundColor: '#DBD9FE' }}>
+                  <Image src="/images/adult-care.jpg" alt="In‑Home Care Services" width={120} height={120} className="rounded-full object-cover" />
                 </div>
-              ) : (
-                <>
-                  <Image
-                    src="/images/adult-care.jpg"
-                    alt="Care we provide"
-                    fill
-                    priority
-                    className="object-cover rounded-[2.5rem] shadow-lg"
-                  />
-                  {/* Unique shape: clipped corner + accent tab */}
-                  <div className="hidden md:block absolute -top-6 -left-6 w-20 h-20 rotate-45 rounded-xl" style={{ backgroundColor: '#F8F8F2' }}></div>
-                  <div className="hidden md:block absolute -bottom-4 -right-4 w-24 h-10 rounded-full bg-[#D9FB74]"></div>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Zig-zag list of services (aligned with In‑Home Care Services) */}
-          <div className="mt-14 space-y-10 md:space-y-16">
-            {/* Item 1 swapped */}
-            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
-              <div className="md:order-2">
-                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Companion & Household Support</h2>
-                <p className="text-muted-foreground mb-8 max-w-2xl">Friendly conversation, shared activities, light cleaning, meal prep, laundry, and errands — keeping life comfortable and uplifting.</p>
-                <Button 
-                  onClick={() => toggleDetails('companion')}
-                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
-                >
-                  {showDetails.companion ? 'Show Less' : 'Learn More'}
-                </Button>
               </div>
-              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md md:order-1">
-                {showDetails.companion ? (
-                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
-                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Companion Care Services</h3>
-                    <ul className="space-y-3">
-                      {serviceDetails.companion.map((item, index) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <li key={index} className="flex items-start space-x-3">
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
-                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
-                            </div>
-                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  <Image src="/images/group.png" alt="Companion & Household Support" fill className="object-cover rounded-[2.5rem] shadow-lg" />
-                )}
+              <div className="w-full md:w-1/2 slide-in-right">
+                <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#DBD9FE' }}>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">In‑Home Care Services</h3>
+                  <p className="text-[#275F49] mb-6 leading-relaxed">
+                    Our home care services can help aging adults stay engaged in everyday life with tailor‑made support by professional caregivers to stay safe and well at home. It's our mission to provide an elder care plan personalized to your family's needs to bring comfort, connection, and quality of life in the place that they love the most, their home.
+                  </p>
+                  <button 
+                    onClick={() => toggleDetails('in-home')}
+                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
+                  >
+                    {showDetails['in-home'] ? 'Show Less' : 'See All Home Care Services'}
+                  </button>
+                  {showDetails['in-home'] && (
+                    <div className="mt-6">
+                      <ul className="space-y-3">
+                        {serviceDetails['in-home'].map((item, index) => {
+                          const IconComponent = item.icon;
+                          return (
+                            <li key={index} className="flex items-start space-x-3">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
+                                <IconComponent className="w-3 h-3 text-white" />
+                              </div>
+                              <span className="text-sm text-[#275F49]">{item.text}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Item 2 */}
-            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
-              <div>
-                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Special Needs & Disability Support</h2>
-                <p className="text-muted-foreground mb-8 max-w-2xl">Personalized care for individuals with unique needs, plus respite support to give family caregivers peace of mind.</p>
-                <Button 
-                  onClick={() => toggleDetails('special-needs')}
-                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
-                >
-                  {showDetails['special-needs'] ? 'Show Less' : 'Learn More'}
-                </Button>
+            {/* Service 2: Companion & Household Support - Left aligned */}
+            <div className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12">
+              <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center slide-in-right" style={{ backgroundColor: '#E4F2D4' }}>
+                  <Image src="/images/group.png" alt="Companion & Household Support" width={120} height={120} className="rounded-full object-cover" />
+                </div>
               </div>
-              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md ml-auto md:ml-0">
-                {showDetails['special-needs'] ? (
-                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
-                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Special Needs & Disability Support</h3>
-                    <ul className="space-y-3">
-                      {serviceDetails['special-needs'].map((item, index) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <li key={index} className="flex items-start space-x-3">
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
-                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
-                            </div>
-                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  <Image src="/images/adult-care.jpg" alt="Special Needs & Disability Support" fill className="object-cover rounded-[2.5rem] shadow-lg" />
-                )}
-              </div>
-            </div>
-
-            {/* Item 3 */}
-            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
-              <div className="md:order-2">
-                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">24/7 Live‑In Care</h2>
-                <p className="text-muted-foreground mb-8 max-w-2xl">Round-the-clock assistance from a dedicated caregiver who stays in the home, offering safety, support, and companionship at any hour.</p>
-                <Button 
-                  onClick={() => toggleDetails('live-in')}
-                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
-                >
-                  {showDetails['live-in'] ? 'Show Less' : 'Learn More'}
-                </Button>
-              </div>
-              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md md:order-1">
-                {showDetails['live-in'] ? (
-                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
-                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">24/7 Live‑In Care</h3>
-                    <ul className="space-y-3">
-                      {serviceDetails['live-in'].map((item, index) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <li key={index} className="flex items-start space-x-3">
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
-                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
-                            </div>
-                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  <Image src="/images/pet-care.jpg" alt="24/7 Live‑In Care" fill className="object-cover rounded-[2.5rem] shadow-lg" />
-                )}
+              <div className="w-full md:w-1/2 slide-in-left">
+                <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#E4F2D4' }}>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Companion & Household Support</h3>
+                  <p className="text-[#275F49] mb-6 leading-relaxed">
+                    Friendly conversation, shared activities, light cleaning, meal prep, laundry, and errands — keeping life comfortable and uplifting.
+                  </p>
+                  <button 
+                    onClick={() => toggleDetails('companion')}
+                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
+                  >
+                    {showDetails['companion'] ? 'Show Less' : 'Learn More'}
+                  </button>
+                  {showDetails['companion'] && (
+                    <div className="mt-6">
+                      <ul className="space-y-3">
+                        {serviceDetails['companion'].map((item, index) => {
+                          const IconComponent = item.icon;
+                          return (
+                            <li key={index} className="flex items-start space-x-3">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
+                                <IconComponent className="w-3 h-3 text-white" />
+                              </div>
+                              <span className="text-sm text-[#275F49]">{item.text}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Item 4 */}
-            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
-              <div>
-                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Personalized Care Plans</h2>
-                <p className="text-muted-foreground mb-8 max-w-2xl">Tailored care strategies designed around your needs, routines, and preferences — because every person's care journey is unique.</p>
-                <Button 
-                  onClick={() => toggleDetails('care-plans')}
-                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
-                >
-                  {showDetails['care-plans'] ? 'Show Less' : 'Learn More'}
-                </Button>
+            {/* Service 3: Special Needs & Disability Support - Right aligned */}
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <div className="w-full md:w-1/2 flex justify-center md:justify-start">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center slide-in-left" style={{ backgroundColor: '#F0F0F0' }}>
+                  <Image src="/images/adult-care.jpg" alt="Special Needs & Disability Support" width={120} height={120} className="rounded-full object-cover" />
+                </div>
               </div>
-              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md ml-auto md:ml-0">
-                {showDetails['care-plans'] ? (
-                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
-                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Personalized Care Plans</h3>
-                    <ul className="space-y-3">
-                      {serviceDetails['care-plans'].map((item, index) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <li key={index} className="flex items-start space-x-3">
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
-                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
-                            </div>
-                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  <Image src="/images/group.png" alt="Personalized Care Plans" fill className="object-cover rounded-[2.5rem] shadow-lg" />
-                )}
+              <div className="w-full md:w-1/2 slide-in-right">
+                <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#F0F0F0' }}>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Special Needs & Disability Support</h3>
+                  <p className="text-[#275F49] mb-6 leading-relaxed">
+                    Personalized care for individuals with unique needs, plus respite support to give family caregivers peace of mind.
+                  </p>
+                  <button 
+                    onClick={() => toggleDetails('special-needs')}
+                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
+                  >
+                    {showDetails['special-needs'] ? 'Show Less' : 'Learn More'}
+                  </button>
+                  {showDetails['special-needs'] && (
+                    <div className="mt-6">
+                      <ul className="space-y-3">
+                        {serviceDetails['special-needs'].map((item, index) => {
+                          const IconComponent = item.icon;
+                          return (
+                            <li key={index} className="flex items-start space-x-3">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
+                                <IconComponent className="w-3 h-3 text-white" />
+                              </div>
+                              <span className="text-sm text-[#275F49]">{item.text}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Item 5 */}
-            <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start fade-in">
-              <div className="md:order-2">
-                <h2 className="text-3xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-[#1A5463]">Wellness & Yoga</h2>
-                <p className="text-muted-foreground mb-8 max-w-2xl">Meal planning, grocery selection, and balanced diet preparation to promote health, strength, and overall well‑being.</p>
-                <Button 
-                  onClick={() => toggleDetails('wellness')}
-                  className="rounded-full bg-[#2C4F26] text-white hover:opacity-90 px-6 py-6 text-base"
-                >
-                  {showDetails.wellness ? 'Show Less' : 'Learn More'}
-                </Button>
+            {/* Service 4: 24/7 Live‑In Care - Left aligned */}
+            <div className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12">
+              <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center slide-in-right" style={{ backgroundColor: '#DBD9FE' }}>
+                  <Image src="/images/pet-care.jpg" alt="24/7 Live‑In Care" width={120} height={120} className="rounded-full object-cover" />
+                </div>
               </div>
-              <div className="relative h-56 sm:h-72 md:h-80 lg:h-[22rem] max-w-md md:order-1">
-                {showDetails.wellness ? (
-                  <div className="bg-white rounded-[2.5rem]  p-8 h-full overflow-y-auto">
-                    <h3 className="text-xl font-bold text-[#1A5463] mb-4">Wellness & Yoga</h3>
-                    <ul className="space-y-3">
-                      {serviceDetails.wellness.map((item, index) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <li key={index} className="flex items-start space-x-3">
-                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style={{ backgroundColor: '#2C4F26' }}>
-                              <IconComponent className="w-4 h-4" style={{ color: '#D9FB74' }} />
-                            </div>
-                            <span className="text-sm font-serif" style={{ color: '#2C4F26' }}>{item.text}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  <Image src="/images/senior-care.jpg" alt="Wellness & Yoga" fill className="object-cover rounded-[2.5rem] shadow-lg" />
-                )}
+              <div className="w-full md:w-1/2 slide-in-left">
+                <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#DBD9FE' }}>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">24/7 Live‑In Care</h3>
+                  <p className="text-[#275F49] mb-6 leading-relaxed">
+                    Round-the-clock assistance from a dedicated caregiver who stays in the home, offering safety, support, and companionship at any hour.
+                  </p>
+                  <button 
+                    onClick={() => toggleDetails('live-in')}
+                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
+                  >
+                    {showDetails['live-in'] ? 'Show Less' : 'Learn More'}
+                  </button>
+                  {showDetails['live-in'] && (
+                    <div className="mt-6">
+                      <ul className="space-y-3">
+                        {serviceDetails['live-in'].map((item, index) => {
+                          const IconComponent = item.icon;
+                          return (
+                            <li key={index} className="flex items-start space-x-3">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
+                                <IconComponent className="w-3 h-3 text-white" />
+                              </div>
+                              <span className="text-sm text-[#275F49]">{item.text}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Service 5: Personalized Care Plans - Right aligned */}
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <div className="w-full md:w-1/2 flex justify-center md:justify-start">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center slide-in-left" style={{ backgroundColor: '#E4F2D4' }}>
+                  <Image src="/images/group.png" alt="Personalized Care Plans" width={120} height={120} className="rounded-full object-cover" />
+                </div>
+              </div>
+              <div className="w-full md:w-1/2 slide-in-right">
+                <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#E4F2D4' }}>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Personalized Care Plans</h3>
+                  <p className="text-[#275F49] mb-6 leading-relaxed">
+                    Tailored care strategies designed around your needs, routines, and preferences — because every person's care journey is unique.
+                  </p>
+                  <button 
+                    onClick={() => toggleDetails('care-plans')}
+                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
+                  >
+                    {showDetails['care-plans'] ? 'Show Less' : 'Learn More'}
+                  </button>
+                  {showDetails['care-plans'] && (
+                    <div className="mt-6">
+                      <ul className="space-y-3">
+                        {serviceDetails['care-plans'].map((item, index) => {
+                          const IconComponent = item.icon;
+                          return (
+                            <li key={index} className="flex items-start space-x-3">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
+                                <IconComponent className="w-3 h-3 text-white" />
+                              </div>
+                              <span className="text-sm text-[#275F49]">{item.text}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Service 6: Wellness & Yoga - Left aligned */}
+            <div className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12">
+              <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full flex items-center justify-center slide-in-right" style={{ backgroundColor: '#F0F0F0' }}>
+                  <Image src="/images/senior-care.jpg" alt="Wellness & Yoga" width={120} height={120} className="rounded-full object-cover" />
+                </div>
+              </div>
+              <div className="w-full md:w-1/2 slide-in-left">
+                <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#F0F0F0' }}>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Wellness & Yoga</h3>
+                  <p className="text-[#275F49] mb-6 leading-relaxed">
+                    Meal planning, grocery selection, and balanced diet preparation to promote health, strength, and overall well‑being.
+                  </p>
+                  <button 
+                    onClick={() => toggleDetails('wellness')}
+                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
+                  >
+                    {showDetails['wellness'] ? 'Show Less' : 'Learn More'}
+                  </button>
+                  {showDetails['wellness'] && (
+                    <div className="mt-6">
+                      <ul className="space-y-3">
+                        {serviceDetails['wellness'].map((item, index) => {
+                          const IconComponent = item.icon;
+                          return (
+                            <li key={index} className="flex items-start space-x-3">
+                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
+                                <IconComponent className="w-3 h-3 text-white" />
+                              </div>
+                              <span className="text-sm text-[#275F49]">{item.text}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

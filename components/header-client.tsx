@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -15,102 +15,109 @@ export function HeaderClient() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
   const [getStartedModalOpen, setGetStartedModalOpen] = useState(false)
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
   const pathname = usePathname()
   const isAdminPage = pathname.startsWith("/admin")
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      const heroSectionHeight = window.innerHeight // Hero section is 100vh
+      
+      // Show header if scrolling up (any amount) or if still in hero section
+      if (currentScrollY < lastScrollY || currentScrollY <= heroSectionHeight) {
+        setIsHeaderVisible(true)
+      } else if (currentScrollY > lastScrollY && currentScrollY > heroSectionHeight) {
+        // Hide header only when scrolling down AND past hero section
+        setIsHeaderVisible(false)
+      }
+      
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
+
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b" style={{ backgroundColor: '#F8F8F2' }}>
-        {!isAdminPage && pathname === "/" && (
-          <div className="text-center py-2 px-4 text-sm font-medium text-white" style={{ backgroundColor: "#2C4F26" }}>
-            Currently serving Pennsylvania residents only
-          </div>
-        )}
+      <header 
+        className={`fixed top-0 z-40 w-full bg-transparent transition-transform duration-300 ${
+          isHeaderVisible ? 'transform translate-y-0' : 'transform -translate-y-full'
+        }`} 
+        style={{ backgroundColor: 'transparent', backdropFilter: 'none' }}
+      >
+
       <div className="container mx-auto flex items-center justify-between px-4" style={{ height: '4rem', minHeight: '4rem', maxHeight: '4rem' }}>
-        <Link href="/" className="flex items-center" style={{ marginRight: '2rem' }}>
-          <Image 
-            src="/NestAid.png" 
-            alt="NestAid Logo" 
-            width={200} 
-            height={100} 
-            style={{ height: '3rem', width: 'auto' }}
-            priority
-          />
+        <Link href="/" className="flex items-center">
+          <div className="bg-green-700 rounded-full px-6 py-3 shadow-sm">
+            <span className="text-white font-serif text-xl font-medium">NestAid</span>
+          </div>
         </Link>
         
-        {/* Desktop Navigation - Hidden on mobile */}
-        {!isAdminPage && (
-          <nav className="hidden md:flex items-center gap-2">
-            <Link href="/find-care" className="relative text-base font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-[#D9FB74] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 after:content-[''] after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-[2px] after:bg-primary after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200">
-              Find care
-            </Link>
-            <Link href="/jobs/senior-care" className="relative text-base font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-[#D9FB74] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 after:content-[''] after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-[2px] after:bg-primary after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200">
-              Find jobs
-            </Link>
-            <Link href="/family-caregivers" className="relative text-base font-medium px-3 py-2 rounded-md transition-all duration-200 hover:bg-[#D9FB74] hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 after:content-[''] after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-[2px] after:bg-primary after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200">
-              Family Caregivers
-            </Link>
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-base font-medium !bg-transparent hover:!bg-[#E4F2D8] focus:!bg-[#D9FB74] data-[state=open]:!bg-[#D9FB74]">
-                    Resources
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[280px] gap-3 p-4">
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link href="/about-us" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#D9FB74] text-sm font-medium">About us</Link>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link href="/cost-of-care" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#D9FB74] text-sm font-medium">Cost of care calculator</Link>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link href="/help-center" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#D9FB74] text-sm font-medium">Help center</Link>
-                        </NavigationMenuLink>
-                      </li>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </nav>
-        )}
-        
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex items-center space-x-4">
+          {/* Desktop Navigation - Moved to right side */}
+          {!isAdminPage && (
+            <nav className="hidden md:flex items-center">
+              <div className="rounded-full px-2 py-2 shadow-sm border border-gray-200/50" style={{ backgroundColor: '#DBD9FE' }}>
+                <div className="flex items-center gap-1">
+                  <Link href="/find-care" className="text-base font-medium px-4 py-2 rounded-full transition-all duration-200 hover:bg-gray-100 text-gray-700 hover:text-gray-900">
+                    Find care
+                  </Link>
+                  <Link href="/jobs/senior-care" className="text-base font-medium px-4 py-2 rounded-full transition-all duration-200 hover:bg-gray-100 text-gray-700 hover:text-gray-900">
+                    Find jobs
+                  </Link>
+                  <Link href="/family-caregivers" className="text-base font-medium px-4 py-2 rounded-full transition-all duration-200 hover:bg-gray-100 text-gray-700 hover:text-gray-900">
+                    Family Caregivers
+                  </Link>
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger className="text-base font-medium px-4 py-2 rounded-full transition-all duration-200 hover:bg-gray-100 text-gray-700 hover:text-gray-900 !bg-transparent data-[state=open]:!bg-gray-100">
+                          Resources
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <ul className="grid w-[280px] gap-3 p-4">
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link href="/about-us" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 text-sm font-medium">About us</Link>
+                              </NavigationMenuLink>
+                            </li>
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link href="/cost-of-care" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 text-sm font-medium">Cost of care calculator</Link>
+                              </NavigationMenuLink>
+                            </li>
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link href="/help-center" className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 text-sm font-medium">Help center</Link>
+                              </NavigationMenuLink>
+                            </li>
+                          </ul>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </div>
+              </div>
+            </nav>
+          )}
+
           {/* Header Buttons - Hidden on mobile, shown on desktop */}
           {!isAdminPage && (
-            <div className="hidden md:flex items-center" style={{ gap: '0.75rem' }}>
-              {/* Phone Button */}
-              <Button
-                variant="outline"
-                className="rounded-full bg-white border-2 border-deepgreen/20 text-deepgreen font-semibold hover:bg-greentea transition-colors"
-                style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', lineHeight: '1.25' }}
-                asChild
-              >
-                <a href="tel:4129530622" className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4" />
-                  <span>4129530622</span>
-                </a>
-              </Button>
-              
-              {/* Get Started Button */}
+            <div className="hidden md:flex items-center">
+              {/* Contact Us Button */}
               <Button
                 onClick={() => setGetStartedModalOpen(true)}
-                className="rounded-full text-white font-semibold hover:opacity-90 transition-all shadow-sm"
-                style={{ backgroundColor: '#2C4F26', padding: '0.75rem 1.5rem', fontSize: '1rem', lineHeight: '1.25' }}
+                className="rounded-full text-gray-700 font-medium hover:bg-gray-100 transition-all shadow-sm border border-gray-200/50 px-6 py-6"
+                style={{ backgroundColor: '#E4F2D4', fontSize: '1rem', lineHeight: '1.5' }}
               >
                 Join Now
               </Button>
             </div>
           )}
-          
 
-          
           {/* Mobile Hamburger Menu - Hidden on desktop */}
           <div className="md:hidden">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
