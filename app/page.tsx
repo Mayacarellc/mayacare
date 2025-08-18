@@ -111,12 +111,12 @@ export default function Component() {
 
 
   return (
-    <div ref={animationRef} className="bg-background text-foreground">
+    <div ref={animationRef} className="bg-background text-foreground overflow-x-hidden">
 
 
       <main>
         {/* Hero Section */}
-        <section className="relative w-screen h-screen overflow-hidden">
+        <section className="relative w-full h-screen overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0">
             <Image
