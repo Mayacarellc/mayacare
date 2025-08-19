@@ -98,7 +98,6 @@
     @apply text-foreground;
     background-color: #e8e8e8;
     font-feature-settings: "rlig" 1, "calt" 1;
-    overflow-x: hidden;
   }
 }
 
@@ -106,7 +105,6 @@
 html {
   scroll-behavior: smooth;
   background-color: #e8e8e8;
-  overflow-x: hidden;
 }
 
 /* Enhanced smooth scrolling with custom easing */
