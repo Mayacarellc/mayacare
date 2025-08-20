@@ -1,588 +1,539 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { Search, MapPin, Clock, DollarSign, Calendar, Star, Heart, Share2, ArrowRight, Users, Award, Shield, Filter } from "lucide-react"
+import { 
+  MapPin, 
+  Users, 
+  Heart, 
+  Clock, 
+  TrendingUp, 
+  Award, 
+  CheckCircle,
+  Utensils,
+  Car,
+  Home,
+  Brain,
+  Shield,
+  Star,
+  Quote,
+  Search,
+  Navigation
+} from "lucide-react"
 import { motion } from "framer-motion"
 
+export default function FindJobsPage() {
+  const [locationQuery, setLocationQuery] = useState("")
+  const [isMobile, setIsMobile] = useState(false)
+  const [showContent, setShowContent] = useState(false)
 
-// Mock job data
-const mockJobs = [
-  {
-    id: 1,
-    title: "CareGiver",
-    location: "Melrose, MA and the Surrounding Areas",
-    zipCode: "02176",
-    type: "Apply for this career",
-    description: "Home Instead is looking for caring and compassionate caregivers to become a part of our team and join our mission of enhancing the lives of aging adults throughout our community.",
-    fullDescription: `Home Instead is looking for caring and compassionate caregivers to become a part of our team and join our mission of enhancing the lives of aging adults throughout our community. Home Instead provides a variety of service to remain in their home and meet the challenges of aging with dignity, care and compassion.
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    // Handle scroll to show/hide content with throttling
+    let ticking = false
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY
+          const triggerPoint = 30 // Show content after scrolling 30px down
+          
+          const shouldShow = scrollY > triggerPoint
+          // Always update state to ensure bidirectional behavior
+          setShowContent(shouldShow)
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [showContent])
 
-Primary responsibilities and requirements include, but are not limited to:
-
-• Companionship and conversation
-• Light housekeeping tasks and meal preparation
-• Medication and appointment reminders
-• Providing personal care (incontinence care, bathing, transfers, etc.)
-• Ability to treat and care for seniors and their property with dignity and respect
-• Ability to communicate with clients in a friendly and congenial manner
-
-Qualifications/Requirements:
-• Home Health Aide or CNA certification
-• Excellent communication skills
-• Smart phone
-
-We value our CAREGivers and offer the following benefits:
-• Schedule that works for you
-• 24/7 Office support
-• Education/promotion
-• Mileage reimbursement
-• 401K with an employer match
-• $$ Referral Bonus $$
-• Additional pay for weekend and holiday shifts
-• Ava Reward program - earn gift cards
-• Tap Check to get paid before payday!`,
-    postedDate: "2 days ago",
-    icon: "briefcase.svg"
-  },
-  {
-    id: 2,
-    title: "Senior Care Assistant",
-    location: "Boston, MA and the Surrounding Areas",
-    zipCode: "02101",
-    type: "Apply for this career",
-    description: "Seeking compassionate caregivers to provide in-home care services for elderly clients in the Boston area.",
-    fullDescription: `We are seeking compassionate and dedicated caregivers to join our team in providing exceptional in-home care services for elderly clients in the Boston area.
-
-Primary responsibilities include:
-• Personal care assistance (bathing, dressing, grooming)
-• Medication reminders and management
-• Light housekeeping and meal preparation
-• Transportation to appointments
-• Companionship and emotional support
-• Safety monitoring and fall prevention
-
-Requirements:
-• Previous caregiving experience preferred
-• CPR and First Aid certification
-• Reliable transportation
-• Background check required
-• Excellent communication skills
-• Compassionate and patient nature
-
-Benefits:
-• Competitive hourly rates
-• Flexible scheduling
-• Health insurance options
-• Paid time off
-• Training and development opportunities
-• Employee recognition programs`,
-    postedDate: "3 days ago",
-    icon: "briefcase.svg"
-  },
-  {
-    id: 3,
-    title: "Home Health Aide",
-    location: "Cambridge, MA and the Surrounding Areas",
-    zipCode: "02138",
-    type: "Apply for this career",
-    description: "Join our team of dedicated home health aides providing quality care to seniors in their homes.",
-    fullDescription: `Join our growing team of dedicated home health aides committed to providing quality, compassionate care to seniors in their homes throughout Cambridge and surrounding areas.
-
-Key Responsibilities:
-• Assist with activities of daily living
-• Monitor vital signs and health status
-• Provide mobility assistance and transfers
-• Administer medications as directed
-• Maintain accurate care records
-• Communicate with healthcare team and family members
-
-Qualifications:
-• Home Health Aide certification required
-• Minimum 1 year experience in senior care
-• Knowledge of medical terminology
-• Strong interpersonal skills
-• Physical ability to assist with transfers
-• Valid driver's license and reliable vehicle
-
-What We Offer:
-• Starting wage $18-22/hour
-• Comprehensive benefits package
-• Professional development opportunities
-• Supportive work environment
-• Recognition and advancement programs
-• Referral bonuses`,
-    postedDate: "5 days ago",
-    icon: "briefcase.svg"
+  const handleUseCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // In a real app, you'd reverse geocode this to get city/state
+          setLocationQuery("Current Location")
+        },
+        (error) => {
+          console.error("Error getting location:", error)
+        }
+      )
+    }
   }
-]
-
-export default function InHomeCareJobsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [zipCodeQuery, setZipCodeQuery] = useState("")
-  const [favorites, setFavorites] = useState<number[]>([])
-  const [selectedJobType, setSelectedJobType] = useState<string>("all")
-  const [selectedLocation, setSelectedLocation] = useState<string>("all")
-  const [showJobDetails, setShowJobDetails] = useState(false)
-  const [selectedJobForDetails, setSelectedJobForDetails] = useState<typeof mockJobs[0] | null>(null)
-  const [showApplicationForm, setShowApplicationForm] = useState(false)
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    email: "",
-    jobTitle: "",
-    jobId: "",
-    workEligibility: false,
-    englishProficiency: false,
-    smsConsent: false
-  })
-
-  const toggleFavorite = (jobId: number) => {
-    setFavorites(prev => 
-      prev.includes(jobId) 
-        ? prev.filter(id => id !== jobId)
-        : [...prev, jobId]
-    )
-  }
-
-  const handleApplyClick = (job: typeof mockJobs[0]) => {
-    setSelectedJobForDetails(job)
-    setFormData(prev => ({
-      ...prev,
-      jobTitle: job.title,
-      jobId: job.id.toString()
-    }))
-    setShowJobDetails(true)
-    setShowApplicationForm(true) // Go directly to form
-  }
-
-  const handleDetailsClick = (job: typeof mockJobs[0]) => {
-    setSelectedJobForDetails(job)
-    setFormData(prev => ({
-      ...prev,
-      jobTitle: job.title,
-      jobId: job.id.toString()
-    }))
-    setShowJobDetails(true)
-    setShowApplicationForm(false)
-  }
-
-  const handleApplyFromDetails = () => {
-    setShowApplicationForm(true)
-  }
-
-
-
-  const handleCloseDetails = () => {
-    setShowJobDetails(false)
-    setSelectedJobForDetails(null)
-    setShowApplicationForm(false)
-    setFormData({
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      email: "",
-      jobTitle: "",
-      jobId: "",
-      workEligibility: false,
-      englishProficiency: false,
-      smsConsent: false
-    })
-  }
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
-    // You can add your form submission logic here
-    alert("Application submitted successfully!")
-    handleCloseDetails()
-  }
-
-  const jobTypes = ["all", "full-time", "part-time", "live-in"]
-  const locations = ["all", "Philadelphia", "Pittsburgh", "Harrisburg", "Allentown", "Erie"]
 
   return (
-    <div className="min-h-screen bg-background" style={{
-      backgroundImage: 'url(/images/mainbg.png)',
-      backgroundAttachment: 'fixed',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-    }}>
-      {/* Pennsylvania Notice */}
-      <div className="text-center p-3 text-base font-medium text-white" style={{ backgroundColor: "#2C4F26" }}>
-        Currently serving Pennsylvania residents only
-      </div>
-      
+    <div className="min-h-screen bg-background overflow-x-hidden" style={{ scrollBehavior: 'auto' }}>
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-muted/30 via-accent/10 to-muted/40">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }} 
-              animate={{ opacity: 1, x: 0 }} 
-              transition={{ duration: 0.8 }}
-            >
-              <div className="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium inline-block mb-6">
-                <Award className="w-4 h-4 mr-2 inline" />
-                Trusted by 10,000+ families
+      <section className="relative h-[100vh] flex items-center overflow-x-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image 
+            src="/images/bg-image/find-job-bg.jpg" 
+            alt="Caregiver Background" 
+            fill 
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/20"></div>
+        </div>
+
+        {/* Background Box with Content - Always present to maintain consistent height */}
+        <div 
+          className={`absolute backdrop-blur-sm
+                     w-full h-[350px] left-0
+                     md:w-full md:h-[500px]
+                     transition-opacity duration-500 ease-out
+                     ${showContent ? 'opacity-100' : 'opacity-0'}
+                     ${isMobile ? 'bg-[#FCFDFB]' : 'bg-white/35'}`}
+          style={{
+            borderRadius: isMobile ? '' : '49% 51% 48% 52% / 100% 100% 0% 0%',
+            bottom: 0,
+            zIndex: 5
+          }}
+        >
+          <div className={`flex flex-col justify-center items-center text-center px-4 py-6 md:px-8 md:py-12 max-w-5xl mx-auto h-full transition-all duration-500 ease-out ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <h1 className="text-xl md:text-4xl lg:text-5xl font-bold text-[#1A5463] mb-3 md:mb-6 leading-tight transition-all duration-500 ease-in-out">
+              Care with Purpose. Work with Heart.
+            </h1>
+            <p className="text-xs md:text-lg lg:text-xl text-[#1A5463] mb-4 md:mb-8 leading-relaxed transition-all duration-500 ease-in-out">
+              Join our growing team of caregivers and make every day meaningful.
+            </p>
+            
+            {/* Job Search Bar */}
+            <div className="w-full max-w-2xl space-y-3 md:space-y-4 transition-all duration-500 ease-in-out">
+              <div className="flex flex-col sm:flex-row gap-2 md:gap-3 items-center">
+                <div className="relative flex-1 w-full sm:max-w-md">
+                  <Input
+                    type="text"
+                    placeholder="Postal Code or City & State"
+                    value={locationQuery}
+                    onChange={(e) => setLocationQuery(e.target.value)}
+                    className="h-10 md:h-14 px-3 md:px-4 border-2 border-gray-300 rounded-full text-xs md:text-base bg-white focus:border-[#275F48] focus:ring-0 shadow-sm"
+                  />
+                </div>
+                
+                <Button className="h-10 md:h-14 bg-[#4A6741] hover:bg-[#3d5436] text-white font-semibold text-xs md:text-base px-6 md:px-8 rounded-full transition-all duration-400 shadow-lg hover:shadow-xl transform hover:scale-105 whitespace-nowrap">
+                  Find Jobs
+                </Button>
               </div>
-              <h1 className="text-4xl sm:text-6xl font-bold mb-6 text-foreground">
-                Find Your Perfect
-                <span className="block text-primary">Senior Care Job</span>
-              </h1>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                Connect with families who need compassionate senior caregivers. Make a difference while earning competitive pay.
+              
+              <div className="flex justify-start">
+                <Button 
+                  onClick={handleUseCurrentLocation}
+                  variant="ghost"
+                  className="text-[#275F48] hover:text-[#1f4a37] text-xs md:text-base font-medium transition-all duration-300 flex items-center gap-2 underline decoration-2 underline-offset-4"
+                >
+                  <div className="w-4 h-4 md:w-5 md:h-5 rounded-full border-2 border-[#275F48] flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#275F48]"></div>
+                  </div>
+                  Use Current Location
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Impact Highlight - Stats Section */}
+      <section className="py-16 md:py-24 bg-[#FCFDFB] overflow-x-hidden">
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 max-w-6xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#E4F2D4] flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="w-8 h-8 md:w-10 md:h-10 text-[#275F48]" />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1A5463] mb-2">11,000+</h3>
+              <p className="text-sm md:text-base text-[#1A5463] leading-relaxed">
+                seniors turn 65 each day → Demand for caregivers is growing.
               </p>
             </motion.div>
-            
-            {/* Hero Image */}
+
             <motion.div 
-              initial={{ opacity: 0, x: 30 }} 
-              animate={{ opacity: 1, x: 0 }} 
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center"
             >
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="/images/senior-care.jpg"
-                  alt="Senior Care Professional"
-                  width={600}
-                  height={400}
-                  className="object-cover w-full h-96"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className="absolute bottom-6 left-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2">Join Our Care Team</h3>
-                  <p className="text-white/90">Making a difference in seniors' lives</p>
-                </div>
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#E4F2D4] flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 md:w-10 md:h-10 text-[#275F48]" />
               </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1A5463] mb-2">92%</h3>
+              <p className="text-sm md:text-base text-[#1A5463] leading-relaxed">
+                of families value caregivers as essential.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#E4F2D4] flex items-center justify-center mx-auto mb-4">
+                <Award className="w-8 h-8 md:w-10 md:h-10 text-[#275F48]" />
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#1A5463] mb-2">#1</h3>
+              <p className="text-sm md:text-base text-[#1A5463] leading-relaxed">
+                One of the fastest-growing professions in the U.S.
+              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Search and Filters Section */}
-      <section className="py-8 bg-muted/40">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            {/* Search Bar */}
-            <div className="bg-card rounded-2xl shadow-lg p-6 mb-6">
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5 group-focus-within:text-primary transition-colors" />
-                  <Input
-                    type="text"
-                    placeholder="Job title or keywords"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-12 h-12 border-input bg-background focus:bg-background focus:ring-2 focus:ring-ring transition-all duration-200"
-                  />
-                </div>
-                <div className="relative group">
-                  <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5 group-focus-within:text-primary transition-colors" />
-                  <Input
-                    type="text"
-                    placeholder="Zip Code"
-                    value={zipCodeQuery}
-                    onChange={(e) => setZipCodeQuery(e.target.value)}
-                    className="pl-12 h-12 border-input bg-background focus:bg-background focus:ring-2 focus:ring-ring transition-all duration-200"
-                  />
-                </div>
-                <Button className="h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                  Search
-                </Button>
+      {/* Why Work With Us - Benefits Section */}
+      <section className="py-16 md:py-24 overflow-x-hidden" style={{ backgroundColor: '#275F49' }}>
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-4">
+              Why Work With Us?
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 text-white" />
               </div>
-            </div>
+              <h3 className="text-xl font-bold text-white mb-3">Meaningful Impact</h3>
+              <p className="text-white/90 text-sm leading-relaxed">
+                Every shift changes lives.
+              </p>
+            </motion.div>
 
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                <Clock className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Flexibility</h3>
+              <p className="text-white/90 text-sm leading-relaxed">
+                Choose hours that fit your lifestyle.
+              </p>
+            </motion.div>
 
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Growth & Training</h3>
+              <p className="text-white/90 text-sm leading-relaxed">
+                We invest in your development.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Supportive Team</h3>
+              <p className="text-white/90 text-sm leading-relaxed">
+                You're never alone in your work.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Job Details Modal */}
-      {showJobDetails && selectedJobForDetails && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center md:p-4 z-50">
-          <div className="bg-white md:rounded-lg max-w-4xl w-full h-full md:h-auto md:max-h-[90vh] overflow-y-auto">
-            <div className="p-4 md:p-6">
-              {/* Mobile Header */}
-              <div className="flex items-center justify-between mb-6 md:hidden">
-                {showApplicationForm ? (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => setShowApplicationForm(false)}
-                    className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                    Back
-                  </Button>
-                ) : (
-                  <div></div>
-                )}
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleCloseDetails}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </Button>
+      {/* Caregiver Roles - Cards Section */}
+      <section className="py-16 md:py-24 bg-[#FCFDFB] overflow-x-hidden">
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#1A5463] mb-4">
+              Caregiver Roles
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg transition-shadow cursor-pointer group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#E4F2D4] flex items-center justify-center mb-4 group-hover:bg-[#275F48] transition-colors">
+                <Heart className="w-6 h-6 text-[#275F48] group-hover:text-white transition-colors" />
               </div>
+              <h3 className="text-lg font-bold text-[#1A5463] mb-2">Companion / Caregiver</h3>
+              <p className="text-sm text-[#1A5463] leading-relaxed">
+                Emotional support & daily help.
+              </p>
+            </motion.div>
 
-              {/* Desktop Header */}
-              <div className="hidden md:flex justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedJobForDetails.title}</h2>
-                  <p className="text-lg text-gray-600">{selectedJobForDetails.location}</p>
-                </div>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleCloseDetails}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </Button>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg transition-shadow cursor-pointer group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#E4F2D4] flex items-center justify-center mb-4 group-hover:bg-[#275F48] transition-colors">
+                <Users className="w-6 h-6 text-[#275F48] group-hover:text-white transition-colors" />
               </div>
+              <h3 className="text-lg font-bold text-[#1A5463] mb-2">Care Coordinator</h3>
+              <p className="text-sm text-[#1A5463] leading-relaxed">
+                Manage schedules & client care.
+              </p>
+            </motion.div>
 
-              {/* Mobile Title (shown when not in form) */}
-              {!showApplicationForm && (
-                <div className="md:hidden mb-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-2">{selectedJobForDetails.title}</h2>
-                  <p className="text-base text-gray-600">{selectedJobForDetails.location}</p>
-                </div>
-              )}
-              
-              {!showApplicationForm ? (
-                <>
-                  <div className="prose max-w-none">
-                    <div className="whitespace-pre-line text-gray-700 leading-relaxed text-sm">
-                      {selectedJobForDetails.fullDescription}
-                    </div>
-                  </div>
-                  
-                  <div className="mt-8 pt-6 border-t">
-                    <Button 
-                      onClick={handleApplyFromDetails}
-                      className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold w-full"
-                    >
-                      Apply for this career
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Apply to be a caregiver</h3>
-                  
-                  <form onSubmit={handleFormSubmit} className="space-y-6">
-                    {/* First Name */}
-                    <div>
-                      <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
-                        First Name <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="firstName"
-                        type="text"
-                        required
-                        value={formData.firstName}
-                        onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
-                        placeholder="Please Enter your First Name."
-                        className="mt-1"
-                      />
-                    </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg transition-shadow cursor-pointer group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#E4F2D4] flex items-center justify-center mb-4 group-hover:bg-[#275F48] transition-colors">
+                <Brain className="w-6 h-6 text-[#275F48] group-hover:text-white transition-colors" />
+              </div>
+              <h3 className="text-lg font-bold text-[#1A5463] mb-2">Specialized Support</h3>
+              <p className="text-sm text-[#1A5463] leading-relaxed">
+                Gentle, patient care for memory needs.
+              </p>
+            </motion.div>
 
-                    {/* Last Name */}
-                    <div>
-                      <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
-                        Last Name <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="lastName"
-                        type="text"
-                        required
-                        value={formData.lastName}
-                        onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
-                        placeholder="Please Enter your Last Name."
-                        className="mt-1"
-                      />
-                    </div>
-
-                    {/* Phone Number */}
-                    <div>
-                      <Label htmlFor="phoneNumber" className="text-sm font-medium text-gray-700">
-                        Phone Number <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="phoneNumber"
-                        type="tel"
-                        required
-                        value={formData.phoneNumber}
-                        onChange={(e) => setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))}
-                        placeholder="Please enter a valid phone number."
-                        className="mt-1"
-                      />
-                    </div>
-
-                    {/* Email */}
-                    <div>
-                      <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                        Email <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                        placeholder="Please enter a valid email address."
-                        className="mt-1"
-                      />
-                    </div>
-
-                    {/* Job ID and Title Combined */}
-                    <div>
-                      <Label htmlFor="jobInfo" className="text-sm font-medium text-gray-700">
-                        Job ID : Title
-                      </Label>
-                      <Input
-                        id="jobInfo"
-                        type="text"
-                        value={`${formData.jobId} - ${formData.jobTitle}`}
-                        readOnly
-                        className="mt-1 bg-gray-50"
-                      />
-                    </div>
-
-                    {/* Work Eligibility */}
-                    <div className="flex items-start space-x-3">
-                      <Checkbox
-                        id="workEligibility"
-                        checked={formData.workEligibility}
-                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, workEligibility: checked as boolean }))}
-                        required
-                      />
-                      <Label htmlFor="workEligibility" className="text-sm text-gray-700 leading-5">
-                        I have documents that establish my identity and eligibility to work in the United States. <span className="text-red-500">*</span>
-                      </Label>
-                    </div>
-
-                    {/* English Proficiency */}
-                    <div className="flex items-start space-x-3">
-                      <Checkbox
-                        id="englishProficiency"
-                        checked={formData.englishProficiency}
-                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, englishProficiency: checked as boolean }))}
-                        required
-                      />
-                      <Label htmlFor="englishProficiency" className="text-sm text-gray-700 leading-5">
-                        I can conduct business in written and spoken English. <span className="text-red-500">*</span>
-                      </Label>
-                    </div>
-
-                    {/* SMS Consent */}
-                    <div className="flex items-start space-x-3">
-                      <Checkbox
-                        id="smsConsent"
-                        checked={formData.smsConsent}
-                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, smsConsent: checked as boolean }))}
-                        required
-                      />
-                      <Label htmlFor="smsConsent" className="text-sm text-gray-700 leading-5">
-                        By checking this box, I consent to receive automated SMS text messages from Home Instead at the number provided, including job opportunities and employment-related messages. Message frequency may vary. Message & data rates may apply. Reply STOP to opt out. For assistance, text "HELP." For more details, including our SMS terms, see our Privacy Policy. <span className="text-red-500">*</span>
-                      </Label>
-                    </div>
-
-                    {/* Submit Button */}
-                    <div className="pt-4">
-                      {/* Desktop Back Button */}
-                      <div className="hidden md:flex gap-4 mb-4">
-                        <Button 
-                          type="button"
-                          variant="outline"
-                          onClick={() => setShowApplicationForm(false)}
-                          className="px-8 py-3 rounded-lg font-semibold"
-                        >
-                          Back to Details
-                        </Button>
-                      </div>
-                      
-                      <Button 
-                        type="submit"
-                        className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold w-full"
-                      >
-                        Submit Application
-                      </Button>
-                    </div>
-                  </form>
-                </div>
-              )}
-            </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-lg transition-shadow cursor-pointer group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#E4F2D4] flex items-center justify-center mb-4 group-hover:bg-[#275F48] transition-colors">
+                <Car className="w-6 h-6 text-[#275F48] group-hover:text-white transition-colors" />
+              </div>
+              <h3 className="text-lg font-bold text-[#1A5463] mb-2">Transportation Assistant</h3>
+              <p className="text-sm text-[#1A5463] leading-relaxed">
+                Safe rides for seniors.
+              </p>
+            </motion.div>
           </div>
         </div>
-      )}
+      </section>
 
-      {/* Main Content */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
+      {/* Day-to-Day Responsibilities */}
+      <section className="py-16 md:py-24 overflow-x-hidden" style={{ backgroundColor: '#275F49' }}>
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-4">
+              Day-to-Day Responsibilities
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 max-w-6xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-white text-sm font-medium">Memory Care</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+                <Utensils className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-white text-sm font-medium">Meal Prep</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+                <Home className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-white text-sm font-medium">Household Support</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+                <Heart className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-white text-sm font-medium">Personal Care</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+                <Car className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-white text-sm font-medium">Transportation</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3">
+                <Users className="w-8 h-8 text-white" />
+              </div>
+              <p className="text-white text-sm font-medium">Companionship</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Who We're Looking For */}
+      <section className="py-16 md:py-24 bg-[#FCFDFB] overflow-x-hidden">
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#1A5463] mb-4">
+              Who We're Looking For
+            </h2>
+          </motion.div>
+
           <div className="max-w-4xl mx-auto">
-            {/* Job Listings */}
-            <div className="space-y-4">
-              {mockJobs.map((job) => (
-                <Card key={job.id} className="border border-gray-200 hover:shadow-md transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
-                            <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                          <h3 className="text-xl font-semibold text-gray-900">{job.title}</h3>
-                        </div>
-                        
-                        <p className="text-gray-600 mb-3">{job.location}</p>
-                        <p className="text-gray-700 text-sm leading-relaxed mb-4">{job.description}</p>
-                        <p className="text-sm text-gray-500">Posted {job.postedDate}</p>
-                      </div>
-                      
-                      <div className="flex flex-col gap-2 ml-6">
-                        <Button 
-                          onClick={() => handleDetailsClick(job)}
-                          variant="outline"
-                          className="border-green-600 text-green-600 hover:bg-green-50 px-6 py-2 rounded-full font-medium"
-                        >
-                          Details
-                        </Button>
-                        <Button 
-                          onClick={() => handleApplyClick(job)}
-                          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-medium"
-                        >
-                          Apply
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+              {[
+                "Compassion",
+                "Organization", 
+                "Time Management",
+                "Communication",
+                "Driver's License (preferred)",
+                "Clear Background Check"
+              ].map((quality, index) => (
+                <motion.div
+                  key={quality}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-[#E4F2D4]"
+                >
+                  <CheckCircle className="w-4 h-4 text-[#275F48]" />
+                  <span className="text-sm font-medium text-[#1A5463]">{quality}</span>
+                </motion.div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
+      {/* Testimonial */}
+      <section className="py-16 md:py-24 overflow-x-hidden" style={{ backgroundColor: '#275F49' }}>
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <Quote className="w-12 h-12 text-white/60 mx-auto mb-6" />
+            <blockquote className="text-xl md:text-2xl lg:text-3xl font-medium text-white mb-6 leading-relaxed">
+              "Being a caregiver isn't just a job. It's building a bond that changes lives — theirs and mine."
+            </blockquote>
+            <div className="flex items-center justify-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star key={star} className="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+            <p className="text-white/80 mt-4">— Sarah M., Caregiver</p>
+          </motion.div>
+        </div>
+      </section>
 
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-[#FCFDFB] overflow-x-hidden">
+        <div className="container mx-auto px-4 md:px-6 lg:px-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto text-center"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1A5463] mb-6">
+              Ready to Start Your Caregiving Journey?
+            </h2>
+            <p className="text-lg text-[#1A5463] mb-8 leading-relaxed">
+              Join thousands of caregivers who are making a difference every day. Your compassionate heart is exactly what families are looking for.
+            </p>
+            <Button className="bg-[#16803C] hover:bg-[#1f4a37] text-white font-bold text-lg px-8 py-4 rounded-full transition-all duration-400 shadow-lg hover:shadow-xl transform hover:scale-105">
+              Start Your Application
+            </Button>
+          </motion.div>
+        </div>
+      </section>
     </div>
   )
-} 
+}

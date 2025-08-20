@@ -120,8 +120,8 @@ export default function FindCarePage() {
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#1A5463] mb-4 md:mb-6 leading-tight transition-all duration-500 ease-in-out">
               Find the Care You Deserve, Right at Home
             </h1>
-            <p className="text-xs md:text-base lg:text-lg text-[#1A5463] mb-4 md:mb-6 leading-relaxed transition-all duration-500 ease-in-out">
-              At <span className="font-bold" style={{ color: '#2C4F26' }}>NestAid</span>, we believe care should be personal. Our trusted caregivers are here to bring comfort, dignity, and peace of mind—right to your doorstep.
+            <p className="text-md md:text-base lg:text-lg text-[#1A5463] mb-4 md:mb-6 leading-relaxed transition-all duration-500 ease-in-out">
+              At <span className="font-bold" style={{ color: '#1A5463' }}>NestAid</span>, we believe care should be personal. Our trusted caregivers are here to bring comfort, dignity, and peace of mind—right to your doorstep.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 transition-all duration-500 ease-in-out">
               <Link href="/find-care">
