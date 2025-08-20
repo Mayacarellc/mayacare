@@ -109,34 +109,41 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
   // Initial Step - What are you looking for?
   const InitialStep = () => (
-    <div className="p-6 space-y-8 min-h-screen md:min-h-[500px]">
-      <div className="flex items-center justify-between">
-        <div />
-        <div />
+    <div className="min-h-screen md:min-h-[500px]" style={{ backgroundColor: '#FCFDFB' }}>
+      {/* Header with background color */}
+      <div className="px-6 py-8" style={{ backgroundColor: '#B8C4A3' }}>
+        <div className="flex items-center justify-between mb-6">
+          <div className="w-10 h-10" />
+          <div className="w-10 h-10" />
+        </div>
+        <div className="text-center">
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
+            What are you looking for?
+          </h1>
+        </div>
       </div>
 
-      <div className="text-center space-y-8">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
-          What are you looking for?
-        </h1>
-        
+      {/* Options with background */}
+      <div className="p-6 pt-8">
         <div className="max-w-md mx-auto space-y-4">
           <button
             onClick={() => handleInitialChoice("jobs")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300"
+            style={{ backgroundColor: '#FCFDFB' }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-deepgreen" />
+              <Briefcase className="w-5 h-5" style={{ color: '#B7C5A3' }} />
             </div>
             <span className="text-base font-medium text-gray-800">A job</span>
           </button>
 
           <button
             onClick={() => handleInitialChoice("care")}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300"
+            style={{ backgroundColor: '#FCFDFB' }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-              <Heart className="w-5 h-5 text-deepgreen" />
+              <Heart className="w-5 h-5" style={{ color: '#B7C5A3' }} />
             </div>
             <span className="text-base font-medium text-gray-800">Care for an adult</span>
           </button>
@@ -147,17 +154,22 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
   // Jobs Step - Job Categories
   const JobsStep = () => (
-    <div className="p-6 space-y-8 min-h-screen md:min-h-[500px]">
-      <div className="flex items-center justify-between">
-        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
-          <ArrowLeft className="w-6 h-6" />
-        </button>
-        <div />
+    <div className="min-h-screen md:min-h-[500px]" style={{ backgroundColor: '#FCFDFB' }}>
+      {/* Header with background color */}
+      <div className="px-6 py-8" style={{ backgroundColor: '#B8C4A3' }}>
+        <div className="flex items-center justify-between mb-6">
+          <button onClick={handleBack} className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-white/20">
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <div className="w-10 h-10" />
+        </div>
+        <div className="text-center">
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What type of job are you looking for?</h1>
+        </div>
       </div>
 
-      <div className="text-center space-y-8">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What type of job are you looking for?</h1>
-        
+      {/* Options with background */}
+      <div className="p-6 pt-8">
         <div className="max-w-md mx-auto space-y-4">
           {jobCategories.map((category, index) => {
             const Icon = category.icon
@@ -165,11 +177,12 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               <div key={category.id}>
                 <Button
                   asChild
-                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 h-auto"
+                  style={{ backgroundColor: '#FCFDFB' }}
                 >
                   <Link href={category.href} onClick={handleClose}>
                     <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-deepgreen" />
+                      <Icon className="w-5 h-5" style={{ color: '#B7C5A3' }} />
                     </div>
                     <span className="text-base font-medium text-gray-800">{category.title}</span>
                   </Link>
@@ -184,17 +197,22 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
   // Care Step - Care Categories
   const CareStep = () => (
-    <div className="p-6 space-y-8 min-h-screen md:min-h-[500px]">
-      <div className="flex items-center justify-between">
-        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
-          <ArrowLeft className="w-6 h-6" />
-        </button>
-        <div />
+    <div className="min-h-screen md:min-h-[500px]" style={{ backgroundColor: '#FCFDFB' }}>
+      {/* Header with background color */}
+      <div className="px-6 py-8" style={{ backgroundColor: '#B8C4A3' }}>
+        <div className="flex items-center justify-between mb-6">
+          <button onClick={handleBack} className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-white/20">
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <div className="w-10 h-10" />
+        </div>
+        <div className="text-center">
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What type of care are you looking for?</h1>
+        </div>
       </div>
 
-      <div className="text-center space-y-8">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What type of care are you looking for?</h1>
-        
+      {/* Options with background */}
+      <div className="p-6 pt-8">
         <div className="max-w-md mx-auto space-y-4">
           {careCategories.map((category, index) => {
             const Icon = category.icon
@@ -202,10 +220,11 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               <button
                 key={category.id}
                 onClick={() => handleCategoryChoice(category.id)}
-                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+                className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-300 bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300"
+                style={{ backgroundColor: '#FCFDFB' }}
               >
                 <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-deepgreen" />
+                  <Icon className="w-5 h-5" style={{ color: '#B7C5A3' }} />
                 </div>
                 <span className="text-base font-medium text-gray-800">{category.title}</span>
               </button>
@@ -224,25 +243,31 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     const categoryTitle = careCategories.find(c => c.id === selectedCategory)?.title || ""
 
     return (
-      <div className="p-6 space-y-8 min-h-screen md:min-h-[500px]">
-        <div className="flex items-center justify-between">
-          <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
-            <ArrowLeft className="w-6 h-6" />
-          </button>
-          <div />
+      <div className="min-h-screen md:min-h-[500px]" style={{ backgroundColor: '#FCFDFB' }}>
+        {/* Header with background color */}
+        <div className="px-6 py-8" style={{ backgroundColor: '#B8C4A3' }}>
+          <div className="flex items-center justify-between mb-6">
+            <button onClick={handleBack} className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-white/20">
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div className="w-10 h-10" />
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
+              {categoryTitle} Services
+            </h1>
+          </div>
         </div>
 
-        <div className="text-center space-y-8">
-          <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
-            {categoryTitle} Services
-          </h1>
-          
+        {/* Options with background */}
+        <div className="p-6 pt-8">
           <div className="max-w-md mx-auto space-y-4">
             {categoryServices.map((service, index) => (
               <div key={index}>
                 <Button
                   onClick={() => handleServiceChoice(service)}
-                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen h-auto"
+                  className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 h-auto"
+                  style={{ backgroundColor: '#FCFDFB' }}
                 >
                   <span className="text-base font-medium text-gray-800">{service.title}</span>
                 </Button>
@@ -301,7 +326,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto">
+      <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-0 bg-white md:max-w-4xl md:max-h-[90vh] md:m-auto md:rounded-lg overflow-y-auto [&>button]:absolute [&>button]:right-6 [&>button]:top-6 [&>button]:rounded-full [&>button]:bg-white [&>button]:w-12 [&>button]:h-12 [&>button]:shadow-lg [&>button]:border [&>button]:border-gray-200 [&>button]:hover:bg-gray-50 [&>button]:z-20 [&>button]:flex [&>button]:items-center [&>button]:justify-center">
         <DialogTitle className="sr-only">
           Get Started - Find Care or Jobs
         </DialogTitle>

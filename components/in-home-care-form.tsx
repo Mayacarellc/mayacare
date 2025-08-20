@@ -102,35 +102,58 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
 
   // Step 1: Who needs care?
   const WhoNeedsCareStep = useMemo(() => (
-    <div className="min-h-[600px] p-6 space-y-8">
-      <div className="flex items-center justify-between">
-        <button 
-          onClick={inModal && currentStep === 1 ? onBack : handleBack} 
-          disabled={!inModal && currentStep === 1} 
-          className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-50"
-        >
-          <ArrowLeft className="w-6 h-6" />
-        </button>
-        {onClose && !inModal && (
-          <button onClick={onClose} className="p-2 text-gray-600 hover:text-gray-900">
-            <X className="w-6 h-6" />
-          </button>
-        )}
-      </div>
+    <div className="min-h-[600px]" style={{ backgroundColor: inModal ? '#FCFDFB' : 'white' }}>
+      {/* Header with background color when in modal */}
+      {inModal ? (
+        <div className="px-6 py-8" style={{ backgroundColor: '#B8C4A3' }}>
+          <div className="flex items-center justify-between mb-6">
+            <button 
+              onClick={onBack} 
+              className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-white/20"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div className="w-10 h-10" />
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">Who needs care?</h1>
+          </div>
+        </div>
+      ) : (
+        <div className="p-6 space-y-8">
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={handleBack} 
+              disabled={currentStep === 1} 
+              className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-50"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            {onClose && (
+              <button onClick={onClose} className="p-2 text-gray-600 hover:text-gray-900">
+                <X className="w-6 h-6" />
+              </button>
+            )}
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">Who needs care?</h1>
+          </div>
+        </div>
+      )}
 
-      <div className="text-center space-y-8">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">Who needs care?</h1>
-        
+      {/* Options with background */}
+      <div className={inModal ? "p-6 pt-8" : "px-6 pb-6"}>
         <div className="max-w-md mx-auto space-y-4">
           <button
             onClick={() => {
               setFormData({ ...formData, whoNeedsCare: "parent_loved_one" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300"
+            style={{ backgroundColor: inModal ? '#FCFDFB' : 'rgb(249 250 251)' }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-              <Heart className="w-5 h-5 text-deepgreen" />
+              <Heart className="w-5 h-5" style={{ color: inModal ? '#B7C5A3' : '#16803C' }} />
             </div>
             <span className="text-base font-medium text-gray-800">A parent or loved one</span>
           </button>
@@ -140,10 +163,11 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
               setFormData({ ...formData, whoNeedsCare: "me" })
               handleNext()
             }}
-            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-deepgreen"
+            className="w-full p-4 rounded-full text-left flex items-center space-x-4 transition-colors duration-150 hover:shadow-lg bg-white hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300"
+            style={{ backgroundColor: inModal ? '#FCFDFB' : 'rgb(249 250 251)' }}
           >
             <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-              <User className="w-5 h-5 text-deepgreen" />
+              <User className="w-5 h-5" style={{ color: inModal ? '#B7C5A3' : '#16803C' }} />
             </div>
             <span className="text-base font-medium text-gray-800">Me</span>
           </button>
@@ -154,22 +178,44 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
 
   // Step 2: What kinds of assistance are needed?
   const AssistanceTypesStep = useMemo(() => (
-    <div className="min-h-[600px] p-6 space-y-8">
-      <div className="flex items-center justify-between">
-        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
-          <ArrowLeft className="w-6 h-6" />
-        </button>
-        {onClose && !inModal && (
-          <button onClick={onClose} className="p-2 text-gray-600 hover:text-gray-900">
-            <X className="w-6 h-6" />
-          </button>
-        )}
-      </div>
+    <div className="min-h-[600px]" style={{ backgroundColor: inModal ? '#FCFDFB' : 'white' }}>
+      {/* Header with background color when in modal */}
+      {inModal ? (
+        <div className="px-6 py-8" style={{ backgroundColor: '#B8C4A3' }}>
+          <div className="flex items-center justify-between mb-6">
+            <button 
+              onClick={handleBack} 
+              className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-white/20"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div className="w-10 h-10" />
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What kinds of assistance are needed?</h1>
+          </div>
+        </div>
+      ) : (
+        <div className="p-6 space-y-8">
+          <div className="flex items-center justify-between">
+            <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            {onClose && (
+              <button onClick={onClose} className="p-2 text-gray-600 hover:text-gray-900">
+                <X className="w-6 h-6" />
+              </button>
+            )}
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What kinds of assistance are needed?</h1>
+          </div>
+        </div>
+      )}
 
-      <div className="text-center space-y-8">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">What kinds of assistance are needed?</h1>
-        
-                 <div className="max-w-md mx-auto space-y-3">
+      {/* Options with background */}
+      <div className={inModal ? "p-6 pt-8" : "px-6 pb-6"}>
+        <div className="max-w-md mx-auto space-y-3">
           {[
             { id: "mobility_assistance", label: "Mobility assistance", icon: Activity },
             { id: "everyday_tasks", label: "Everyday tasks", icon: Check },
@@ -190,17 +236,33 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
                 }}
                 className={`w-full p-4 rounded-full text-left flex items-center justify-between transition-colors duration-150 hover:shadow-lg border-2 ${
                   isSelected 
-                    ? "bg-deepgreen/10 border-deepgreen text-deepgreen" 
-                    : "bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-deepgreen"
+                    ? (inModal ? "border-gray-300 text-gray-800" : "bg-deepgreen/10 border-deepgreen text-deepgreen")
+                    : (inModal ? "bg-white hover:bg-gray-50 border-gray-200 hover:border-gray-300" : "bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-deepgreen")
                 }`}
+                style={{ 
+                  backgroundColor: isSelected && inModal ? '#B7C5A3' : (inModal ? '#FCFDFB' : undefined),
+                  borderColor: isSelected && inModal ? '#B7C5A3' : undefined,
+                  color: isSelected && inModal ? 'white' : undefined
+                }}
               >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-deepgreen" />
+                    <Icon 
+                      className="w-5 h-5" 
+                      style={{ 
+                        color: isSelected && inModal ? 'white' : (inModal ? '#B7C5A3' : '#16803C')
+                      }} 
+                    />
                   </div>
                   <span className="text-base font-medium text-gray-800">{assistance.label}</span>
                 </div>
-                <div className={`w-5 h-5 border-2 border-deepgreen rounded-full flex items-center justify-center ${isSelected ? "bg-deepgreen" : ""}`}>
+                <div 
+                  className={`w-5 h-5 border-2 rounded-full flex items-center justify-center ${isSelected ? "" : ""}`}
+                  style={{
+                    borderColor: inModal ? '#B7C5A3' : '#16803C',
+                    backgroundColor: isSelected ? (inModal ? '#B7C5A3' : '#16803C') : 'transparent'
+                  }}
+                >
                   {isSelected && <CheckCircle className="w-4 h-4 text-white" />}
                 </div>
               </button>
@@ -212,7 +274,7 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
           <Button
             onClick={handleNext}
             disabled={formData.assistanceTypes.length === 0}
-            className="bg-deepgreen hover:bg-deepgreen/90 text-white px-8 py-3 rounded-full text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`${inModal ? 'bg-[#B7C5A3] hover:bg-[#A8B595]' : 'bg-deepgreen hover:bg-deepgreen/90'} text-white px-8 py-3 rounded-full text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             Continue
           </Button>
@@ -223,76 +285,112 @@ export function InHomeCareForm({ onClose, inModal = false, onBack }: InHomeCareF
 
   // Step 3: Contact Information Form
   const ContactFormStep = useMemo(() => (
-    <div className="min-h-[600px] p-6 space-y-8">
-      <div className="flex items-center justify-between">
-        <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
-          <ArrowLeft className="w-6 h-6" />
-        </button>
-        {onClose && !inModal && (
-          <button onClick={onClose} className="p-2 text-gray-600 hover:text-gray-900">
-            <X className="w-6 h-6" />
-          </button>
-        )}
-      </div>
-
-      <div className="max-w-md mx-auto space-y-6">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 text-center">
-          {formData.whoNeedsCare === "parent_loved_one" ? "Find Care for a Loved One" : "Find Care for Me"}
-        </h1>
-        
-        <div className="space-y-4">
-          <div>
-            <Input
-              placeholder="First Name"
-              value={formData.firstName}
-              onChange={handleFieldChange("firstName")}
-              className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
-              required
-            />
+    <div className="min-h-[600px]" style={{ backgroundColor: inModal ? '#FCFDFB' : 'white' }}>
+      {/* Header with background color when in modal */}
+      {inModal ? (
+        <div className="px-6 py-8" style={{ backgroundColor: '#B8C4A3' }}>
+          <div className="flex items-center justify-between mb-6">
+            <button 
+              onClick={handleBack} 
+              className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 rounded-full hover:bg-white/20"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div className="w-10 h-10" />
           </div>
-
-          <div>
-            <Input
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={handleFieldChange("lastName")}
-              className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
-              required
-            />
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
+              {formData.whoNeedsCare === "parent_loved_one" ? "Find Care for a Loved One" : "Find Care for Me"}
+            </h1>
           </div>
-
-          <div>
-            <Input
-              type="tel"
-              placeholder="Phone Number"
-              value={formData.phone}
-              onChange={handleFieldChange("phone")}
-              className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
-              required
-            />
+        </div>
+      ) : (
+        <div className="p-6 space-y-8">
+          <div className="flex items-center justify-between">
+            <button onClick={handleBack} className="p-2 text-gray-600 hover:text-gray-900">
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            {onClose && (
+              <button onClick={onClose} className="p-2 text-gray-600 hover:text-gray-900">
+                <X className="w-6 h-6" />
+              </button>
+            )}
           </div>
-
-          <div>
-            <Input
-              type="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleFieldChange("email")}
-              className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
-            />
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
+              {formData.whoNeedsCare === "parent_loved_one" ? "Find Care for a Loved One" : "Find Care for Me"}
+            </h1>
           </div>
+        </div>
+      )}
 
-          <div className="space-y-2">
-            <Label className="text-base font-medium text-gray-700">
-              Postal code where care is needed
-            </Label>
-            <Input
-              placeholder="Postal Code"
-              value={formData.postalCode}
-              onChange={handleFieldChange("postalCode")}
-              className="w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:border-deepgreen focus:ring-0"
-              required
-            />
+      {/* Form content */}
+      <div className={inModal ? "p-6 pt-8" : "px-6 pb-6"}>
+        <div className="max-w-md mx-auto space-y-6">
+          <div className="space-y-4">
+            <div>
+              <Input
+                placeholder="First Name"
+                value={formData.firstName}
+                onChange={handleFieldChange("firstName")}
+                className={`w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:ring-0 ${
+                  inModal ? 'focus:border-[#B7C5A3]' : 'focus:border-deepgreen'
+                }`}
+                required
+              />
+            </div>
+
+            <div>
+              <Input
+                placeholder="Last Name"
+                value={formData.lastName}
+                onChange={handleFieldChange("lastName")}
+                className={`w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:ring-0 ${
+                  inModal ? 'focus:border-[#B7C5A3]' : 'focus:border-deepgreen'
+                }`}
+                required
+              />
+            </div>
+
+            <div>
+              <Input
+                type="tel"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={handleFieldChange("phone")}
+                className={`w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:ring-0 ${
+                  inModal ? 'focus:border-[#B7C5A3]' : 'focus:border-deepgreen'
+                }`}
+                required
+              />
+            </div>
+
+            <div>
+              <Input
+                type="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleFieldChange("email")}
+                className={`w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:ring-0 ${
+                  inModal ? 'focus:border-[#B7C5A3]' : 'focus:border-deepgreen'
+                }`}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-base font-medium text-gray-700">
+                Postal code where care is needed
+              </Label>
+              <Input
+                placeholder="Postal Code"
+                value={formData.postalCode}
+                onChange={handleFieldChange("postalCode")}
+                className={`w-full p-4 text-lg rounded-xl border-2 border-gray-200 focus:ring-0 ${
+                  inModal ? 'focus:border-[#B7C5A3]' : 'focus:border-deepgreen'
+                }`}
+                required
+              />
+            </div>
           </div>
 
           <div className="flex items-start space-x-3 pt-4">

@@ -4,9 +4,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-import { useState } from "react"
+
 import { Bath, Heart, Users, MessageCircle, Car, Utensils, Clock, Accessibility, Phone, UserCheck, AlertCircle, Stethoscope, FileText, Calendar, UserPlus, Target, Activity, Flower, Brain, Dumbbell, Apple, Smile } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { useState, useEffect } from "react"
 
 const AppStoreIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 29 29" fill="currentColor" {...props}>
@@ -23,9 +24,19 @@ const GooglePlayIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 export default function FindCarePage() {
-  // State to track which service details are shown
-  const [showDetails, setShowDetails] = useState<Record<string, boolean>>({});
   const animationRef = useScrollAnimation();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   // Service details data with icons
   const serviceDetails = {
@@ -72,13 +83,7 @@ export default function FindCarePage() {
       { text: 'Stress management and relaxation techniques', icon: Smile }
     ]
   };
-  
-  const toggleDetails = (serviceKey: string) => {
-    setShowDetails(prev => ({
-      ...prev,
-      [serviceKey]: !prev[serviceKey]
-    }));
-  };
+
 
 
 
@@ -99,27 +104,37 @@ export default function FindCarePage() {
           <div className="absolute inset-0 bg-black/10"></div>
         </div>
         
-        {/* Content */}
-        <div className="relative z-10 container mx-auto h-full px-4 flex items-center">
-          <div className="flex flex-col justify-center py-12 md:py-0 md:pl-8 lg:pl-12 max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold text-[#1A5463] mb-6">
+        {/* Background Box with All Content */}
+        <div 
+          className="absolute bg-white/40 backdrop-blur-sm flex items-center justify-center
+                     w-[350px] h-[350px] left-1/2 -translate-x-1/2 -translate-y-1/2
+                     md:w-[650px] md:h-[550px] md:left-auto md:right-8 md:translate-x-0
+                     transition-all duration-700 ease-in-out"
+          style={{
+            borderRadius: isMobile ? '25%' : '33% 67% 79% 21% / 44% 34% 66% 56%',
+            top: '50%',
+            zIndex: 5
+          }}
+        >
+          <div className="flex flex-col justify-center items-center text-center px-4 py-4 md:px-8 md:py-8 max-w-full transition-all duration-600 ease-in-out">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#1A5463] mb-4 md:mb-6 leading-tight transition-all duration-500 ease-in-out">
               Find the Care You Deserve, Right at Home
             </h1>
-            <p className="text-base md:text-xl text-[#1A5463] max-w-2xl mb-8">
+            <p className="text-xs md:text-base lg:text-lg text-[#1A5463] mb-4 md:mb-6 leading-relaxed transition-all duration-500 ease-in-out">
               At <span className="font-bold" style={{ color: '#2C4F26' }}>NestAid</span>, we believe care should be personal. Our trusted caregivers are here to bring comfort, dignity, and peace of mind—right to your doorstep.
             </p>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 transition-all duration-500 ease-in-out">
               <Link href="/find-care">
-                <button className="group bg-[#2C4F26] hover:bg-[#234018] text-white font-bold text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <button className="group bg-[#16803C] hover:bg-[#1f4a37] text-white font-bold text-xs md:text-base px-4 md:px-6 py-2 md:py-3 rounded-full flex items-center gap-2 md:gap-3 transition-all duration-400 shadow-lg hover:shadow-xl transform hover:scale-105">
                   JOIN NOW
-                  <span className="bg-[#D9FB74] text-[#2C4F26] rounded-full p-2 group-hover:scale-110 transition-transform duration-200">
-                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="bg-[#E4F2D4] text-[#275F48] rounded-full p-1.5 md:p-2 group-hover:scale-110 transition-transform duration-300">
+                    <svg className="w-3 h-3 md:w-4 md:h-4 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </span>
                 </button>
               </Link>
-              <Link href="/help-center" className="text-base md:text-lg underline underline-offset-4 text-[#1A5463]">
+              <Link href="/help-center" className="text-xs md:text-base underline underline-offset-4 text-[#1A5463] transition-all duration-400 hover:text-[#275F48]">
                 Learn More
               </Link>
             </div>
@@ -144,33 +159,20 @@ export default function FindCarePage() {
               </div>
               <div className="w-full md:w-1/2 slide-in-right">
                 <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#DBD9FE' }}>
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">In‑Home Care Services</h3>
-                  <p className="text-[#275F49] mb-6 leading-relaxed">
-                    Our home care services can help aging adults stay engaged in everyday life with tailor‑made support by professional caregivers to stay safe and well at home. It's our mission to provide an elder care plan personalized to your family's needs to bring comfort, connection, and quality of life in the place that they love the most, their home.
-                  </p>
-                  <button 
-                    onClick={() => toggleDetails('in-home')}
-                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
-                  >
-                    {showDetails['in-home'] ? 'Show Less' : 'See All Home Care Services'}
-                  </button>
-                  {showDetails['in-home'] && (
-                    <div className="mt-6">
-                      <ul className="space-y-3">
-                        {serviceDetails['in-home'].map((item, index) => {
-                          const IconComponent = item.icon;
-                          return (
-                            <li key={index} className="flex items-start space-x-3">
-                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
-                                <IconComponent className="w-3 h-3 text-white" />
-                              </div>
-                              <span className="text-sm text-[#275F49]">{item.text}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-6">In‑Home Care Services</h3>
+                  <ul className="space-y-4">
+                    {serviceDetails['in-home'].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <li key={index} className="flex items-start space-x-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#275F49' }}>
+                            <IconComponent className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-base text-[#275F49] leading-relaxed">{item.text}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -184,33 +186,20 @@ export default function FindCarePage() {
               </div>
               <div className="w-full md:w-1/2 slide-in-left">
                 <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#E4F2D4' }}>
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Companion & Household Support</h3>
-                  <p className="text-[#275F49] mb-6 leading-relaxed">
-                    Friendly conversation, shared activities, light cleaning, meal prep, laundry, and errands — keeping life comfortable and uplifting.
-                  </p>
-                  <button 
-                    onClick={() => toggleDetails('companion')}
-                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
-                  >
-                    {showDetails['companion'] ? 'Show Less' : 'Learn More'}
-                  </button>
-                  {showDetails['companion'] && (
-                    <div className="mt-6">
-                      <ul className="space-y-3">
-                        {serviceDetails['companion'].map((item, index) => {
-                          const IconComponent = item.icon;
-                          return (
-                            <li key={index} className="flex items-start space-x-3">
-                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
-                                <IconComponent className="w-3 h-3 text-white" />
-                              </div>
-                              <span className="text-sm text-[#275F49]">{item.text}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-6">Companion & Household Support</h3>
+                  <ul className="space-y-4">
+                    {serviceDetails['companion'].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <li key={index} className="flex items-start space-x-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#275F49' }}>
+                            <IconComponent className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-base text-[#275F49] leading-relaxed">{item.text}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -224,33 +213,20 @@ export default function FindCarePage() {
               </div>
               <div className="w-full md:w-1/2 slide-in-right">
                 <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#F0F0F0' }}>
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Special Needs & Disability Support</h3>
-                  <p className="text-[#275F49] mb-6 leading-relaxed">
-                    Personalized care for individuals with unique needs, plus respite support to give family caregivers peace of mind.
-                  </p>
-                  <button 
-                    onClick={() => toggleDetails('special-needs')}
-                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
-                  >
-                    {showDetails['special-needs'] ? 'Show Less' : 'Learn More'}
-                  </button>
-                  {showDetails['special-needs'] && (
-                    <div className="mt-6">
-                      <ul className="space-y-3">
-                        {serviceDetails['special-needs'].map((item, index) => {
-                          const IconComponent = item.icon;
-                          return (
-                            <li key={index} className="flex items-start space-x-3">
-                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
-                                <IconComponent className="w-3 h-3 text-white" />
-                              </div>
-                              <span className="text-sm text-[#275F49]">{item.text}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-6">Special Needs & Disability Support</h3>
+                  <ul className="space-y-4">
+                    {serviceDetails['special-needs'].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <li key={index} className="flex items-start space-x-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#275F49' }}>
+                            <IconComponent className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-base text-[#275F49] leading-relaxed">{item.text}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -264,33 +240,20 @@ export default function FindCarePage() {
               </div>
               <div className="w-full md:w-1/2 slide-in-left">
                 <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#DBD9FE' }}>
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">24/7 Live‑In Care</h3>
-                  <p className="text-[#275F49] mb-6 leading-relaxed">
-                    Round-the-clock assistance from a dedicated caregiver who stays in the home, offering safety, support, and companionship at any hour.
-                  </p>
-                  <button 
-                    onClick={() => toggleDetails('live-in')}
-                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
-                  >
-                    {showDetails['live-in'] ? 'Show Less' : 'Learn More'}
-                  </button>
-                  {showDetails['live-in'] && (
-                    <div className="mt-6">
-                      <ul className="space-y-3">
-                        {serviceDetails['live-in'].map((item, index) => {
-                          const IconComponent = item.icon;
-                          return (
-                            <li key={index} className="flex items-start space-x-3">
-                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
-                                <IconComponent className="w-3 h-3 text-white" />
-                              </div>
-                              <span className="text-sm text-[#275F49]">{item.text}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-6">24/7 Live‑In Care</h3>
+                  <ul className="space-y-4">
+                    {serviceDetails['live-in'].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <li key={index} className="flex items-start space-x-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#275F49' }}>
+                            <IconComponent className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-base text-[#275F49] leading-relaxed">{item.text}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -304,33 +267,20 @@ export default function FindCarePage() {
               </div>
               <div className="w-full md:w-1/2 slide-in-right">
                 <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#E4F2D4' }}>
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Personalized Care Plans</h3>
-                  <p className="text-[#275F49] mb-6 leading-relaxed">
-                    Tailored care strategies designed around your needs, routines, and preferences — because every person's care journey is unique.
-                  </p>
-                  <button 
-                    onClick={() => toggleDetails('care-plans')}
-                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
-                  >
-                    {showDetails['care-plans'] ? 'Show Less' : 'Learn More'}
-                  </button>
-                  {showDetails['care-plans'] && (
-                    <div className="mt-6">
-                      <ul className="space-y-3">
-                        {serviceDetails['care-plans'].map((item, index) => {
-                          const IconComponent = item.icon;
-                          return (
-                            <li key={index} className="flex items-start space-x-3">
-                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
-                                <IconComponent className="w-3 h-3 text-white" />
-                              </div>
-                              <span className="text-sm text-[#275F49]">{item.text}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-6">Personalized Care Plans</h3>
+                  <ul className="space-y-4">
+                    {serviceDetails['care-plans'].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <li key={index} className="flex items-start space-x-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#275F49' }}>
+                            <IconComponent className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-base text-[#275F49] leading-relaxed">{item.text}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -344,33 +294,20 @@ export default function FindCarePage() {
               </div>
               <div className="w-full md:w-1/2 slide-in-left">
                 <div className="rounded-3xl p-8 md:p-10" style={{ backgroundColor: '#F0F0F0' }}>
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-4">Wellness & Yoga</h3>
-                  <p className="text-[#275F49] mb-6 leading-relaxed">
-                    Meal planning, grocery selection, and balanced diet preparation to promote health, strength, and overall well‑being.
-                  </p>
-                  <button 
-                    onClick={() => toggleDetails('wellness')}
-                    className="bg-[#275F49] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-[#1f4a37] transition-colors"
-                  >
-                    {showDetails['wellness'] ? 'Show Less' : 'Learn More'}
-                  </button>
-                  {showDetails['wellness'] && (
-                    <div className="mt-6">
-                      <ul className="space-y-3">
-                        {serviceDetails['wellness'].map((item, index) => {
-                          const IconComponent = item.icon;
-                          return (
-                            <li key={index} className="flex items-start space-x-3">
-                              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: '#275F49' }}>
-                                <IconComponent className="w-3 h-3 text-white" />
-                              </div>
-                              <span className="text-sm text-[#275F49]">{item.text}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#275F49] mb-6">Wellness & Yoga</h3>
+                  <ul className="space-y-4">
+                    {serviceDetails['wellness'].map((item, index) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <li key={index} className="flex items-start space-x-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#275F49' }}>
+                            <IconComponent className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-base text-[#275F49] leading-relaxed">{item.text}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
             </div>

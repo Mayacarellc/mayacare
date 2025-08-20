@@ -62,20 +62,22 @@ export function MobileGetStartedFab() {
   return (
     <>
       {/* Desktop Chat Button - Bottom Right */}
-      <div className="hidden md:block fixed bottom-6 right-6 z-[60]">
-        <Button
-          onClick={() => setChatBotOpen(true)}
-          className="rounded-full p-6 shadow-lg text-gray-800 hover:opacity-90 transition-all duration-200 hover:scale-105"
-          style={{ backgroundColor: '#D9FB74' }}
-        >
-          <MessageCircle className="w-10 h-10" />
-        </Button>
-      </div>
+      {!getStartedModalOpen && (
+        <div className="hidden md:block fixed bottom-6 right-6 z-[60]">
+          <Button
+            onClick={() => setChatBotOpen(true)}
+            className="rounded-full p-6 shadow-lg text-gray-800 hover:opacity-90 transition-all duration-200 hover:scale-105"
+            style={{ backgroundColor: '#D9FB74' }}
+          >
+            <MessageCircle className="w-10 h-10" />
+          </Button>
+        </div>
+      )}
 
       {/* Mobile Bottom Buttons Container - Transparent */}
       <div 
         className={`md:hidden fixed bottom-0 left-0 right-0 z-[60] p-4 transition-transform duration-300 ease-in-out ${
-          isVisible ? 'translate-y-0' : 'translate-y-full'
+          isVisible && !getStartedModalOpen ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
         <div className="flex justify-between items-center gap-4">
