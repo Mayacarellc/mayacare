@@ -34,29 +34,50 @@ export default function FindJobsPage() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      const currentIsMobile = window.innerWidth < 768
+      setIsMobile(currentIsMobile)
+      
+      // If switching to desktop, always show content
+      if (!currentIsMobile) {
+        setShowContent(true)
+      }
     }
     
     checkMobile()
     window.addEventListener('resize', checkMobile)
     
-    // Handle scroll to show/hide content with throttling
+    // Handle scroll to show/hide content with throttling (mobile only)
     let ticking = false
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          const scrollY = window.scrollY
-          const triggerPoint = 30 // Show content after scrolling 30px down
+          const currentIsMobile = window.innerWidth < 768
           
-          const shouldShow = scrollY > triggerPoint
-          // Always update state to ensure bidirectional behavior
-          setShowContent(shouldShow)
+          if (currentIsMobile) {
+            // Mobile: scroll-triggered behavior
+            const scrollY = window.scrollY
+            const triggerPoint = 30 // Show content after scrolling 30px down
+            const shouldShow = scrollY > triggerPoint
+            setShowContent(shouldShow)
+          } else {
+            // Desktop: always show content
+            setShowContent(true)
+          }
           ticking = false
         })
         ticking = true
       }
     }
     
+    // Initial check for desktop
+    const initialCheck = () => {
+      const currentIsMobile = window.innerWidth < 768
+      if (!currentIsMobile) {
+        setShowContent(true) // Always show on desktop
+      }
+    }
+    
+    initialCheck()
     window.addEventListener('scroll', handleScroll, { passive: true })
     
     return () => {
