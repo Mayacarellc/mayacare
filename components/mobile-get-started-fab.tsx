@@ -82,8 +82,8 @@ export function MobileGetStartedFab() {
           {/* Get Started Button */}
           <Button
             onClick={() => setGetStartedModalOpen(true)}
-            className="rounded-full font-semibold px-10 py-5 text-lg transition-colors shadow-lg text-gray-800 hover:opacity-90"
-            style={{ backgroundColor: '#D9FB74', minWidth: '260px' }}
+            className="rounded-full font-semibold px-6 py-5 text-lg transition-colors shadow-lg text-gray-800 hover:opacity-90"
+            style={{ backgroundColor: '#D9FB74', minWidth: '240px' }}
           >
             Get Started
           </Button>
@@ -91,8 +91,8 @@ export function MobileGetStartedFab() {
           {/* Chat Button */}
           <Button
             onClick={() => setChatBotOpen(true)}
-            className="rounded-full px-8 py-5 transition-colors shadow-lg text-white hover:opacity-90 text-lg font-semibold flex items-center gap-2"
-            style={{ backgroundColor: '#16803C', minWidth: '140px' }}
+            className="rounded-full px-5 py-5 transition-colors shadow-lg text-white hover:opacity-90 text-lg font-semibold flex items-center gap-2"
+            style={{ backgroundColor: '#16803C', minWidth: '100px' }}
           >
             <MessageCircle className="w-6 h-6" />
             Chat
@@ -102,10 +102,12 @@ export function MobileGetStartedFab() {
 
       {/* Chat Bot Window - Responsive */}
       {chatBotOpen && (
-        <div className={`fixed z-[100] transition-all duration-300 ease-in-out ${
+        <div className={`fixed z-[100] transition-all duration-300 ease-in-out flex flex-col mobile-chat-window ${
           chatBotOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
         } md:bottom-20 md:right-6 md:w-96 md:h-[600px] md:rounded-2xl md:shadow-2xl inset-0 md:inset-auto`} 
-        style={{ backgroundColor: '#B8C5A3' }}>
+        style={{ 
+          backgroundColor: '#B8C5A3'
+        }}>
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 md:rounded-t-2xl" style={{ backgroundColor: '#B8C5A3' }}>
             <div className="flex items-center gap-3">
@@ -131,7 +133,7 @@ export function MobileGetStartedFab() {
           </div>
           
           {/* Chat Content */}
-          <div className="flex-1 p-4 overflow-y-auto md:h-80" style={{ backgroundColor: '#E8F0D8', height: 'calc(100vh - 240px)' }}>
+          <div className="flex-1 p-4 overflow-y-auto md:h-80 min-h-0" style={{ backgroundColor: '#E8F0D8' }}>
             <div className="space-y-4">
               {/* Welcome Message */}
               <div className="bg-white/90 rounded-2xl p-4 max-w-[85%] shadow-sm">
@@ -143,7 +145,9 @@ export function MobileGetStartedFab() {
           </div>
           
           {/* Chat Input Area */}
-          <div className="p-4 pb-6 md:rounded-b-2xl" style={{ backgroundColor: '#E8F0D8' }}>
+          <div className="p-4 md:rounded-b-2xl mobile-chat-input" style={{ 
+            backgroundColor: '#E8F0D8'
+          }}>
             <div className="bg-white/90 rounded-2xl p-3 mb-4">
               <div className="flex gap-2">
                 <input

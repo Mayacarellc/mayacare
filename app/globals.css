@@ -181,4 +181,38 @@ html {
       transform: translateY(0);
     }
   }
+
+  /* Mobile viewport fixes for chat window */
+  @supports (height: 100dvh) {
+    .mobile-chat-window {
+      height: calc(100dvh - env(safe-area-inset-bottom));
+    }
+  }
+
+  @supports not (height: 100dvh) {
+    .mobile-chat-window {
+      height: calc(100vh - env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Handle mobile keyboard appearance */
+  @media (max-width: 768px) {
+    .mobile-chat-window {
+      max-height: calc(100vh - env(safe-area-inset-bottom));
+      max-height: calc(100dvh - env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Ensure safe area padding works on all iOS devices */
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .mobile-chat-input {
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+    }
+  }
+
+  @supports not (padding-bottom: env(safe-area-inset-bottom)) {
+    .mobile-chat-input {
+      padding-bottom: 24px;
+    }
+  }
 }
